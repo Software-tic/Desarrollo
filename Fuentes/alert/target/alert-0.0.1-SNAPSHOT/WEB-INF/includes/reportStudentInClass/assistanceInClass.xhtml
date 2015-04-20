@@ -1,0 +1,115 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panel id="assistanceMainPanel"
+		header="#{subjectBean.subjectSelected.name} - Grupo: #{subjectBean.subjectSelected.groupName}"
+		style="text-align:center;">
+
+
+		<p:dataTable
+			rendered="#{subjectBean.getUserSession().getDefaultGroup() eq 2 }"
+			style="width: 100%" value="#{subjectBean.dayClassListTeacherTmp}"
+			var="dayClass" emptyMessage="#{bundle['page.core.labelNoResults']}"
+			paginatorAlwaysVisible="false" widgetVar="dayClass"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="20,40,60" paginator="true" rows="20">
+
+			<p:column headerText="#{bundle['page.assistance.labelDay']}">
+					 #{dayClass.dayClass} 
+				</p:column>
+			<p:column headerText="#{bundle['page.assistance.labelStartClassHour']}">
+					 #{dayClass.hourStart} 
+				</p:column>
+			<p:column headerText="#{bundle['page.assistance.labelEndClassHour']}">
+					 #{dayClass.hourEnd} 
+				</p:column>
+
+		</p:dataTable>
+
+		<p:dataTable
+			rendered="#{subjectBean.getUserSession().getDefaultGroup() eq 5 or subjectBean.getUserSession().getDefaultGroup() eq 3 }"
+			style="width: 100%" value="#{subjectBean.dayClassList}"
+			var="dayClass" 
+			paginatorAlwaysVisible="false" widgetVar="dayClass"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="20,40,60" paginator="true" rows="20">
+
+			<p:column headerText="#{bundle['page.assistance.labelDay']}">
+					 #{dayClass.dayClass} 
+				</p:column>
+			<p:column headerText="#{bundle['page.assistance.labelStartClassHour']}">
+					 #{dayClass.hourStart} 
+				</p:column>
+			<p:column headerText="#{bundle['page.assistance.labelEndClassHour']}">
+					 #{dayClass.hourEnd} 
+				</p:column>
+
+		</p:dataTable>
+		<br> </br>
+		
+		
+
+		<table id="studentsTable" width="100%">
+			<tr>
+				<td width="6%" />
+				<td width="18%" />
+				<td width="19%" />
+				<td width="6%" />
+				<td width="18%" />
+				<td width="19%" />
+				<td width="6%" />
+			</tr>
+
+			<tr>
+				<td><br></br></td>
+			</tr>
+
+			<tr>
+
+				<p:dataGrid var="student" id="studentListData"
+					value="#{subjectBean.assistanceBean.studentList}" columns="3"
+					rows="100" paginator="false" 
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="30,40,50" emptyMessage="#{bundle['page.assistance.noRecordsFoundStudents']}">
+					<f:facet name="header"> En total hay #{fn:length(subjectBean.assistanceBean.studentList)} estudiantes registrados  </f:facet>
+					<p:panel header="#{student.name} #{student.lastName}" style="text-align:center">
+						<h:panelGrid columns="2" style="width:100%"> 						 
+						<f:facet name="header">  #{bundle['page.assistance.labelDocument']}: <h:outputText style="font-weight: bold;" value="#{student.code}"> </h:outputText> </f:facet> 
+							<p:graphicImage value="../css/icons/student.png" cache="false"
+								height="100" width="100" />
+							<p:row>
+								<p:column>
+								<p:commandButton id="reportStudenButton" 
+								value="Solicitar apoyo"
+								action="#{subjectBean.goReportStudent}" partialSubmit="true">
+								<f:setPropertyActionListener
+									target="#{subjectBean.studentSelected}" value="#{student}" />
+							</p:commandButton>
+								</p:column>
+							</p:row>						
+
+						</h:panelGrid>
+					</p:panel>
+				</p:dataGrid>
+			</tr>
+			<tr>
+				 <td style="text-align: center">
+					<p style="text-align: center">
+						<p:commandButton action="#{subjectBean.goBackSubjectMain}"
+							value="#{bundle['page.core.goBack']}" style="margin-right:5%;"
+							onclick="statusDialog.show()" />
+					</p>
+				</td>
+			</tr>
+
+
+		</table>
+
+	</p:panel>
+
+	
+
+</f:view>

@@ -1,0 +1,77 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<p:outputPanel redered="#{subjectBean.getValidateUserRole()}">
+		<h:form id="subjectForm">
+		<p:spacer height="30"> </p:spacer>
+			<p:outputPanel id="subjectMain">
+				<p:outputPanel rendered="#{subjectBean.showMain}">
+					<ui:include src="/WEB-INF/includes/subject/subjectMain.xhtml"></ui:include>
+				</p:outputPanel>
+			</p:outputPanel>
+			<p:outputPanel id="subjectDetail">
+				<p:outputPanel rendered="#{!subjectBean.showMain and subjectBean.getValidateUserRole()}">
+					<p:outputPanel id="handleLink">
+						<div class="ui-nav">
+							<p:commandLink
+								value="#{bundle['page.subject.subjectDetail.labelAttendance']}"
+								styleClass="#{subjectBean.activeIndex eq 0 ? 'ui-box-button ui-box-button-active':'ui-box-button'}"
+								action="#{subjectBean.handleLinkChange}"
+								update="subject handleLink" onclick="statusDialog.show()">
+								<f:setPropertyActionListener target="#{subjectBean.activeIndex}"
+									value="0" />
+							</p:commandLink>
+							<p:outputPanel>
+								<p:commandLink
+									value="#{bundle['page.subject.subjectDetail.labelHistorical']}"
+									styleClass="#{subjectBean.activeIndex eq 2 ? 'ui-box-button ui-box-button-active':'ui-box-button'}"
+									action="#{subjectBean.handleLinkChange}"
+									update="subject handleLink">
+									<f:setPropertyActionListener
+										target="#{subjectBean.activeIndex}" value="2" />
+								</p:commandLink>
+							</p:outputPanel>
+							<p:outputPanel
+								rendered="#{subjectBean.getUserSession().getDefaultGroup() eq 2 }">
+								<p:commandLink
+									value="#{bundle['page.subject.subjectDetail.labelCalification']}"
+									styleClass="#{subjectBean.activeIndex eq 3 ? 'ui-box-button ui-box-button-active':'ui-box-button'}"
+									action="#{subjectBean.handleLinkChange}"
+									update="subject handleLink" onclick="statusDialog.show()">
+									<f:setPropertyActionListener
+										target="#{subjectBean.activeIndex}" value="3" />
+								</p:commandLink>
+							</p:outputPanel>
+						</div>
+					</p:outputPanel>
+					<p:outputPanel id="subject" style="clear:both;">
+						<p:outputPanel id="assistance"
+							rendered="#{subjectBean.showAssistance}">
+							<ui:include src="/WEB-INF/includes/subject/assistance.xhtml"></ui:include>
+						</p:outputPanel>
+						<p:outputPanel id="report" rendered="#{subjectBean.showReport}">
+							<ui:include src="/WEB-INF/includes/subject/report.xhtml"></ui:include>
+						</p:outputPanel>
+						<p:outputPanel id="historical"
+							rendered="#{subjectBean.showHistorical}">
+							<ui:include src="/WEB-INF/includes/subject/historical.xhtml"></ui:include>
+						</p:outputPanel>
+						<p:outputPanel id="calification"
+							rendered="#{subjectBean.showCalification}">
+							<ui:include src="/WEB-INF/includes/subject/calification.xhtml"></ui:include>
+						</p:outputPanel>
+						<p:outputPanel id="calificationItem"
+							rendered="#{subjectBean.showCalificationItem}">
+							<ui:include
+								src="/WEB-INF/includes/subject/calificationItem.xhtml"></ui:include>
+						</p:outputPanel>
+					</p:outputPanel>
+				</p:outputPanel>
+			</p:outputPanel>
+
+		</h:form>
+
+	</p:outputPanel>
+</ui:composition>

@@ -1,0 +1,58 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<p:panel>
+		<table width="100%" border="0">
+			<tr>
+				<td></td>
+				<td>
+				<p:spacer height="0" width="1" />
+				<strong><p>Bienvenido
+							#{loginBean.userSession.fullName}</p>
+				</strong></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td align="center"><h:form id="contentForm">
+						<ui:repeat var="tree" value="#{loginBean.treeList}">
+							<p:fieldset legend="#{tree.label}" toggleable="true"
+								collapsed="#{(tree.expanded eq 0)}" toggleSpeed="500">
+								<p:dataGrid var="leaf" value="#{tree.leafList}"
+									columns="#{tree.columnSize}" rows="12" paginator="false">
+									<p:column style="align:center">
+										<div align="center">
+											<table>
+												<tr>
+													<td align="center"><a
+														href="/alert#{leaf.displayPanel}"> <img
+															src="../css/icons/#{leaf.icon}" width="90"
+															title="#{leaf.description}" height="90" /> </a>
+													</td>
+												</tr>
+												<tr>
+													<td align="center"><h:outputText value="#{leaf.label}" />
+													</td>
+												</tr>
+											</table>
+										</div>
+									</p:column>
+								</p:dataGrid>
+							</p:fieldset>
+						</ui:repeat>
+							<tr>
+				<td></td>
+				
+			</tr>
+						
+					</h:form></td>
+				<td></td>
+				<td>
+				<p:spacer height="30" width="1" />
+				<p> #{bundle['page.content.textGuide']} </p>
+				</td>
+			</tr>
+		</table>
+	</p:panel>
+</f:view>

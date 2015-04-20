@@ -1,0 +1,86 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+		<h:form id="formViewUser">
+			<p:panel>
+				<table width="98%" border="0" cellpadding="2" cellspacing="2">
+					<tr>
+						<td width="6%"></td>
+						<td width="88%"><p:panel
+								header="#{bundle['page.user.labelBasicData']}">
+								<table width="98%" border="0" cellpadding="1" cellspacing="7">
+									<tr>
+										<td width="6%"></td>
+										<td width="18%" align="left">
+											#{bundle['page.user.labelIdentificacion']}</td>
+										<td width="19%" align="left">
+											#{userBean.selectedZyosUser.documentNumber}</td>
+										<td width="9%"></td>
+										<td width="23%" align="left">
+											#{bundle['page.user.labelPhone']}</td>
+										<td width="20%" align="left">#{userBean.selectedZyosUser.phone}</td>
+										<td width="5%"></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td align="left">#{bundle['page.user.labelName']}</td>
+										<td align="left">#{userBean.selectedZyosUser.name}</td>
+										<td></td>
+										<td align="left">#{bundle['page.user.labelLastName']}</td>
+										<td align="left">#{userBean.selectedZyosUser.lastName}</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td align="left">#{bundle['page.user.labelCellPhone']}</td>
+										<td align="left">#{userBean.selectedZyosUser.mobilePhone}</td>
+										<td></td>
+										<td align="left">#{bundle['page.user.labelEmail']}</td>
+										<td align="left">#{userBean.selectedZyosUser.email}</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td align="left">#{bundle['page.user.userLogin']}</td>
+										<td align="left">#{userBean.selectedZyosUser.zyosLogin.userLogin}</td>
+										<td></td>
+										<td>#{bundle['page.user.labelSecondEmail']}</td>
+										<td>#{userBean.selectedZyosUser.secondEmail}</td>
+									</tr>
+								</table>
+							</p:panel>
+						</td>
+						<td width="6%"></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><p:panel
+								header="#{bundle['page.user.labelDataAplication']}">
+								<table width="98%" border="0" cellpadding="3" cellspacing="7">
+									<tr>
+										<td width="6%"></td>
+										<td width="18%" align="left">
+											#{bundle['page.user.labelGroup']}</td>
+										<td width="19%">#{userBean.userSelectedNameList}</td>
+										<td width="9%"></td>
+										<td width="23%" align="left"></td>
+										<td width="20%"></td>
+										<td width="5%"></td>
+									</tr>
+								</table>
+							</p:panel>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td colspan="3" align="center"><p:commandButton id="gbButton"
+								partialSubmit="true" action="#{userBean.goBack}" global="false"
+								value="#{bundle['page.user.labelButtonComeBack']}" />
+						</td>
+					</tr>
+				</table>
+			</p:panel>
+		</h:form>
+</f:view>

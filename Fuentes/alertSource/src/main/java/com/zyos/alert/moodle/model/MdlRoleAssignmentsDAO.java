@@ -1,0 +1,140 @@
+package com.zyos.alert.moodle.model;
+
+import static org.hibernate.criterion.Example.create;
+
+import java.util.List;
+
+import org.hibernate.LockOptions;
+import org.hibernate.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.zyos.core.connection.MySQLBaseHibernateDAO;
+
+/**
+ * A data access object (DAO) providing persistence and search support for
+ * MdlRoleAssignments entities. Transaction control of the save(), update() and
+ * delete() operations can directly support Spring container-managed
+ * transactions or they can be augmented to handle user-managed Spring
+ * transactions. Each of these methods provides additional information for how
+ * to configure it for the desired type of transaction control.
+ * 
+ * @see com.zyos.alert.moodle.model.MdlRoleAssignments
+ * @author MyEclipse Persistence Tools
+ */
+public class MdlRoleAssignmentsDAO extends MySQLBaseHibernateDAO {
+	private static final Logger log = LoggerFactory
+			.getLogger(MdlRoleAssignmentsDAO.class);
+
+	public void save(MdlRoleAssignments transientInstance) {
+		log.debug("saving MdlRoleAssignments instance");
+		try {
+			getSession().save(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
+
+	public void delete(MdlRoleAssignments persistentInstance) {
+		log.debug("deleting MdlRoleAssignments instance");
+		try {
+			getSession().delete(persistentInstance);
+			log.debug("delete successful");
+		} catch (RuntimeException re) {
+			log.error("delete failed", re);
+			throw re;
+		}
+	}
+
+	public MdlRoleAssignments findById(java.lang.Long id) {
+		log.debug("getting MdlRoleAssignments instance with id: " + id);
+		try {
+			MdlRoleAssignments instance = (MdlRoleAssignments) getSession()
+					.get("com.zyos.alert.moodle.model.MdlRoleAssignments", id);
+			return instance;
+		} catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		}
+	}
+
+	public List<MdlRoleAssignments> findByExample(MdlRoleAssignments instance) {
+		log.debug("finding MdlRoleAssignments instance by example");
+		try {
+			List<MdlRoleAssignments> results = (List<MdlRoleAssignments>) getSession()
+					.createCriteria(
+							"com.zyos.alert.moodle.model.MdlRoleAssignments")
+					.add(create(instance)).list();
+			log.debug("find by example successful, result size: "
+					+ results.size());
+			return results;
+		} catch (RuntimeException re) {
+			log.error("find by example failed", re);
+			throw re;
+		}
+	}
+
+	public List findByProperty(String propertyName, Object value) {
+		log.debug("finding MdlRoleAssignments instance with property: "
+				+ propertyName + ", value: " + value);
+		try {
+			String queryString = "from MdlRoleAssignments as model where model."
+					+ propertyName + "= ?";
+			Query queryObject = getSession().createQuery(queryString);
+			queryObject.setParameter(0, value);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+
+	public List findAll() {
+		log.debug("finding all MdlRoleAssignments instances");
+		try {
+			String queryString = "from MdlRoleAssignments";
+			Query queryObject = getSession().createQuery(queryString);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+
+	public MdlRoleAssignments merge(MdlRoleAssignments detachedInstance) {
+		log.debug("merging MdlRoleAssignments instance");
+		try {
+			MdlRoleAssignments result = (MdlRoleAssignments) getSession()
+					.merge(detachedInstance);
+			log.debug("merge successful");
+			return result;
+		} catch (RuntimeException re) {
+			log.error("merge failed", re);
+			throw re;
+		}
+	}
+
+	public void attachDirty(MdlRoleAssignments instance) {
+		log.debug("attaching dirty MdlRoleAssignments instance");
+		try {
+			getSession().saveOrUpdate(instance);
+			log.debug("attach successful");
+		} catch (RuntimeException re) {
+			log.error("attach failed", re);
+			throw re;
+		}
+	}
+
+	public void attachClean(MdlRoleAssignments instance) {
+		log.debug("attaching clean MdlRoleAssignments instance");
+		try {
+			getSession().buildLockRequest(LockOptions.NONE).lock(instance);
+			log.debug("attach successful");
+		} catch (RuntimeException re) {
+			log.error("attach failed", re);
+			throw re;
+		}
+	}
+}

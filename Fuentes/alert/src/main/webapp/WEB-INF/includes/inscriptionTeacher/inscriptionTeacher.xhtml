@@ -1,0 +1,164 @@
+<h:form xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	id="inscriptionTeacherForm">
+
+	<br />
+	<p:panel header="#{bundle['page.ins.teacher.labelRegisterTeacher']}" id="globalPanel">
+		<div align="center">
+			<br />
+			<table width="90%" border="0" cellpadding="5" cellspacing="5">
+				<tr>
+					<td width="6%" />
+					<td width="18%"></td>
+					<td width="19%"></td>
+					<td width="6%" />
+					<td width="18%"></td>
+					<td width="19%"></td>
+
+				</tr>
+
+				<tr>
+					<td />
+					<td colspan="5"><h:outputText
+							value="#{bundle['page.sp.fieldObligatory']}" />
+					</td>
+				</tr>
+
+				<tr>
+					<td />
+					<td colspan="5" bgcolor="#002549" align="center"><h:outputText
+						style="font-weight: bold;color:white"	value="#{bundle['page.ins.teacher.labelRegisterTeacher']}" />
+					</td>
+				</tr>
+
+				<tr>
+					<td></td>
+				</tr>
+
+				<tr>
+					<td width="6%" />
+					<td width="18%"><h:outputText value="*#{bundle['page.en.labelCompleteName']}:"/></td>
+					<td colspan="4" width="19%"><p:inputText id="nameUser"
+							value="#{inscriptionTeacherBean.user.name}" style="width: 100%"
+							maxlength="60" /> <pe:keyFilter preventPaste="true"
+							for="nameUser" regEx="/[a-z ]/i" />
+					</td>
+
+				</tr>
+
+
+				<tr>
+					<td></td>
+
+					<td><h:outputText value="*#{bundle['page.password.labelUser']}:" /></td>
+					<td><p:inputText id="document"
+							value="#{inscriptionTeacherBean.user.documentNumber}"
+							style="width: 100%" maxlength="20" />
+					</td>
+
+					<td></td>
+
+
+					<td><h:outputText value="*#{bundle['page.password.labelMail']}:" /></td>
+					<td><p:inputText id="email"
+							value="#{inscriptionTeacherBean.user.email}" style="width: 100%"
+							maxlength="35" /> <pe:keyFilter preventPaste="true" for="email"
+							/>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+
+					<td><h:outputText value="*#{bundle['page.user.labelPassword']}:" /></td>
+					<td><p:password id="password"
+							value="#{inscriptionTeacherBean.zyosLogin.password}" style="width: 100%"
+							maxlength="26" feedback="true" promptLabel="Contraseña"
+							weakLabel="Debíl" goodLabel="Medio" strongLabel="Seguro"
+							inline="true" /></td>
+					<td />
+					
+				</tr>
+				<tr>
+					<td />
+				</tr>
+				<tr>
+					<td />
+					<td />
+					<td colspan="2" align="right"><p:commandButton
+							id="buttonInsTeacherForm" type="button" 					
+							action="#{inscriptionTeacherBean.saveTeacherUser}" onclick="valRegisterTeacher();"
+							value="#{bundle['page.ins.labelButtomVerify']}" styleClass="ui-priority-primary" />
+					</td>
+					<td><p:commandButton id="cancelButtom" 
+							partialSubmit="true" value="#{bundle['page.user.labelButtonCancel']}" action="#{inscriptionTeacherBean.clearDataInsTeacher}" update=":inscriptionTeacherForm"  />
+					</td>
+					<td />
+
+				</tr>
+
+			</table>
+		</div>
+	</p:panel>
+
+	<p:dialog id="validateInsTeacher" widgetVar="validateInsTeacher"
+		showHeader="false" resizable="false" draggable="false"
+		showEffect="fade" hideEffect="fade" modal="true" width="500"
+		dynamic="true">
+
+		<p:outputPanel id="confirmTeacher">
+			<table id="tableIns" width="90%" border="0" cellpadding="5"
+				cellspacing="5">
+
+				<tr>
+					<td colspan="4" align="center"><h:outputText
+							style="font-weight:bold;"
+							value="#{bundle['page.ins.textValidate']}">
+						</h:outputText>
+					</td>
+				</tr>
+				<tr>
+
+					<td align="center"><p:commandButton id="goLogin"
+							partialSubmit="true" action="#{inscriptionTeacherBean.clearDataInsTeacher}" styleClass="ui-priority-primary" 
+							onclick="window.open('/alert/portal/inicio', '_self')" update=":inscriptionTeacherForm" value="#{bundle['login']}" />
+					</td>
+				</tr>
+
+			</table>
+		</p:outputPanel>
+	</p:dialog>
+	
+	<p:dialog id="validateFail" widgetVar="validateFail"
+		showHeader="false" resizable="false" draggable="false"
+		showEffect="fade" hideEffect="fade" modal="true" width="500"
+		dynamic="true">
+
+		<p:outputPanel id="validateFailIns">
+			<table id="tableInsTeacher" width="90%" border="0" cellpadding="5"
+				cellspacing="5">
+
+				<tr>
+					<td colspan="4" align="center"><h:outputText
+							style="font-weight:bold;"
+							value="#{bundle['page.ins.text.ValidateFail']}">
+						</h:outputText>
+					</td>
+				</tr>
+				<tr>
+
+					<td align="center"><p:commandButton id="goBackIns"
+							partialSubmit="true" styleClass="ui-priority-primary" 
+							onclick="validateFail.hide();" value="#{bundle['page.ins.label.GoBackRegister']}" />
+					</td>
+				</tr>
+
+			</table>
+		</p:outputPanel>
+	</p:dialog>
+	
+
+</h:form>

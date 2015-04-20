@@ -1,0 +1,58 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<p:panel>
+		<script type="text/javascript">
+				$(document).ready(function() {
+				$("#slidemarginleft").css('display','none'); 	
+				$('#mas-proexport').click(function() {
+				$('#shadow').click(function() {
+				$("#slidemarginleft").hide();
+				$(".inner").css('margin-left','912px');
+				$('#shadow').fadeOut("slow");
+				});
+				if($('#slidemarginleft').css('display')=="block"){
+				setTimeout(function(){
+				$("#slidemarginleft").fadeOut("slow");
+				$("#shadow").css('display','none');
+				},20000);}
+				else{
+				$("#slidemarginleft").fadeIn("slow");
+				var $marginLefty = $(".inner");
+				$marginLefty.animate({
+				marginLeft: parseInt($marginLefty.css('marginLeft'),10) == 0?
+				$marginLefty.outerWidth() :
+				0
+				});
+				$("#shadow").css('display','block');
+				}
+				});
+				});
+			</script>
+		<span id="mas-proexport">Other Proexport websities</span>
+		<div style="display: none;" id="slidemarginleft">
+			<div class="inner" style="margin-left: 200px;">
+				<div id="franja">
+					<div class="header">
+						<p class="reddeportales">COMPONENTES</p>
+					</div>
+					<div class="content">
+						<p:menu styleClass="homeMenu">
+							<p:submenu> 
+								<p:menuitem url="/portal/componente/n/nut" value="Nutricional" />
+								<p:menuitem url="/portal/componente/a/ali" value="Alimentario" />
+								<p:menuitem url="/portal/componente/f/fin" value="Financiero" />
+								<p:menuitem url="/portal/componente/i/inc" value="Inclusión social" />
+								<p:menuitem url="/portal/componente/e/edu" value="Educativo" />
+							</p:submenu>
+						</p:menu>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="shadow"
+			style="width: 100%; display: none; position: fixed; height: 100%;"></div>
+	</p:panel>
+</f:view>

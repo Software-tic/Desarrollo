@@ -1,0 +1,97 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+	<h:form id="integrationForm">
+
+		<p:panel header="#{bundle['page.integration.headerPanel']}">
+			<table style="width: 100%;">
+
+				<tr>
+					<td style="width: 6%;" />
+					<td style="width: 18%;" />
+					<td style="width: 19%;" />
+					<td style="width: 6%;" />
+					<td style="width: 18%;" />
+					<td style="width: 19%;" />
+					<td style="width: 6%;" />
+				</tr>
+				<tr>
+
+					<td colspan="5">#{bundle['page.integration.textGuideIntegration']}</td>
+				</tr>
+				<tr>
+					<td><BR /></td>
+
+				</tr>
+				<tr>
+					<td colspan="4"><p:commandButton styleClass="ui-priority-primary" value="#{bundle['page.integration.labelButtonIntegration']}"
+							onclick="confirmDialogWV.show()">
+						</p:commandButton></td>
+				</tr>
+				<tr>
+					<td><br /></td>
+				</tr>
+
+			</table>
+
+			<p:dataTable value="#{integrationBean.executionsHistoricalList}" var="e" id="executionsIntegration"
+				emptyMessage="#{bundle['page.executionHistorical.noRecordsFound']}" scrollable="false" paginatorAlwaysVisible="false"
+				filteredValue="#{integrationBean.executionsHistoricalListFiltered}"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="30,60,120" paginator="true" rows="30" widgetVar="executionsIntegrationWV">
+				<f:facet name="header">  
+           	 		Listado de ejecuciones de integración de datos de nuevo semestre realizadas  
+           	 		<div align="right">
+						<h:outputText value="Buscar:" />
+						<p:inputText id="globalFilter" onkeyup="executionsIntegrationWV.filter()" style="width:150px" />
+					</div>
+				</f:facet>
+				<f:facet name="footer">  
+           	 		En total hay #{fn:length(integrationBean.executionsHistoricalList)} Ejecuciones registradas  
+        		</f:facet>
+				<p:column sortBy="#{e.dateCreation}" filterBy="#{e.dateCreation}" filterStyle="width:80%;" style="width:15%;text-align: center"
+					headerText="#{bundle['page.executionHistorical.labelDate']}">
+					<h:outputText value="#{e.dateCreation}" />
+				</p:column>
+
+				<p:column sortBy="#{e.executionTime}" filterBy="#{e.executionTime}" filterStyle="width:80%;" style="width:15%;text-align: center"
+					headerText="#{bundle['page.executionHistorical.labelExecutionTime']}">
+					<h:outputText value="#{e.executionTime}" />
+				</p:column>
+
+				<p:column sortBy="#{e.userCreation}" filterBy="#{e.userCreation}" filterStyle="width:80%;" style="width:18%;text-align: center"
+					headerText="#{bundle['page.executionHistorical.labelUserCreation']}">
+					<h:outputText value="#{e.userCreation}" />
+				</p:column>
+
+				<p:column sortBy="#{e.information}" filterBy="#{e.information}" filterStyle="width:80%;" style="width:26%;text-align: center"
+					headerText="#{bundle['page.executionHistorical.labelInformation']}">
+					<h:outputText value="#{e.information}" />
+				</p:column>
+
+			</p:dataTable>
+		</p:panel>
+
+
+
+	<p:dialog id="confirmDialog" header="Realizar integración" dynamic="true" modal="true" resizable="false" draggable="false" showEffect="drop"
+		hideEffect="fade" widgetVar="confirmDialogWV" width="350">
+
+		<table border="0" align="left">
+			<tr>
+				<td align="left">#{bundle['page.integration.textConfirm']}</td>
+			</tr>
+			<tr>
+				<td><BR /></td>
+			</tr>
+
+			<tr>
+				<td align="center"><p:commandButton id="integrationButton" value="#{bundle['page.core.labelAcept']}" styleClass="ui-priority-primary"
+						action="#{integrationBean.migrateListFromSAC}" update=":integrationForm:executionsIntegration" onclick="statusDialog.show();" oncomplete="confirmDialogWV.hide(); statusDialog.hide();" /> <p:spacer width="10" height="10"></p:spacer>
+						 <p:commandButton partialSubmit="true" onclick="confirmDialogWV.hide()" value="#{bundle['page.core.labelCancel']}" /></td>
+			</tr>
+		</table>
+
+	</p:dialog>
+		</h:form>
+
+</f:view>

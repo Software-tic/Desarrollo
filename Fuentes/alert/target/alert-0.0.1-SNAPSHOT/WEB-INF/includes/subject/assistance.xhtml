@@ -1,0 +1,330 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panel id="assistanceMainPanel"
+		header="#{subjectBean.subjectSelected.name} - Grupo: #{subjectBean.subjectSelected.groupName}"
+		style="text-align:center;">
+
+
+		<p:dataTable
+			rendered="#{subjectBean.getUserSession().getDefaultGroup() eq 2 }"
+			style="width: 100%" value="#{subjectBean.dayClassListTeacherTmp}"
+			var="dayClass" emptyMessage="#{bundle['page.core.labelNoResults']}"
+			paginatorAlwaysVisible="false" widgetVar="dayClass"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="20,40,60" paginator="true" rows="20">
+
+			<p:column headerText="#{bundle['page.assistance.labelDay']}">
+					 #{dayClass.dayClass} 
+				</p:column>
+			<p:column
+				headerText="#{bundle['page.assistance.labelStartClassHour']}">
+					 #{dayClass.hourStart} 
+				</p:column>
+			<p:column headerText="#{bundle['page.assistance.labelEndClassHour']}">
+					 #{dayClass.hourEnd} 
+				</p:column>
+
+		</p:dataTable>
+
+		<p:dataTable
+			rendered="#{subjectBean.getUserSession().getDefaultGroup() eq 5 or subjectBean.getUserSession().getDefaultGroup() eq 3 }"
+			style="width: 100%" value="#{subjectBean.dayClassList}"
+			var="dayClass" paginatorAlwaysVisible="false" widgetVar="dayClass"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="20,40,60" paginator="true" rows="20">
+
+			<p:column headerText="#{bundle['page.assistance.labelDay']}">
+					 #{dayClass.dayClass} 
+				</p:column>
+			<p:column
+				headerText="#{bundle['page.assistance.labelStartClassHour']}">
+					 #{dayClass.hourStart} 
+				</p:column>
+			<p:column headerText="#{bundle['page.assistance.labelEndClassHour']}">
+					 #{dayClass.hourEnd} 
+				</p:column>
+
+		</p:dataTable>
+
+		<p:panel id="monitorDataPanel">
+			<table id="monitorDataTable" width="100%">
+
+				<tr>
+					<td width="7%" align="left"><h:outputText
+							style="font-weight: bold;color:red"
+							value=" #{bundle['page.assistance.labelMonitorStudent']}:">
+						</h:outputText>
+						<h:outputText style="font-weight: bold;color:black"
+							value="   #{subjectBean.nameMonitor}">
+						</h:outputText> <p:commandLink id="deleteStudentA"
+							rendered="#{subjectBean.showDeleteMonitorButton}"
+							title="Eliminar Asistente de Clase" partialSubmit="true"
+							onclick="delMonitortDialogWV.show();">
+							<p:graphicImage cache="false" height="27" width="27"
+								value="../css/icons/deleteStudent.png" />
+						</p:commandLink></td>
+
+
+				</tr>
+
+			</table>
+		</p:panel>
+
+		<p:outputPanel id="outputPanelAssistance">
+			<p:outputPanel id="outputPanelAssistanceStudent"
+				rendered="#{subjectBean.getUserSession().getDefaultGroup() eq 2 or subjectBean.monitorActive eq 1}">
+
+				<table id="studentsTableAssistance" width="100%">
+
+					<tr>
+						<td width="7%" align="left"><h:outputText
+								style="font-weight: bold;"
+								value="#{bundle['page.assistance.labelAssistance']}:">
+							</h:outputText></td>
+						<td width="5%" align="left">#{bundle['page.assistance.labelEverybody']}</td>
+						<td align="left"><p:selectBooleanCheckbox
+								value="#{subjectBean.assistanceBean.selectAllItems}">
+								<p:ajax
+									update=":subjectForm:subjectMain :subjectForm:subjectDetail"
+									global="false"
+									listener="#{subjectBean.assistanceBean.handleSelectStudentList}" />
+							</p:selectBooleanCheckbox></td>
+					</tr>
+
+				</table>
+			</p:outputPanel>
+		</p:outputPanel>
+
+
+
+
+		<table id="studentsTable" style="width:100%">
+			<tr>
+				<td style="width:6%;" />
+				<td style="width:18%;" />
+				<td style="width:19%;" />
+				<td style="width:6%;" />
+				<td style="width:18%;" />
+				<td style="width:19%;" />
+				<td style="width:6%;" />
+			</tr>
+
+			<tr>
+				<td><br></br></td>
+			</tr>
+
+			<tr>
+
+				<p:dataGrid var="student" id="studentListData"
+					value="#{subjectBean.assistanceBean.studentList}" columns="3"
+					rows="100" paginator="true" paginatorAlwaysVisible="false"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="30,40,50"
+					emptyMessage="#{bundle['page.assistance.noRecordsFoundStudents']}">
+					<f:facet name="header"> En total hay #{fn:length(subjectBean.assistanceBean.studentList)} estudiantes registrados  </f:facet>
+
+
+					<p:panel header="#{student.name} #{student.lastName}"
+						style="text-align:center">
+						<h:panelGrid columns="2" style="width:100%">
+							<f:facet name="header"> #{bundle['page.assistance.labelDocument']}: <h:outputText
+									style="font-weight: bold;" value="#{student.code}">
+								</h:outputText>
+							</f:facet>
+							<p:graphicImage value="../css/icons/student.png" cache="false"
+								height="100" width="100" />
+							<p:outputPanel
+								rendered="#{subjectBean.getUserSession().getDefaultGroup() eq 2}">
+
+								<p:commandLink id="reportStudenLink"
+									title="Asignar asistente de clase" partialSubmit="true"
+									action="#{subjectBean.goAsignedMonitorDialog}">
+									<p:graphicImage cache="false" height="35" width="35"
+										value="../css/icons/monitor.png" />
+									<f:setPropertyActionListener
+										target="#{subjectBean.studentToAsignedMonitor}"
+										value="#{student}" />
+								</p:commandLink>
+
+							</p:outputPanel>
+						</h:panelGrid>
+						<p:outputPanel
+							rendered="#{subjectBean.getUserSession().getDefaultGroup() eq 2 or subjectBean.monitorActive eq 1}">
+							<h:panelGrid columns="2" style="width:100%">
+								<h:outputText
+									value="#{bundle['page.assistance.labelAssistanceStudent']}:" />
+								<p:selectBooleanCheckbox value="#{student.selected}" />
+							</h:panelGrid>
+
+
+						</p:outputPanel>
+
+
+
+					</p:panel>
+				</p:dataGrid>
+			</tr>
+			<tr>
+				<td style="text-align: center">
+					<p style="text-align: center">
+						<p:commandButton
+							rendered="#{subjectBean.getUserSession().getDefaultGroup() eq 2 or subjectBean.monitorActive eq 1}"
+							id="registerAssistanceButton" action="#{subjectBean.assistanceBean.goRegisterAssistance}"
+							styleClass="ui-priority-primary" partialSubmit="true"
+							value="#{bundle['page.assistance.labelButtonRegisterAssistance']}" />
+
+						<p:commandButton action="#{subjectBean.goBackSubjectMain}"
+							value="#{bundle['page.core.goBack']}" style="margin-right:5%;"
+							onclick="statusDialog.show()" />
+					</p>
+				</td>
+			</tr>
+
+
+		</table>
+
+	</p:panel>
+
+	<p:dialog id="monitorStudentDialog" header="Asignar Asistente"
+		dynamic="true" modal="true" resizable="false" draggable="true"
+		showEffect="drop" hideEffect="fade" widgetVar="monitorStudentDialog"
+		width="350">
+
+		<p:outputPanel style="text-align:center;" layout="block">
+			<table width="100%" border="0" align="left">
+				<tr>
+					<td align="left">
+						#{bundle['page.assistance.textMonitorAsigned']}</td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td><h:outputText style="font-weight: bold;"
+							value="#{bundle['page.assistance.confirmTextAsignedMonitor']}  ">
+						</h:outputText></td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+
+				<tr>
+					<td style="text-align: left">
+						#{bundle['page.assistance.labelName']}: <h:outputText
+							style="font-weight: bold;"
+							value="#{subjectBean.studentToAsignedMonitor.name} #{subjectBean.studentToAsignedMonitor.lastName} ">
+						</h:outputText>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align: left">#{bundle['page.assistance.labelDocument']}:
+						<h:outputText style="font-weight: bold;"
+							value="#{subjectBean.studentToAsignedMonitor.code}">
+						</h:outputText>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="text-align: center"><p:commandButton
+							value="#{bundle['page.core.labelAcept']}"
+							styleClass="ui-priority-primary"
+							oncomplete="monitorStudentDialog.hide()"
+							update=":subjectForm:subjectMain :subjectForm:subjectDetail"
+							onclick="statusDialog.show()"
+							action="#{subjectBean.asignedMonitor}" /> <p:spacer width="10"
+							height="10"></p:spacer> <p:commandButton partialSubmit="true"
+							onclick="monitorStudentDialog.hide()"
+							value="#{bundle['page.core.labelCancel']}">
+						</p:commandButton></td>
+				</tr>
+			</table>
+		</p:outputPanel>
+	</p:dialog>
+
+
+	<p:dialog id="delMonitorDialog" header="Quitar asistente de clase"
+		dynamic="true" modal="true" resizable="false" draggable="false"
+		showEffect="drop" hideEffect="fade" widgetVar="delMonitortDialogWV"
+		width="350">
+
+		<p:outputPanel style="text-align:center;" layout="block">
+			<table width="100%" border="0" align="left">
+				<tr>
+					<td style="text-align: left;" >¿Está seguro de quitar al estudiante asistente de clase?</td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td align="center"><p:commandButton id="deleteMonitorButton"
+							value="#{bundle['page.core.labelAcept']}"
+							styleClass="ui-priority-primary"
+							action="#{subjectBean.deleteMonitorStudent}"
+							onclick="statusDialog.show();" oncomplete="statusDialog.hide();" />
+						<p:spacer width="10" height="10"></p:spacer> <p:commandButton
+							partialSubmit="true" onclick="delMonitortDialogWV.hide();"
+							value="#{bundle['page.core.labelCancel']}" /></td>
+				</tr>
+			</table>
+		</p:outputPanel>
+	</p:dialog>
+	
+	
+	
+	<p:dialog id="registerAssistanceDialog" header="Registrar Asistencia"
+		dynamic="true" modal="true" resizable="false" draggable="true"
+		showEffect="drop" hideEffect="fade" widgetVar="registerAssistanceWV"
+		width="350">
+		
+		
+			<table width="100%" border="0" align="left">
+				<tr>
+					<td align="left">
+						Seleccione el día de clase el cual desea registrar asistencia.</td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td> <p:calendar
+						value="#{subjectBean.assistanceBean.dateSelected}" locale="es" effect="fade" id="dateStartCalendar" maxdate="#{subjectBean.assistanceBean.maxDate}" mindate="#{subjectBean.assistanceBean.minDate}" navigator="true" pattern="dd/MM/yyyy" >
+						<p:watermark for="dateStartCalendar" value="dd/mm/aaaa" />
+						</p:calendar></td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>					
+				
+				
+				<tr>
+					<td style="text-align: center"><p:commandButton
+							value="#{bundle['page.core.labelAcept']}"
+							styleClass="ui-priority-primary"
+							oncomplete="registerAssistanceWV.hide()"
+							update=":subjectForm:subjectMain :subjectForm:subjectDetail"
+							onclick="statusDialog.show()"
+							action="#{subjectBean.assistanceBean.registerAssistance}" /> <p:spacer width="10"
+							height="10"></p:spacer> <p:commandButton partialSubmit="true"
+							onclick="registerAssistanceWV.hide()"
+							value="#{bundle['page.core.labelCancel']}">
+						</p:commandButton></td>
+				</tr>
+			</table>
+	
+	</p:dialog>
+
+
+
+</f:view>

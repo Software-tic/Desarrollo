@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<f:view   >
+	<h:head >
+		<f:loadBundle basename="com.zyos.core.common.util.resource.messages"
+			var="bundle" />
+		<title>#{bundle['page.core.title']}</title>
+		<link rel="shortcut icon" href="../css/icons/favicon.ico"/>
+		<link rel="stylesheet" type="text/css" href="../css/layout.css" />
+		<script type="text/javascript">
+			var lmPresence = <h:outputText value="#{bundle.labelPresence}"/>; var lmNotNumber = <h:outputText value="#{bundle.labelNotANumberMessage}"/>; var lmNotInteger = <h:outputText value="#{bundle.labelNotAnIntegerMessage}"/>; var lmWrong = <h:outputText value="#{bundle.labelWrongNumberMessage}"/>; var lmLowm = <h:outputText value="#{bundle.labelTooLowMessage}"/>; var lmHighm = <h:outputText value="#{bundle.labelTooHighMessage}"/>; var lmNotm = <h:outputText value="#{bundle.labelNotValid}"/>; var lmNotMail = <h:outputText value="#{bundle.labelNotValidMail}"/>; var lmC = <h:outputText value="#{bundle.labelCharacter}"/>; var lmShort = <h:outputText value="#{bundle.labelTooShortMessage}"/>; var lmLong = <h:outputText value="#{bundle.labelLongMessage}"/>; var lmIC = <h:outputText value="#{bundle.labelInvalidCharacter}"/>; var lmNotList = <h:outputText value="#{bundle.labelNotList}"/>;var lmNotMatch = <h:outputText value="#{bundle.labelDontMatch}"/>; var lmNotAcept = <h:outputText value="#{bundle.labelNotAcept}"/>;var lmMustSelectOne= <h:outputText value="#{bundle.labelMustSelectOne}"/>; 
+		</script>
+		<script type="text/javascript">
+			//             
+				 PrimeFaces.locales['es'] = {closeText : 'Hecho', prevText : 'Anterior', nextText : 'Siguiente', currentText : 'Hoy', monthNames : [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ], monthNamesShort : [ 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ], dayNames : [ 'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado' ], dayNamesShort : [ 'Do', 'Lu', 'Ma', 'mi', 'Ju', 'Vi', 'Sa'  ], dayNamesMin : [ 'Do', 'Lu', 'Ma', 'mi', 'Ju', 'Vi', 'Sa' ], weekHeader : 'Semana', firstDay : 1, isRTL : false, showMonthAfterYear : false, yearSuffix : '', month: 'Mes', week: 'Semana', day: 'Día', allDayText : 'Todo el día' , timeFormat:"hh:mm tt",timeSuffix:"",timeOnlyTitle:"Seleccione la hora",timeText:"Tiempo",hourText:"Hora",minuteText:"Minuto",secondText:"Segundo",timezoneText:"Time Zone" };
+			//
+		</script>
+		<script src="../js/livevalidation.js" type="text/javascript"></script>
+		<script src="../js/zyosFunction.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			var $buoop = {vs:{i:5.5,f:2,o:10.1,s:3,n:9}}; $buoop.ol = window.onload; window.onload=function(){ try {if ($buoop.ol) $buoop.ol();}catch (e) {} var e = document.createElement("script"); e.setAttribute("type", "text/javascript"); e.setAttribute("src", "http://browser-update.org/update.js"); document.body.appendChild(e); }
+		</script>
+		<ui:insert name="customHead"></ui:insert>
+	</h:head>
+	<h:body>
+			<ui:include src="/WEB-INF/includes/content/analytics.xhtml" />
+			<p:dialog modal="true" widgetVar="statusDialog" header="Procesando..." resizable="false"
+				draggable="false" closable="false">
+				<p:graphicImage value="../css/images/ajaxLoadingBar.gif" />	
+			</p:dialog>	
+			<ui:include src="/WEB-INF/includes/content/header.xhtml"/>
+			<div id="content" align="left">
+				<div id="contentInside" align="left">
+					<p:outputPanel id="panelStack">
+						<ui:insert name="main">...</ui:insert>
+					</p:outputPanel> 
+				</div>
+			</div>
+			<ui:include src="/WEB-INF/includes/content/footer.xhtml"></ui:include>
+	</h:body>
+</f:view>
+</html>

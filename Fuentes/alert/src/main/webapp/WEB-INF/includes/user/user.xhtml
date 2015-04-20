@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<p:outputPanel id="riskStudentPanel" rendered="#{!userBean.getValidateUserRole(1,13)}">
+	<p:outputPanel id="listU" rendered="#{userBean.showListUser}">
+		<ui:include src="/WEB-INF/includes/user/listUser.xhtml"/>
+	</p:outputPanel>
+	
+	<p:outputPanel id="addU" layout="block"
+		rendered="#{userBean.showAddUser or userBean.showEditUser}">
+		<ui:include src="/WEB-INF/includes/user/addUser.xhtml"/>
+	</p:outputPanel>
+	
+	<p:outputPanel id="viewU" rendered="#{userBean.showDetailUser}"
+		layout="block">
+		<ui:include src="/WEB-INF/includes/user/detailUser.xhtml"/>
+	</p:outputPanel>
+		</p:outputPanel>
+		<p:outputPanel rendered="#{userBean.getValidateUserRole(1,13)}"> 
+		
+		<br> </br>
+		<ui:include src="/WEB-INF/includes/content/denied.xhtml" />
+		
+		
+		</p:outputPanel>
+</ui:composition>

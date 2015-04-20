@@ -1,0 +1,123 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<h:form id="formListUser">
+		<p:defaultCommand target="disableEnter" />
+		<h:inputHidden id="disableEnter" />
+		<br />
+		<p:panel id="headerList" header="Administración de Usuarios">
+			<div align="center">
+				<h4>A continuación se presenta un listado de usuarios activos
+					del sistema.</h4>
+				<p:dataTable id="tableUser" value="#{queryBean.userList}"
+					paginatorAlwaysVisible="false" resizableColumns="false"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="20,40,60" paginator="true" rows="20"
+					filterDelay="600"
+					emptyMessage="#{bundle['page.core.tableNoFoundRecord']}"
+					var="zyosUser" style="width:100%" widgetVar="userTable">
+
+					<f:facet name="header">
+							Usuarios activos
+							<div align="right">
+							<h:outputText value="Buscar:" />
+							<p:inputText id="globalFilter" onkeyup="userTable.filter()"
+								style="width:150px" />
+						</div>
+					</f:facet>
+
+					<p:column headerText="#{bundle['page.user.label_document']}"
+						sortBy="#{zyosUser.documentNumber}"
+						filterBy="#{zyosUser.documentNumber}" filterMatchMode="contains"
+						filterStyle="display:none" width="70">
+						<div align="center">#{zyosUser.documentNumber}</div>
+					</p:column>
+
+					<p:column headerText="#{bundle['page.user.labelUserLogin']}"
+						sortBy="#{zyosUser.zyosLogin.userLogin}"
+						filterBy="#{zyosUser.zyosLogin.userLogin}"
+						filterMatchMode="contains" filterStyle="display:none" width="110">
+						<div align="center">#{zyosUser.zyosLogin.userLogin}</div>
+					</p:column>
+
+					<p:column headerText="#{bundle['page.user.label_userName']}"
+						sortBy="#{zyosUser.name}" filterBy="#{zyosUser.name}"
+						filterMatchMode="contains" filterStyle="display:none" width="250">
+						<h:outputText value="#{zyosUser.name} #{zyosUser.lastName}" />
+					</p:column>
+
+					<p:column headerText="#{bundle['page.user.label_group']}"
+						sortBy="#{zyosUser.zyosGroup}" filterBy="#{zyosUser.zyosGroup}"
+						filterMatchMode="contains" filterStyle="display:none" width="100">
+						<div align="center">#{zyosUser.zyosGroup}</div>
+					</p:column>
+
+					<p:column headerText="#{bundle['page.user.label_email']}"
+						sortBy="#{zyosUser.email}" filterBy="#{zyosUser.email}"
+						filterMatchMode="contains" filterStyle="display:none" width="170">
+							#{zyosUser.email}
+						</p:column>
+
+					<p:column width="20">
+						<div align="center">
+							<p:commandLink title="Detallar" immediate="true"
+								disabled="#{queryBean.getValidateUserRole(4,17)}"
+								partialSubmit="true" action="#{queryBean.goShowInfo(zyosUser)}">
+								<p:graphicImage value="../css/images/detail.gif" height="20"
+									width="20" />
+							</p:commandLink>
+						</div>
+					</p:column>
+
+					<f:facet name="footer">
+                        	En total hay #{fn:length(queryBean.userList)} usuarios.
+               			</f:facet>
+				</p:dataTable>
+			</div>
+
+		</p:panel>
+
+
+
+		<p:dialog header="Modal Dialog" widgetVar="showInfoWV" modal="true"
+			width="500" draggable="true" maximizable="true" resizable="true"
+			height="400">
+			<h:outputText value="This is a Modal Dialog." />
+
+
+
+			<p:dataTable var="car" value="#{queryBean.subjectList}"
+				widgetVar="carWV">
+
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputText value="Search all fields:" />
+						<p:inputText id="globalFilter" onkeyup="PF('carWV').filter()"
+							style="width:150px" placeholder="Enter keyword" />
+					</p:outputPanel>
+				</f:facet>
+
+				<p:column headerText="Id" filterBy="#{car.idSubject}">
+					<h:outputText value="#{car.idSubject}" />
+				</p:column>
+
+				<p:column headerText="Year" filterBy="#{car.name}"
+					sortBy="#{car.name}">
+					<h:outputText value="#{car.name}" />
+				</p:column>
+
+			</p:dataTable>
+
+		</p:dialog>
+
+
+
+	</h:form>
+
+</f:view>
+
+

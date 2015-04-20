@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<f:view>
+	<p:growl escape="false" id="growl" showDetail="true" sticky="false"
+		autoUpdate="true" globalOnly="true" />
+	<ui:include src="/WEB-INF/includes/content/analytics.xhtml" />
+	<div id="header">
+			<div id="headerWrapper">
+				<div id="status">
+					<ui:include src="/WEB-INF/includes/content/status.xhtml" />
+				</div>
+				<a href="login"> <img src="../css/images/stLogo.jpg" /> </a>
+				<a href="login"> <img src="../css/images/alertLogo.png" /> </a>
+				<div id="status">
+					<ui:include src="/WEB-INF/includes/content/status.xhtml" />
+				</div>
+			</div>
+		</div>
+</f:view>
+</html>

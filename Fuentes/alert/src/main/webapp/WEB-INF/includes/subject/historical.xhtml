@@ -1,0 +1,143 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panel>
+
+		<p:dataTable id="dataTableHistorical" var="historical"
+			filteredValue="#{subjectBean.historicalBean.filteredStudentAbsent}"
+			scrollable="true" style="width: 100%" paginatorAlwaysVisible="true"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="35,50,70" paginator="true" rows="15" 
+			value="#{subjectBean.historicalBean.studentAbsent}"
+			emptyMessage="#{bundle['page.historical.labelNoRecordsFound']}"	>
+
+			<f:facet name="header"> 
+           #{bundle['page.historilcal.absentList']}  
+        </f:facet>
+
+			<p:column filterBy="#{historical.name}" sortBy="#{historical.name}"
+				style="width:35%; text-align: center;"
+				headerText="#{bundle['page.historical.labelStudent']}">  
+				#{historical.name} #{historical.lastName} </p:column>
+
+			<p:column style="width:30%; text-align: center;"
+				headerText="#{bundle['page.historical.labelDocument']}"
+				filterBy="#{historical.code}" sortBy="#{historical.code}">
+				<h:outputText value="#{historical.code}">
+				</h:outputText>
+
+			</p:column>
+
+			<p:column style="width:30%; text-align: center;"
+				headerText="#{bundle['page.historical.labelDate']}"
+				filterBy="#{historical.dateAbsent}" sortBy="#{historical.dateAbsent}">
+				<h:outputText value="#{historical.dateAbsent}">
+				</h:outputText>
+
+			</p:column>
+
+			<p:column
+				rendered="#{subjectBean.getUserSession().getDefaultGroup() eq 2 }"
+				width="5%">
+				<p:commandLink id="deleteStudentAbsent" title="Eliminar Falla"
+					partialSubmit="true" action="#{subjectBean.historicalBean.goDelAbsentDialog}" >
+					<p:graphicImage cache="false" height="27" width="27"
+						value="../css/icons/delete-absent.png" />
+					<f:setPropertyActionListener
+						target="#{subjectBean.historicalBean.absentToDelete}"
+						value="#{historical}" />
+				</p:commandLink>
+			</p:column>
+
+		</p:dataTable>
+
+	</p:panel>
+
+
+	<p:dialog id="delAbsentDialog" header="Eliminar Falla" dynamic="true"
+		modal="true" resizable="false" draggable="false" showEffect="drop"
+		hideEffect="fade" widgetVar="delAbsentDialog" width="350">
+
+		<p:outputPanel style="text-align:center;" layout="block">
+			<table width="100%" border="0" align="left">
+				<tr>
+					<td align="left">#{bundle['page.historical.textDelAbsent']}</td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+
+				<tr>
+					<td style="text-align: left"><h:outputText
+							style="font-weight: bold;"
+							value="Por favor indique el motivo (justificacion) por el cual desea retirar la falla al estudiante.">
+						</h:outputText></td>
+				</tr>
+
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+
+
+				<tr>
+
+					<td><p:inputTextarea  id="observationDeleteAbsentField" value="#{subjectBean.historicalBean.absentToDelete.observationAbsent}" autoResize="false" rows="5"
+							style="width:100%;" maxlength="500" >
+						</p:inputTextarea></td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td align="center"><p:commandButton id="deleteAbsentButton"
+							value="#{bundle['page.core.labelAcept']}"
+							styleClass="ui-priority-primary" type="button" onclick="validateObservationHistorical();"
+							
+							action="#{subjectBean.historicalBean.deleteAbsent}" /> <p:spacer
+							width="10" height="10"></p:spacer> <p:commandButton
+							partialSubmit="true" oncomplete="delAbsentDialog.hide()" action="{subjectBean.historicalBean.cleanFieldObservation}"
+							value="#{bundle['page.core.labelCancel']}" /></td>
+				</tr>
+			</table>
+		</p:outputPanel>
+	</p:dialog>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</f:view>

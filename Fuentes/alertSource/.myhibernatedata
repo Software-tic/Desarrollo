@@ -1,0 +1,21 @@
+#MyEclipse Hibernate Properties
+#Fri Dec 27 16:40:18 COT 2013
+genBasicCompId=true
+sessionFactoryName=com.zyos.core.connection.HibernateSessionFactory
+profile=
+daoSFId=
+jndiPath=
+detectM2M=false
+reStrategyClass=
+detectO2O=false
+springDaoFile=
+useJavaTypes=true
+keyGenerator=assigned
+genVersionTag=false
+sessionFactoryId=
+basePersistenceClass=
+genAnnotations=true
+reSettingsFile=
+configFile=/alertSource/src/main/java/com/zyos/core/connection/hibernate.cfg.oracle.xml
+createConfigFile=false
+baseDaoClass=com.zyos.core.connection.BaseHibernateDAO

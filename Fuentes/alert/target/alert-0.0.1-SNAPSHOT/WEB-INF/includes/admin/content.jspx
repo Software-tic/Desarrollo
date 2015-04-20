@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<jsp:root version="1.2" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<jsp:directive.page contentType="text/html;charset=ISO-8859-1"
+		pageEncoding="ISO-8859-1" />
+	<f:view>
+		<ice:outputDeclaration doctypeRoot="html"
+			doctypePublic="-//W3C//DTD HTML 4.01 Transitional//EN"
+			doctypeSystem="http://www.w3.org/TR/html4/loose.dtd" />
+		<html>
+			<head>
+				<link rel="stylesheet" type="text/css"
+					href="./xmlhttp/css/xp/xp.css" />
+			</head>
+			<body>
+				<table width="98%" border="0">
+					<tr>
+						<td>
+						</td>
+						<td align="left">
+							<ui:repeat value="#{loginBackingBean.listContentPanelView}" 
+								var="branch">
+								<p>
+									<ice:outputText value="#{branch.nameBranch}" />
+								</p>
+								<ul>
+									<ui:repeat value="#{branch.leafs}" var="leaf">
+										<li>
+											<ice:outputText value="#{leaf}" />
+										</li>
+									</ui:repeat>
+								</ul>
+							</ui:repeat>
+						</td>
+						<td>
+						</td>
+					</tr>
+				</table>
+			</body>
+		</html>
+	</f:view>
+</jsp:root>

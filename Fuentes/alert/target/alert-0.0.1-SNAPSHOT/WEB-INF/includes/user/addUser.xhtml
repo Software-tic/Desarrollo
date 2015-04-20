@@ -1,0 +1,275 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+		<h:form id="formAddUser">
+		
+    <h:inputHidden id="disableEnter"/>
+    <p:defaultCommand target="disableEnter"/>
+			<p:panel>
+				<table width="100%" border="0" cellpadding="0" cellspacing="0">
+					<tr>
+						<td width="3%"></td>
+						<td height="23">#{bundle['page.user.label_asterisk']}</td>
+					</tr>
+					<tr>
+						<td width="3%"></td>
+						<td><p:panel id="userData"
+								header="#{bundle['page.user.labelBasicData']}">
+								<p:outputPanel id="userDataPanel">
+									<table width="90%" border="0" cellpadding="5" cellspacing="5">
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td colspan="3" align="left"><p:outputPanel
+													id="msgPanel">
+													<h:outputText
+														value=" #{bundle['page.user.userDocumentExists']}"
+														rendered="#{userBean.documentUserExist}"
+														style="color: red;" />
+												</p:outputPanel></td>
+										</tr>
+										<tr>
+											<td width="6%"></td>
+											<td width="18%"> #{bundle['page.user.typeDocument']}</td>
+											<td width="19%" align="left"><p:selectOneMenu
+													filter="true" filterMatchMode="startsWith"
+													id="documentType" effect="fade"
+													value="#{userBean.selectedZyosUser.idDocumentType}"
+													style="width: 95%">
+													<f:selectItem itemLabel="#{bundle['page.core.selectOne']}"
+														itemValue="0" />
+													<f:selectItems value="#{userBean.documentTypeList}" var="doc" itemValue="#{doc.id}" itemLabel="#{doc.name}" />
+												</p:selectOneMenu>
+												<div id="dtDiv" class="LV_invalid" />
+											</td>
+											<td width="6%"></td>
+											<td width="18%">
+												* #{bundle['page.user.labelIdentificacion']}</td>
+											<td width="19%" align="left"><p:inputText
+													id="documentNumber" maxlength="45" size="25"
+													value="#{userBean.userDocument}">
+													<p:ajax event="blur" global="false" partialSubmit="true"
+														update=":formAddUser:msgPanel formAddUser:reactivateUserPopup formAddUser:panelButton"
+														oncomplete="handleReactivatePopup(xhr, status, args)"
+														listener="#{userBean.validateUserDocument}" />
+												</p:inputText>
+											</td>
+											<td width="6%"></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td align="left">* #{bundle['page.user.labelName']}</td>
+											<td align="left"><p:inputText id="nameUser"
+													value="#{userBean.userName}" size="25" maxlength="45">
+												</p:inputText>
+											</td>
+											<td></td>
+											<td align="left">* #{bundle['page.user.labelLastName']}</td>
+											<td align="left"><p:inputText id="lastNameUser"
+													size="25" value="#{userBean.userLastname}" maxlength="50">
+												</p:inputText>
+											</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td align="left"> #{bundle['page.user.labelPhone']}</td>
+											<td align="left"><p:inputText id="phoneNumber" size="25"
+													value="#{userBean.selectedZyosUser.phone}" maxlength="15">
+												</p:inputText> <pe:keyFilter preventPaste="true"  for="phoneNumber" mask="pnum" />
+											</td>
+											<td></td>
+											<td align="left">* #{bundle['page.user.labelCellPhone']}</td>
+											<td align="left"><p:inputText id="cellPhone" size="25"
+													value="#{userBean.selectedZyosUser.mobilePhone}"
+													maxlength="20">
+												</p:inputText> <pe:keyFilter preventPaste="true"  for="cellPhone" mask="pnum" />
+											</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td />
+											<td align="left">* #{bundle['page.user.labelEmail']}</td>
+											<td align="left"><p:inputText id="email"
+													value="#{userBean.userEmail}" size="25" maxlength="60">
+												</p:inputText>
+											</td>
+											<td></td>
+											<td align="left">
+												#{bundle['page.user.labelSecondEmail']}</td>
+											<td align="left"><p:inputText id="secondEmail" size="25"
+													value="#{userBean.selectedZyosUser.secondEmail}"
+													maxlength="60">
+												</p:inputText></td>
+											<td></td>
+										</tr>
+									</table>
+								</p:outputPanel>
+							</p:panel></td>
+					</tr>
+					<tr>
+						<td width="3%"></td>
+						<td><p:panel
+								header="#{bundle['page.user.labelDataAplication']}">
+								<table width="90%" border="0" cellpadding="3" cellspacing="0">
+									<tr>
+										<td />
+										<td>Nombre de usuario</td>
+										<td><p:inputText id="userLogin" maxlength="45" size="25"
+												value="#{userBean.userLogin}">
+												<p:ajax event="blur" global="false"
+													update=":formAddUser:loginPanel formAddUser:panelButton"
+													partialSubmit="true"
+													listener="#{userBean.validateUserLogin}" />
+											</p:inputText>
+										</td>
+										<td />
+										<td colspan="2"><p:outputPanel id="loginPanel">
+												<h:outputText
+													value=" #{bundle['page.user.userLoginExists']}"
+													rendered="#{userBean.loginUserExist}" style="color: red;" />
+											</p:outputPanel>
+										</td>
+									</tr>
+									<tr>
+										<td width="6%"></td>
+										<td width="18%" align="left">
+											#{bundle['page.user.labelGroup']}</td>
+										<td width="19%" align="left"><p:selectCheckboxMenu
+												label="Grupo" filter="true" filterMatchMode="startsWith"
+												id="roleF" effect="fade"
+												value="#{userBean.selectedZyosGroup}" style="width:95%">
+												<f:selectItems value="#{userBean.zyosGroupList}" var="gro" itemValue="#{gro.id}" itemLabel="#{gro.name}"/>
+											</p:selectCheckboxMenu>
+											<div id="rDiv" class="LV_invalid" />
+										</td>
+										<td width="6%"></td>
+										<!--   <td width="18%" align="left">
+											Carrera</td>
+										<td width="19%" align="left"><p:selectOneMenu
+												filter="true" filterMatchMode="startsWith" id="post"
+												style="width:95%" effect="fade"
+												value="#{userBean.selectedZyosUser.idProfession}">
+												<f:selectItem itemLabel="#{bundle['page.core.selectOne']}" itemValue="0" />
+												<f:selectItems value="#{userBean.professionList}" var="pro" itemValue="#{pro.id}" itemLabel="#{pro.name}" />
+											</p:selectOneMenu>
+											<div id="postDiv" class="LV_invalid" />
+										</td> -->
+										<td width="6%"></td>
+									</tr>
+									<tr>
+										<td/>
+										<td>
+											* Tipo de autenticación
+										</td>
+										<td>
+											<p:selectOneMenu id="authMode"
+												style="width:95%" effect="fade"
+												value="#{userBean.selectedZyosUser.zyosLogin.authMode}">
+												<f:selectItem itemLabel="#{bundle['page.core.selectOne']}" itemValue="0" />
+												<f:selectItem itemLabel="LDAP" itemValue="ldap" />
+												<f:selectItem itemLabel="Aplicación" itemValue="application" />
+											</p:selectOneMenu>
+											<div id="authModeDiv" class="LV_invalid" />
+										</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td>#{bundle['page.user.labelPassword']}</td>
+										<td><p:password id="password" size="25" feedback="true"
+												requiredMessage="#{bundle['page.password.labelRequieredNewPassword']}"
+												goodLabel="#{bundle['page.password.labelGoodPassword']}"
+												minLength="6" maxlength="45"
+												promptLabel="#{bundle['page.password.labelEntryPassword']}"
+												weakLabel="#{bundle['page.password.labelWeakPassword']}"
+												strongLabel="#{bundle['page.password.labelStrongPassword']}"
+												value="#{userBean.selectedZyosUser.zyosLogin.password}"
+												inline="true" /> <p:message for="password" display="text" />
+										</td>
+										<td></td>
+										<td>#{bundle['page.user.labelSecondPassword']}</td>
+										<td><p:password id="rePassword" size="25"
+												requiredMessage="#{bundle['page.password.labelRequieredReNewPassword']}"
+												minLength="6" feedback="false" maxlength="45"
+												value="#{userBean.selectedZyosUser.zyosLogin.passwordMD5}" />
+											<p:message for="rePassword" display="text" /></td>
+										<td></td>
+									</tr>
+								</table>
+							</p:panel></td>
+					</tr>
+					<tr>
+						<td width="3%"></td>
+						<td>
+							<div align="center">
+								<p>
+									<p:outputPanel id="panelButton">
+										<p:commandButton id="addButtonU" type="button"
+											styleClass="ui-priority-primary"
+											onclick="validateAddUser('addButtonU');" partialSubmit="true"
+											disabled="#{userBean.documentUserExist}"
+											action="#{userBean.saveUser}" widgetVar="userButton"
+											rendered="#{userBean.showAddUser}"
+											value="#{bundle['page.user.labelButtonCreateUser']}" />
+										<p:commandButton id="editButtonU" widgetVar="userButton"
+											styleClass="ui-priority-primary"
+											onclick="validateAddUser('editButtonU');"
+											partialSubmit="true" disabled="#{userBean.documentUserExist}"
+											action="#{userBean.editUser}" type="button"
+											rendered="#{userBean.showEditUser}"
+											value="#{bundle['page.user.labelEditUserButton']}" />
+											
+										<p:spacer width="10" />
+										
+										<p:commandButton action="#{userBean.goBack}"
+											value="#{bundle['page.user.labelButtonComeBack']}"
+											partialSubmit="true" style="width:60px" />
+											
+									</p:outputPanel>
+								</p>
+							</div></td>
+					</tr>
+				</table>
+				<p:dialog id="reactivateUserPopup"
+					header="#{bundle['page.user.labelPopupDel']}" modal="true"
+					resizable="false" draggable="false" showEffect="drop"
+					hideEffect="fade" widgetVar="reactivateUserPopup" width="350"
+					height="80">
+					<p:outputPanel style="text-align:center;" layout="block">
+						<table width="100%" border="0" align="left">
+							<tr>
+								<td align="left">
+									#{bundle['page.user.labelPopupReactivateSure']} <br />
+									#{userBean.selectedZyosUser.name}
+									#{userBean.selectedZyosUser.lastName}"?</td>
+							</tr>
+							<tr>
+								<td align="center">
+									<p></p> <p:commandButton
+										value="#{bundle['page.core.labelAcept']}"
+										styleClass="ui-priority-primary"
+										oncomplete="reactivateUserPopup.hide();"
+										actionListener="#{userBean.reactivateUser}" /> <p:commandButton
+										oncomplete="reactivateUserPopup.hide();"
+										value="#{bundle['page.core.labelCancel']}" /></td>
+							</tr>
+						</table>
+					</p:outputPanel>
+				</p:dialog>
+				<script>
+					function handleReactivatePopup(xhr, status, args) {
+						if (args != null) {
+							var reactivateUser = args.reactivateUser;
+							if (reactivateUser)
+								reactivateUserPopup.show();
+						}
+					}
+				</script>
+			</p:panel>
+		</h:form>
+</f:view>

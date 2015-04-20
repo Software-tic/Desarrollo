@@ -1,0 +1,22 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<p:outputPanel rendered="#{!zyosGroupBean.getValidateUserRole(1,14)}">
+		<p:outputPanel id="listCa" rendered="#{zyosGroupBean.showList}">
+			<ui:include src="/WEB-INF/includes/zyosgroup/zyosgroupList.xhtml" />
+		</p:outputPanel>
+		<p:outputPanel id="addCa" rendered="#{zyosGroupBean.showAdd or zyosGroupBean.showEdit}">
+			<ui:include src="/WEB-INF/includes/zyosgroup/addZyosGroup.xhtml" />
+		</p:outputPanel>
+		<p:outputPanel id="detailCa" rendered="#{zyosGroupBean.showDetail}">
+			<ui:include src="/WEB-INF/includes/zyosgroup/detailZyosGroup.xhtml" />
+		</p:outputPanel>
+	</p:outputPanel>
+	<p:outputPanel rendered="#{zyosGroupBean.getValidateUserRole(1,14)}">
+	<br/>
+		<ui:include src="/WEB-INF/includes/content/denied.xhtml" />
+	</p:outputPanel>
+
+</ui:composition>

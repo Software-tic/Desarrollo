@@ -1,0 +1,193 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+	<h:form id="riskFactorForm">
+		<p:outputPanel rendered="#{!riskFactorBean.getValidateUserRole(1,5)}">
+
+			<p:spacer height="30">
+			</p:spacer>
+			<p:panel header="#{bundle['page.riskFactor.riskfactors']}">
+				<table width="100%" border="0" cellpadding="5" cellspacing="2">
+					<tr>
+						<td width="5%" />
+						<td width="20%" />
+						<td width="70%" />
+						<td width="5%" />
+					</tr>
+					<tr>
+						<td></td>
+						<td colspan="4" align="center" style="background-color: #F2ECEC;" height="30"><strong>#{bundle['page.riskFactor.labelAdd']}</strong></td>
+						<td />
+					</tr>
+					<tr>
+						<td />
+						<td colspan="3">
+							<p />#{bundle['page.sp.fieldObligatory']}
+							<p />
+						</td>
+						<td />
+					</tr>
+					<tr>
+						<td />
+						<td>*Categoría<p:spacer width="20" />
+						</td>
+						<td><p:selectOneMenu style="width: 98%" id="riskFactorCategorySelect" value="#{riskFactorBean.riskFactor.idRiskFactorCategory}">
+								<f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+								<f:selectItems value="#{riskFactorBean.getRiskFactorListCategory()}" var="r" itemLabel="#{r.name}" itemValue="#{r.id}" />
+							</p:selectOneMenu>
+							<div id="selectCategory" class="LV_invalid" /></td>
+					</tr>
+					<tr>
+						<td />
+						<td>*#{bundle['page.riskFactor.riskFactor']}: <p:spacer width="20" />
+						</td>
+						<td><p:inputText value="#{riskFactorBean.riskFactor.name}" id="nameRiskFactor" style="width:98%" maxlength="120" /></td>
+						<td />
+					</tr>
+					<tr>
+						<td />
+						<td>*#{bundle['page.riskFactor.labelDescription']}:</td>
+						<td><p:inputTextarea id="descriptionRiskFactor" style="width:98%" rows="2" value="#{riskFactorBean.riskFactor.description}" maxlength="256"
+								autoResize="false" /></td>
+
+						<td />
+					</tr>
+					<tr>
+						<td colspan="2" />
+					</tr>
+					<td colspan="2" />
+					<td>
+						<p:commandButton id="buttonAddRiskFactor" disabled="#{riskFactorBean.getValidateUserRole(2,5)}"
+							value="#{bundle['page.riskFactor.labelButtonAdd']}" action="#{riskFactorBean.saveRiskFactor}" partialSubmit="true" global="false"
+							update=":riskFactorForm" onclick="statusDialog.show()" oncomplete="statusDialog.hide()" styleClass="ui-priority-primary" />
+					</td>
+
+					<tr>
+						<td />
+						<td colspan="3" align="center"><br /> <p:dataTable id="tableRiskFactor" value="#{riskFactorBean.getRiskFactorList()}" editable="true"
+								paginatorAlwaysVisible="false" resizableColumns="false"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="20,40,60" paginator="true" rows="20" filterDelay="600" emptyMessage="#{bundle['page.core.tableNoFoundRecord']}"
+								var="risk" style="width:100%;" widgetVar="parameterTable">
+
+								<p:ajax event="rowEdit" partialSubmit="true" global="false" listener="#{riskFactorBean.handleEditParameter}" />
+								<p:ajax event="rowEditCancel" partialSubmit="true" listener="#{riskFactorBean.handleCancelParameter}" />
+
+								<f:facet name="header">
+									#{bundle['page.riskFactor.labelRiskFactorList']}
+								
+								</f:facet>
+
+								<p:column headerText="#{bundle['page.riskFactor.labelName']}" sortBy="#{risk.name}" filterBy="#{risk.name}" filterStyle="width:70%">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{risk.name}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{risk.name}" style="width:100%" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+								<p:column headerText="#{bundle['page.riskFactor.labelDescription']}" sortBy="#{risk.description}" filterBy="#{risk.description}" filterStyle="width:70%">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{risk.description}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{risk.description}" style="width:70%" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+
+								<p:column headerText="Categoría" sortBy="#{risk.nameRiskFactorCategory}" filterBy="#{risk.nameRiskFactorCategory}" filterStyle="width:70%">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{risk.nameRiskFactorCategory}" />
+										</f:facet>
+										<f:facet name="input">
+											<h:selectOneMenu value="#{risk.idRiskFactorCategory}" style="width:100%">
+												<f:selectItems value="#{riskFactorBean.getRiskFactorListCategory()}" var="r" itemLabel="#{r.name}" itemValue="#{r.id}" />
+											</h:selectOneMenu>
+										</f:facet>
+									</p:cellEditor>
+
+								</p:column>
+								<p:column style="width:20px" rendered="#{!riskFactorBean.getValidateUserRole(3,5)}">
+
+									<p:rowEditor />
+								</p:column>
+
+
+								<p:column width="5%">
+									<p:commandLink id="deleteRiskFactor" title="Eliminar Factor" partialSubmit="true" disabled="#{riskFactorBean.getValidateUserRole(5,5)}"
+										action="#{riskFactorBean.goDeleteRiskFactor}">
+										<p:graphicImage value="../css/images/delete.gif" style="width:20px;height:20px;" />
+										<f:setPropertyActionListener target="#{riskFactorBean.riskFactorSelected}" value="#{risk}" />
+									</p:commandLink>
+								</p:column>
+								<f:facet name="footer">
+									<p:outputPanel>
+										#{fn:length(riskFactorBean.getRiskFactorList())} Factor(es) de riesgo habilitado(s)
+									</p:outputPanel>
+								</f:facet>
+							</p:dataTable> <br /></td>
+						<td />
+					</tr>
+
+					<tr>
+						<td />
+						<td align="center" colspan="3"><p:commandButton value="#{bundle['page.core.labelGoBack']}" onclick="history.back()" /></td>
+						<td />
+					</tr>
+
+				</table>
+
+			</p:panel>
+
+			<p:dialog id="delParameterPopup" header="#{bundle['page.riskFactor.deleteFactor']}" modal="true" resizable="false" draggable="true"
+				showEffect="drop" hideEffect="fade" widgetVar="delParameterPopupWV" width="350">
+				<p:outputPanel style="text-align:center;" layout="block">
+
+					<table style="width: 100%" border="0" cellspacing="5" cellpading="5">
+						<tr>
+							<td align="left"><h:outputText value="#{bundle['page.riskFactor.textDeleteRiskFactor']} #{riskFactorBean.parameterSelectedName}" /> <br />
+								<br /> <h:outputText value="¿#{bundle['page.riskFactor.areSure']}?" /></td>
+						</tr>
+						<tr>
+							<td align="center">
+								<p /> <p:commandButton value="#{bundle['page.core.labelAcept']}" actionListener="#{riskFactorBean.deleteRiskFactor}"
+									oncomplete="delParameterPopupWV.hide();" update=":riskFactorForm:tableRiskFactor" styleClass="ui-priority-primary" /> <p:spacer width="10" />
+								<p:commandButton value="#{bundle['page.login.labelButtonCancel']}" oncomplete="delParameterPopupWV.hide();" />
+
+							</td>
+						</tr>
+					</table>
+				</p:outputPanel>
+			</p:dialog>
+
+
+			<p:dialog id="delParameterPopup2" dynamic="true" header="#{bundle['page.riskFactor.deleteFactor']}" modal="true" resizable="false" draggable="true"
+				showEffect="drop" hideEffect="fade" widgetVar="delParameterPopupWV2" width="350">
+				<p:outputPanel autoupdate="true" style="text-align:center;" layout="block">
+
+					<table style="width: 100%" border="0" cellspacing="5" cellpading="5">
+						<tr>
+							<td align="left"><h:outputText value="#{bundle['page.riskFactor.textCantDel']} " /> <br /> <br /> <h:outputText
+									value="#{riskFactorBean.parameterSelectedName}" /></td>
+						</tr>
+						<tr>
+							<td align="center">
+								<p /> <p:commandButton value="#{bundle['page.core.labelAcept']}" oncomplete="delParameterPopupWV2.hide();"
+									update=":riskFactorForm:tableRiskFactor" styleClass="ui-priority-primary" /> <p:spacer width="10" />
+							</td>
+						</tr>
+					</table>
+				</p:outputPanel>
+			</p:dialog>
+
+		</p:outputPanel>
+		<p:outputPanel rendered="#{riskFactorBean.getValidateUserRole(1,5)}">
+			<br />
+			<ui:include src="/WEB-INF/includes/content/denied.xhtml" />
+		</p:outputPanel>
+	</h:form>
+</f:view>

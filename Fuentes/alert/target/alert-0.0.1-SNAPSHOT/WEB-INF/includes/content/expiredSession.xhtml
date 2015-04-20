@@ -1,0 +1,31 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<h:form id="expiredSessionPopup">
+		<p:dialog header="#{bundle['page.core.expiredSession']}"
+			resizable="false" draggable="false" showEffect="drop"
+			hideEffect="fade" widgetVar="esPopup" width="250" height="250"
+			modal="true">
+			<p:outputPanel id="lhnseDetail" style="text-align:center;"
+				layout="block">
+				<table width="100%" border="0" align="left">
+					<tr>
+						<th colspan="3" class="hDatTblColHdr1" align="left">
+							#{bundle['page.core.labelExpireSession']}"
+						</th>
+					</tr>
+					<tr>
+						<td align="center" colspan="3">
+							<p></p>
+							<p:commandButton value="#{bundle['page.core.labelAcept']}" 
+								oncomplete="esPopup.hide();window.location.reload();" />
+
+						</td>
+					</tr>
+				</table>
+			</p:outputPanel>
+		</p:dialog>
+	</h:form>
+</f:view>

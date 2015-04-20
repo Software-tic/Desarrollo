@@ -1,0 +1,24 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<p:ajaxStatus onsuccess="statusDialog.hide();"
+		oncomplete="statusDialog.hide();">
+		<f:facet name="error">
+			<p:graphicImage value="../css/images/connect_caution.gif" />
+		</f:facet>
+		<f:facet name="success">
+			<p:graphicImage value="../css/images/connect_idle.gif" />
+		</f:facet>
+		<f:facet name="default">
+			<p:graphicImage value="../css/images/connect_idle.gif" />
+		</f:facet>
+		<f:facet name="start">
+			<p:graphicImage value="../css/images/connect_active.gif" />
+		</f:facet>
+		<f:facet name="complete">
+			<p:graphicImage value="../css/images/connect_idle.gif" />
+		</f:facet>
+	</p:ajaxStatus>
+</f:view>

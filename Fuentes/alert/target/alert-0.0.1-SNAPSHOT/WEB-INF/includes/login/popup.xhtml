@@ -1,0 +1,156 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<h:form id="formLoginPopup">
+		<p:dialog header="#{bundle['page.login.labelPopupLicense']}" 
+			resizable="false" draggable="false" showEffect="drop" 
+			hideEffect="fade" widgetVar="dpl" width="650" height="350"
+			modal="true">
+			<p:outputPanel id="lhnseDetail" style="text-align:center;" 
+				layout="block">
+				<table width="100%" border="0" align="left">
+					<tr>
+						<th colspan="3" class="hDatTblColHdr1" align="left">
+							#{bundle['page.login.labelTitlePopup']}"
+						</th>
+					</tr>
+					<tr>
+						<td width="3%">
+						</td>
+						<td width="95%" align="left">
+							#{bundle['page.login.labelReadLicense']}
+						</td>
+						<td width="2%">
+						</td>
+					</tr>
+					<tr>
+						<td>
+						</td>
+						<td align="left">
+							#{bundle['page.login.labeInstructionRead']}
+						</td>
+						<td>
+						</td>
+					</tr>
+					<tr>
+						<td>
+						</td>
+						<td>
+							<textarea  style="width: 100%; align: justify;" rows="10">#{bundle['page.login.textLicense']}</textarea>
+						</td>
+						<td>
+						</td>
+					</tr>
+					<tr>
+						<td>
+						</td>
+						<td align="left">
+							#{bundle['page.login.labelAceptLicense']}
+						</td>
+						<td>
+						</td>
+					</tr>
+					<tr>
+						<td align="center" colspan="3">
+							<p></p>
+							<p:commandButton value="#{bundle['page.core.labelAcept']}"
+								oncomplete="dpl.hide();" partialSubmit="true"
+								action="#{loginBean.continueLoginAceptLicense}" />
+							<p:commandButton action="#{loginBean.cancelLoginAceptLicense}"
+								oncomplete="dpl.hide();"
+								value="#{bundle['page.core.labelCancel']}" />
+						</td>
+					</tr>
+				</table>
+			</p:outputPanel>
+		</p:dialog>
+		<p:dialog header="#{bundle['page.login.labelPopup']}"
+			draggable="false" resizable="false" showEffect="drop"
+			hideEffect="fade" widgetVar="dsl" width="850" modal="true">
+			<p:outputPanel id="sessionDetail" style="text-align:center;"
+				layout="block">
+				<table width="100%" border="0">
+					<tr>
+						<td scope="col" colspan="3">
+							<div align="center">
+								<h:outputText
+									value="#{bundle['page.login.labelInstructionSession']}" />
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th scope="col">
+						</th>
+						<th scope="col">
+							<br />
+							<p:dataTable  value="#{loginBean.listUserSession}"
+								emptyMessage="No hay otras sesiones activas, haga clic en Aceptar"
+								var="listUser" id="userListTable">
+								<p:column id="column1">
+									<div align="center">
+										<h:outputText value="#{listUser.idSession}" />
+									</div>
+									<f:facet name="header">
+										<h:outputText value="#{bundle['page.login.labelIdSession']}" />
+									</f:facet>
+								</p:column>
+								<p:column id="column2">
+									<div align="center">
+										<h:outputText value="#{listUser.dateLogin}" />
+									</div>
+									<f:facet name="header">
+										<h:outputText value="#{bundle['page.login.labelDateLogin']}" />
+									</f:facet>
+								</p:column>
+								<p:column id="column3">
+									<div align="center">
+										<h:outputText value="#{listUser.hourLogin}" />
+									</div>
+									<f:facet name="header">
+										<h:outputText value="#{bundle['page.login.labelHourLogin']}" />
+									</f:facet>
+								</p:column>
+								<p:column id="column4" style="width:15px">
+									<div align="center">
+										<p:commandLink id="buttonAnulateSsession" update=":formLoginPopup:sessionDetail"
+											title="#{bundle['page.login.labelAnulate']}"
+											actionListener="#{loginBean.anulateUserSession}">
+											<p:graphicImage value="../css/images/delete.gif" />
+											<f:setPropertyActionListener
+												target="#{loginBean.selectedUserSession}"
+												value="#{listUser}" />
+										</p:commandLink>
+									</div>
+								</p:column>
+							</p:dataTable>
+						</th>
+						<th scope="col">
+
+						</th>
+					</tr>
+					<tr>
+						<td colspan="4">
+							<p:commandButton action="#{loginBean.continueLogin}"
+								value="#{bundle['page.login.labelAcept']}" />
+						</td>
+					</tr>
+				</table>
+			</p:outputPanel>
+		</p:dialog>
+	</h:form>
+	<script type="text/javascript">
+	function handleLoginRequest(xhr, status, args) {
+		if (args != null) {
+			var showLicense = args.showLicense;
+			var uniqueLogin = args.uniqueLogin;
+			if (showLicense) {
+				dpl.show();
+			} else if (uniqueLogin) {
+				dsl.show();
+			}
+		}
+	}
+</script>
+</f:view>

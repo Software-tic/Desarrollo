@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<f:view   >
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<f:loadBundle basename="com.zyos.core.common.util.resource.messages"
+			var="bundle" />
+		<title>#{bundle['page.core.title']}</title>
+		<link rel="shortcut icon" href="../css/icons/favicon.ico"/>
+		
+		<link rel="stylesheet" type="text/css" href="../css/layout.css" />
+		<script type="text/javascript">
+			var lmPresence = <h:outputText value="#{bundle.labelPresence}"/>; var lmNotNumber = <h:outputText value="#{bundle.labelNotANumberMessage}"/>; var lmNotInteger = <h:outputText value="#{bundle.labelNotAnIntegerMessage}"/>; var lmWrong = <h:outputText value="#{bundle.labelWrongNumberMessage}"/>; var lmLowm = <h:outputText value="#{bundle.labelTooLowMessage}"/>; var lmHighm = <h:outputText value="#{bundle.labelTooHighMessage}"/>; var lmNotm = <h:outputText value="#{bundle.labelNotValid}"/>; var lmNotMail = <h:outputText value="#{bundle.labelNotValidMail}"/>; var lmC = <h:outputText value="#{bundle.labelCharacter}"/>; var lmShort = <h:outputText value="#{bundle.labelTooShortMessage}"/>; var lmLong = <h:outputText value="#{bundle.labelLongMessage}"/>; var lmIC = <h:outputText value="#{bundle.labelInvalidCharacter}"/>; var lmNotList = <h:outputText value="#{bundle.labelNotList}"/>;var lmNotMatch = <h:outputText value="#{bundle.labelDontMatch}"/>; var lmNotAcept = <h:outputText value="#{bundle.labelNotAcept}"/>;var lmMustSelectOne= <h:outputText value="#{bundle.labelMustSelectOne}"/>; 
+		</script>
+		<script type="text/javascript">
+			//             
+				 PrimeFaces.locales['es'] = {closeText : 'Hecho', prevText : 'Anterior', nextText : 'Siguiente', currentText : 'Hoy', monthNames : [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ], monthNamesShort : [ 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ], dayNames : [ 'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado' ], dayNamesShort : [ 'Do', 'Lu', 'Ma', 'mi', 'Ju', 'Vi', 'Sa'  ], dayNamesMin : [ 'Do', 'Lu', 'Ma', 'mi', 'Ju', 'Vi', 'Sa' ], weekHeader : 'Semana', firstDay : 1, isRTL : false, showMonthAfterYear : false, yearSuffix : '', month: 'Mes', week: 'Semana', day: 'Día', allDayText : 'Todo el día' , timeFormat:"hh:mm tt",timeSuffix:"",timeOnlyTitle:"Seleccione la hora",timeText:"Tiempo",hourText:"Hora",minuteText:"Minuto",secondText:"Segundo",timezoneText:"Time Zone" };
+			//
+		</script>
+		<script src="../js/livevalidation.js" type="text/javascript"/>
+		<script src="../js/zyosFunction.js" type="text/javascript"/>
+		<ui:insert name="customHead"></ui:insert>
+	</h:head>
+	<h:body>
+		<p:outputPanel rendered="#{loginBean.getValidateExpiredSession()}">
+			<ui:include src="/WEB-INF/includes/content/analytics.xhtml" />
+			<p:growl escape="false" id="generalGrowl" showDetail="true" sticky="false"
+				autoUpdate="true" globalOnly="true" />
+			<p:dialog modal="true" widgetVar="statusDialog"
+				header="Procesando..." resizable="false" draggable="false"
+				closable="false">
+				<p:graphicImage value="../css/images/ajaxLoadingBar.gif" />
+			</p:dialog>
+			<ui:include src="/WEB-INF/includes/content/headerIn.xhtml" />
+			<div id="wrapperContent">
+				<div id="content" align="left">
+					<div id="contentInside" align="left">
+						<p:outputPanel id="panelStack">
+							<ui:insert name="main">...</ui:insert>
+						</p:outputPanel>
+					</div>
+					<p align="center">
+						<p:commandButton value="#{bundle['page.core.labelGoHome']}"
+							icon="ui-icon-home" type="button"
+							onclick="window.open('/alert/portal/inicio', '_self')" />
+					</p>
+				</div>
+			</div>
+			<ui:include src="/WEB-INF/includes/content/footer.xhtml"></ui:include>
+		</p:outputPanel>
+		<ui:include src="/WEB-INF/includes/content/expiredSession.xhtml"></ui:include>
+	</h:body>
+</f:view>
+</html>

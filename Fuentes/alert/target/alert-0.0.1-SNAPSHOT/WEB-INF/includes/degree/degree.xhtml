@@ -1,0 +1,199 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<p:outputPanel>
+		
+		<h:form id="degreeForm">
+			
+			<p:panel header="#{bundle['page.degree.labelDegree']}">
+				<table style="width: 100%">
+				
+				<tr>
+				<td/>			
+				
+				<tr>
+				<td></td>
+				<td colspan="4" align="center" style="background-color: #F2ECEC;"
+					height="30"><b>Listado de Carreras</b></td>
+				<td />
+				</tr>
+				
+				 </tr>
+				 <tr> <td></td></tr>
+					<tr>
+					
+						<td/>						
+						<td colspan="3" align="left">
+							 
+							<p:remoteCommand name="loadDefaultParameter" update="@form" action="#{aParameterBean.handleSelectParameter}">  
+						        <f:setPropertyActionListener value="#{2}" target="#{aParameterBean.idZyosParameter}" />  
+						    </p:remoteCommand>  
+						</td>
+						<td/>
+					</tr>
+					<tr>
+						<td width="5%"/>
+						<td width="50%" align="left">
+							
+							<p:spacer width="20"/>
+							<!--  <p:inputText  value="#{aParameterBean.name}" id="nameParameter" style="width:65%" />  -->
+						</td>
+						<td width="40%" align="left">
+						<p:commandButton id="buttonAddParamete" rendered="false" value="#{bundle['page.riskFactor.labelButtonAdd']}"
+								action="#{aParameterBean.goAddParameter}"								
+										
+								partialSubmit="true" global="false" update=":degreeForm" 								
+								styleClass="ui-priority-primary"/>
+							
+						</td>
+						<td width="15%" align="center">
+							
+						</td>
+						<td width="5%" />
+					</tr>
+					<tr>
+						<td/>
+						<td colspan="3" align="center">
+							<br/>							
+							<p:dataTable  id="tableDegree"
+								value="#{aParameterBean.aparameterModel}" 
+								editable="false" 
+								paginatorAlwaysVisible="false" resizableColumns="false"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="20,40,60" paginator="true" rows="20"
+								filterDelay="600"
+								selection="#{aParameterBean.selectedParameterList}"
+								emptyMessage="#{bundle['page.core.tableNoFoundRecord']}"
+								var="parameter" style="width:100%;" widgetVar="parameterTable">
+		
+							<!-- 	<p:ajax event="rowEdit" partialSubmit="true" global="false" listener="#{aParameterBean.handleEditParameter}" />
+								<p:ajax event="rowEditCancel" partialSubmit="true" listener="#{aParameterBean.handleCancelParameter}" />  -->
+		
+								<f:facet name="header"> 
+									#{bundle['page.degree.labelDegreeList']}								
+								</f:facet>
+		
+							<!-- 	<p:column selectionMode="multiple" width="18" /> -->
+		
+								<p:column  headerText="#{bundle['page.riskFactor.labelName']}"
+									sortBy="#{parameter.name}" filterBy="#{parameter.name}"
+									 style="text-align:left">
+									 
+									<h:outputText value="#{parameter.name}" >   </h:outputText>
+										
+								</p:column>
+								
+										  	<p:column style="width:20px" rendered="false">
+									<f:facet name="header">
+										<div align="center">
+											<p:commandLink action="#{aParameterBean.goDeleteParameter}"
+												title="Eliminar Carrera" update=":degreeForm:delParameterPopup">
+												<p:graphicImage value="../css/images/delete.gif" style="width:20px;height:20px;" />
+											</p:commandLink>
+										</div>
+									</f:facet>					
+										<p:rowEditor />		
+								</p:column>			 
+					
+		
+								<f:facet name="footer">
+									<p:outputPanel
+										>
+										#{fn:length(aParameterBean.parameterList)} Carrera(s) habilitada(s)
+									</p:outputPanel>
+							</f:facet>
+							</p:dataTable>
+							<br/>
+						</td>
+						<td/>
+					</tr>
+					
+					<tr>
+						<td/>
+						<td align="center" colspan="3">
+							<p:commandButton value="#{bundle['page.core.labelGoBack']}" onclick="history.back()" />
+						</td>
+						<td/>					
+					</tr>
+					
+				</table>
+				
+			</p:panel>
+			
+			<p:dialog id="delParameterPopup"
+				header="#{bundle['page.degree.deleteDegree']}" modal="true"
+				resizable="false" draggable="true" showEffect="drop"
+				hideEffect="fade" widgetVar="delParameterPopupWV" width="350">
+				<p:outputPanel style="text-align:center;" layout="block">
+					
+					<table style="width: 100%" border="0" cellspacing="5" cellpading="5" >
+						<tr>
+							<td align="left">
+								<h:outputText value="#{bundle['page.degree.textDelete']}: #{aParameterBean.parameterSelectedNameList}" /> 
+								<br/><br/>
+								<h:outputText value="¿#{bundle['page.degree.areSure']}?" />
+							</td>
+						</tr>
+						<tr>
+							<td align="center">
+								<p/>
+								<p:commandButton value="#{bundle['page.core.labelAcept']}"
+									actionListener="#{aParameterBean.delParameter}"
+									oncomplete="delParameterPopupWV.hide();"
+									update=":degreeForm:tableDegree"
+									styleClass="ui-priority-primary" />
+								
+								<p:spacer width="10"/>
+								
+								<p:commandButton value="#{bundle['page.login.labelButtonCancel']}" oncomplete="delParameterPopupWV.hide();"/>
+								
+							</td>
+						</tr>
+					</table>
+				</p:outputPanel>
+			</p:dialog>
+			
+			
+			<p:dialog id="delParameterPopup3"
+				header="#{bundle['page.degree.deleteDegree']}" modal="true"
+				resizable="false" draggable="true" showEffect="drop"
+				hideEffect="fade" widgetVar="delParameterPopupWV3" width="350">
+				<p:outputPanel style="text-align:center;" layout="block">
+					
+					<table style="width: 100%" border="0" cellspacing="5" cellpading="5" >
+						<tr>
+							<td align="left">
+								<h:outputText value="#{bundle['page.degree.textCantDelete']}" />
+								<br/><br/>
+								<h:outputText value=" #{aParameterBean.parameterDegreeNameList}" />
+								<br/>
+								
+							</td>
+						</tr>
+						<tr>
+							<td align="center">
+								<p/>
+								<p:commandButton value="#{bundle['page.core.labelAcept']}"									
+									oncomplete="delParameterPopupWV3.hide();"
+									update=":degreeForm:tableDegree"
+									styleClass="ui-priority-primary" />
+								
+								<p:spacer width="10"/>								
+								
+							</td>
+						</tr>
+					</table>
+				</p:outputPanel>
+			</p:dialog>
+		</h:form>
+		
+		<script type="text/javascript">
+			window.onload=function(){
+				loadDefaultParameter();
+			};
+		</script>
+		
+	</p:outputPanel>
+</f:view>

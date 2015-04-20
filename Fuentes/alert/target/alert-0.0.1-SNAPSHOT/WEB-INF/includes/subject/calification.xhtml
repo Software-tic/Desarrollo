@@ -1,0 +1,231 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions" xmlns:p="http://primefaces.org/ui">
+
+	<h:inputHidden id="deshabilityEnter">
+	</h:inputHidden>
+	<p:defaultCommand target="deshabilityEnter"></p:defaultCommand>
+
+	<p:panel id="calificationMainPanel"
+		header="#{subjectBean.calificationBean.subjectSelected.name} - #{subjectBean.calificationBean.subjectSelected.groupName}" style="text-align:center;">
+		<table width="100%">
+			<tr>
+				<td width="6%" />
+				<td width="18%" />
+				<td width="19%" />
+				<td width="18%" />
+				<td width="6%" />
+				<td width="19%" />
+				<td width="6%" />
+			</tr>
+
+			<tr>
+				<td colspan="7" align="center" style="background-color: #F2ECEC;" height="30"><b> #{bundle['page.calification.labelEvaluation']} </b></td>
+
+			</tr>
+	
+
+			<tr>
+
+				<td colspan="7"><p:dataTable id="dataTableEvaluation" value="#{subjectBean.calificationBean.evaluationList}" var="evaluation"
+						style="width: 100%" emptyMessage="#{bundle['page.core.labelNoResults']}">
+
+						<p:column width="48%" headerText="#{bundle['page.calification.labelNameEvaluation']} ">
+						#{evaluation.name}  </p:column>
+
+						<p:column width="42%" headerText="#{bundle['page.calification.labelPercentage']}">
+							<h:outputText value=" #{evaluation.percentage}%">
+
+							</h:outputText>
+						</p:column>
+						<p:column width="6%">
+							<p:commandLink id="updateEvaluationItem" title="Agregar Notas al Corte" action="#{subjectBean.goCalificationItem(evaluation)}"
+								partialSubmit="true" onclick="statusDialog.show()">
+								<p:graphicImage cache="false" height="35" width="35" value="../css/icons/updateEvaluationItem.png" />
+							</p:commandLink>
+						</p:column>
+						<p:column width="6%">
+							<p:commandLink id="editEvaluationItem" title="Editar Corte" action="#{subjectBean.calificationBean.editEvaluationItem(evaluation)}"
+								partialSubmit="true">
+								<p:graphicImage cache="false" height="35" width="35" value="../css/icons/editEvaluationItem.png" />
+							</p:commandLink>
+						</p:column>
+						<p:column width="6%">
+							<p:commandLink id="deleteEvaluationItem" title="Eliminar Corte" partialSubmit="true" onclick="delEvaluationItem.show()">
+								<p:graphicImage cache="false" height="35" width="35" value="../css/icons/deleteEvaluationItem.png" />
+								<f:setPropertyActionListener target="#{subjectBean.calificationBean.evaluationToDelete}" value="#{evaluation}" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable></td>
+			</tr>
+			<tr>
+				<td align="center" colspan="7"><p:commandButton action="#{subjectBean.calificationBean.addEvaluationItem}" styleClass="ui-priority-primary"
+						value="#{bundle['page.subject.subjectDetail.calification.labelAddEvaluationItem']}" /> <p:spacer width="20" height="20" /> <p:commandButton
+						action="#{subjectBean.goBackSubjectMain}" update="subjectMain subjectDetail" value="#{bundle['page.core.goBack']}" /></td>
+			</tr>
+		</table>
+	</p:panel>
+
+	<p:dialog id="dialogAddEvaluationItem" widgetVar="dialogAddEvaluationItem" showHeader="false" resizable="false" draggable="false" showEffect="drop"
+		hideEffect="fade" modal="true" width="500" dynamic="true">
+
+
+		<p:panel id="addEvaluationItemPanel" header="#{bundle['page.calification.detailEvaluation']}" style="text-align:left;">
+
+			<table id="tableDetail" width="100%" border="0" cellpadding="5" cellspacing="5">
+				<tr>
+					<td width="20%" />
+					<td width="20%" />
+					<td width="58%" />
+					<td width="2%" />
+
+				</tr>
+				<tr>
+
+					<td colspan="3" align="left"><p:outputPanel rendered="#{subjectBean.calificationBean.fullPercentage eq 0}">
+							<h:outputText value="#{bundle['page.calification.textAsignedPercentage']}">
+							</h:outputText>
+							<h:outputText value=" #{subjectBean.calificationBean.currentPercentage} %">
+							</h:outputText>
+						</p:outputPanel> <p:outputPanel rendered="#{subjectBean.calificationBean.fullPercentage eq 1}">
+							<h:outputText value="#{bundle['page.calification.textAsignedFullPercentage']}">
+							</h:outputText>
+							<tr>
+								<td colspan="5" align="center"><p:commandButton id="closeAddEvaluationItemButtonFull"
+										action="#{subjectBean.calificationBean.cleanDataAddEvaluationItem}" value="#{bundle['page.core.labelAcept']}"
+										styleClass="ui-priority-primary" onclick="dialogAddEvaluationItem.hide()" /></td>
+							</tr>
+
+
+						</p:outputPanel></td>
+
+
+				</tr>
+
+				<p:outputPanel rendered="#{subjectBean.calificationBean.fullPercentage eq 0}">
+					<tr>
+
+						<td colspan="2" align="left"><h:outputText value="#{bundle['page.calification.nameCalification']}:">
+							</h:outputText></td>
+
+						<td colspan="2"><p:inputText id="nameEvaluationItem" value="#{subjectBean.calificationBean.evaluation.name}" style="width: 100%">
+							</p:inputText></td>
+					</tr>
+
+					<tr>
+
+						<td colspan="2" align="left"><h:outputText value="#{bundle['page.calification.percentage']}:">
+							</h:outputText></td>
+
+						<td colspan="2"><pe:inputNumber style="width: 100%" maxValue="100" id="percentageEvaluationItem"
+								value="#{subjectBean.calificationBean.evaluation.percentage}" decimalPlaces="0">
+
+							</pe:inputNumber></td>
+
+
+
+					</tr>
+
+					<tr>
+
+						<td colspan="4" align="center"><p:commandButton id="addEvaluationItemButton" styleClass="ui-priority-primary"
+								action="#{subjectBean.calificationBean.registerEvaluationItem}" type="button" onclick="validateCreateEvaluationItem()"
+								value="#{bundle['page.calification.labelAddEvaluation']}" /> <p:spacer width="20" height="20" /> <p:commandButton
+								id="closeAddEvaluationItemButton" action="#{subjectBean.calificationBean.cleanDataAddEvaluationItem}"
+								value="#{bundle['page.core.labelCancel']}" onclick="dialogAddEvaluationItem.hide()" /></td>
+
+					</tr>
+				</p:outputPanel>
+
+
+			</table>
+		</p:panel>
+	</p:dialog>
+
+	<p:dialog id="dialogEditEvaluationItem" widgetVar="dialogEditEvaluationItem" showHeader="false" resizable="false" draggable="false" showEffect="drop"
+		hideEffect="fade" modal="true" width="500" dynamic="true">
+
+
+		<p:panel id="EditEvaluationItemPanel" header="#{bundle['page.calification.labelEditEvaluation']}" style="text-align:left;">
+
+			<table id="tableEditEvaluation" width="100%" border="0" cellpadding="5" cellspacing="5">
+				<tr>
+					<td width="20%" />
+					<td width="20%" />
+					<td width="58%" />
+					<td width="2%" />
+
+				</tr>
+
+				<tr>
+
+
+					<td colspan="3" align="left"><p:outputPanel style="text-align:left;" layout="block">
+							<h:outputText value="#{bundle['page.calification.textEditEvaluation']}">
+							</h:outputText>
+						</p:outputPanel></td>
+
+				</tr>
+
+				<tr>
+
+					<td colspan="2" align="left"><h:outputText value="#{bundle['page.calification.nameCalification']}:">
+						</h:outputText></td>
+
+					<td colspan="2"><p:inputText id="nameEditEvaluationItem" value="#{subjectBean.calificationBean.evaluationToEdit.name}" style="width: 100%">
+						</p:inputText></td>
+				</tr>
+
+				<tr>
+
+					<td colspan="2" align="left"><h:outputText value="#{bundle['page.calification.percentage']}:">
+						</h:outputText></td>
+
+					<td colspan="2"><pe:inputNumber style="width: 100%" maxValue="100" id="percentageEditEvaluationItem"
+							value="#{subjectBean.calificationBean.evaluationToEdit.percentage}" decimalPlaces="0">
+
+						</pe:inputNumber></td>
+				</tr>
+
+				<tr>
+
+					<td colspan="4" align="center"><p:commandButton id="EditEvaluationItemButton" styleClass="ui-priority-primary"
+							action="#{subjectBean.calificationBean.editEvaluation}" type="button" onclick="validateEditEvaluationItem()"
+							value="#{bundle['page.calification.updateEvaluation']}" /> <p:spacer width="20" height="20" /> <p:commandButton
+							id="closeEditEvaluationItemButton" action="#{subjectBean.calificationBean.cleanDataAddEvaluationItem}"
+							value="#{bundle['page.core.labelCancel']}" onclick="dialogEditEvaluationItem.hide()" /></td>
+				</tr>
+
+			</table>
+		</p:panel>
+
+	</p:dialog>
+
+	<p:dialog id="delEvaluationItem" header="Eliminar Corte" dynamic="true" modal="true" resizable="false" draggable="true" showEffect="drop"
+		hideEffect="fade" widgetVar="delEvaluationItem" width="350">
+
+		<p:outputPanel style="text-align:center;" layout="block">
+			<table width="100%" border="0" align="left">
+				<tr>
+					<td align="left">- #{bundle['page.calification.textDeleteEvaluation']}"</td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td align="center"><p:commandButton value="#{bundle['page.core.labelAcept']}" styleClass="ui-priority-primary"
+							oncomplete="delEvaluationItem.hide()" action="#{subjectBean.calificationBean.deleteEvaluationItem}" /> <p:spacer width="10" height="10"></p:spacer>
+						<p:commandButton partialSubmit="true" oncomplete="delEvaluationItem.hide()" value="#{bundle['page.core.labelCancel']}" /></td>
+				</tr>
+			</table>
+		</p:outputPanel>
+	</p:dialog>
+
+
+
+</f:view>

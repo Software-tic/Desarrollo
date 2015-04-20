@@ -1,0 +1,134 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+
+	<h:form id="formListUser">
+			<p:defaultCommand target="disableEnter"/>
+			<h:inputHidden id="disableEnter"/>
+			<br/>
+			<p:panel id="headerList" header="Administración de Usuarios">
+				<div align="center">
+					<h4>A continuación se presenta un listado de usuarios activos del sistema.</h4>
+					<p:dataTable  id="tableUser" value="#{userBean.zyosUserModel}"
+						filteredValue="#{userBean.filteredUserList}"
+						paginatorAlwaysVisible="false" resizableColumns="false"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="20,40,60" paginator="true" rows="20"
+						selection="#{userBean.selectedZyosUserList}" filterDelay="600"
+						emptyMessage="#{bundle['page.core.tableNoFoundRecord']}"
+						var="zyosUser" style="width:100%" widgetVar="userTable">
+						
+						<f:facet name="header">
+							Usuarios activos
+							<div align="right">
+								<h:outputText value="Buscar:" />
+								<p:inputText id="globalFilter" onkeyup="userTable.filter()" style="width:150px" />
+							</div>
+						</f:facet>
+
+						<p:column selectionMode="multiple" width="20" />
+
+						<p:column headerText="#{bundle['page.user.label_document']}" sortBy="#{zyosUser.documentNumber}" 
+							filterBy="#{zyosUser.documentNumber}" filterMatchMode="contains" filterStyle="display:none" width="70" >
+							<div align="center">
+								#{zyosUser.documentNumber}
+							</div> 
+						</p:column>
+
+						<p:column headerText="#{bundle['page.user.labelUserLogin']}" sortBy="#{zyosUser.zyosLogin.userLogin}" 
+							filterBy="#{zyosUser.zyosLogin.userLogin}" filterMatchMode="contains" filterStyle="display:none" width="110">
+							<div align="center">
+								#{zyosUser.zyosLogin.userLogin}
+							</div> 
+						</p:column>
+
+						<p:column headerText="#{bundle['page.user.label_userName']}" sortBy="#{zyosUser.name}"
+							filterBy="#{zyosUser.name}" filterMatchMode="contains" filterStyle="display:none" width="250">
+							<h:outputText value="#{zyosUser.name} #{zyosUser.lastName}"/>
+						</p:column>
+
+						<p:column headerText="#{bundle['page.user.label_group']}" sortBy="#{zyosUser.zyosGroup}"
+							filterBy="#{zyosUser.zyosGroup}" filterMatchMode="contains" filterStyle="display:none" width="100" >
+							<div align="center">
+								#{zyosUser.zyosGroup}
+							</div>
+						</p:column>
+
+						<p:column headerText="#{bundle['page.user.label_email']}" sortBy="#{zyosUser.email}" 
+							filterBy="#{zyosUser.email}" filterMatchMode="contains" filterStyle="display:none" width="170" >
+							#{zyosUser.email}
+						</p:column>
+
+						<p:column width="20">
+							<div align="center">
+								<p:commandLink title="Detallar" immediate="true" disabled="#{userBean.getValidateUserRole(4,13)}"
+									partialSubmit="true" action="#{userBean.goDetailUser}">
+									<p:graphicImage value="../css/images/detail.gif" height="20" width="20" />
+									<f:setPropertyActionListener target="#{userBean.selectedZyosUser}" value="#{zyosUser}" />
+								</p:commandLink>
+							</div>
+						</p:column>
+
+						<p:column width="20">
+							<f:facet name="header">
+								<div align="center">
+									<p:commandLink title="Eliminar" action="#{userBean.goDeleteUser}" disabled="#{userBean.getValidateUserRole(5,13)}" partialSubmit="true" 
+										update=":formListUser:delUserPopup">
+										<p:graphicImage value="../css/images/delete.gif" height="20" width="20" />
+									</p:commandLink>
+								</div>
+							</f:facet>
+							<div align="center">
+								<p:commandLink title="Editar" action="#{userBean.goEditUser}" disabled="#{userBean.getValidateUserRole(3,13)}" partialSubmit="true">
+									<p:graphicImage value="../css/images/edit.gif" height="20" width="20" />
+									<f:setPropertyActionListener target="#{userBean.selectedZyosUser}" value="#{zyosUser}" />
+								</p:commandLink>
+							</div>
+						</p:column>
+
+						<f:facet name="footer">
+                        	En total hay #{fn:length(userBean.userList)} usuarios.
+               			</f:facet>
+					</p:dataTable>
+					<p align="center">
+						<p:commandButton action="#{userBean.goAddUser}" disabled="#{userBean.getValidateUserRole(2,13)}"
+							styleClass="ui-priority-primary" partialSubmit="true"
+							onclick="statusDialog.show();"
+							value="#{bundle['page.user.labelButtonCreateUser']}" />
+					</p>
+				</div>
+
+				<p:dialog id="delUserPopup"
+					header="#{bundle['page.user.labelPopupDel']}" modal="true"
+					resizable="false" draggable="true" showEffect="drop"
+					hideEffect="fade" widgetVar="delUserPopup" width="350">
+					<p:outputPanel style="text-align:center;" layout="block">
+						<table width="100%" border="0" align="left">
+							<tr>
+								<td align="left">los usuarios seleccionados fueron:
+									#{userBean.userSelectedNameList}
+									#{bundle['page.user.labelPopupDelSureAll']}</td>
+							</tr>
+							<tr>
+								<td align="center">
+									<p></p> <p:commandButton
+										value="#{bundle['page.core.labelAcept']}" partialSubmit="true"
+										styleClass="ui-priority-primary"
+										update=":formListUser:tableUser" process="@form"
+										oncomplete="delUserPopup.hide();"
+										actionListener="#{userBean.deleteUser}" /> <p:commandButton
+										oncomplete="delUserPopup.hide();" partialSubmit="true"
+										value="#{bundle['page.login.labelButtonCancel']}" /></td>
+							</tr>
+						</table>
+					</p:outputPanel>
+				</p:dialog>
+			</p:panel>
+		</h:form>
+	
+</f:view>
+
+

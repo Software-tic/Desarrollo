@@ -1,0 +1,53 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	<h:form id="addZyosGroupForm">
+	<p:spacer height="30"> </p:spacer>
+		<p:panel header="#{bundle['page.zyosgroup.labelAddZyosGroup']}">
+			<table width="100%" border="0" cellpadding="3" cellspacing="3">
+				<tr>
+					<td width="6%" />
+					<td width="18%">#{bundle['page.zyosgroup.labelCode']}</td>
+					<td width="19%"><p:inputText id="code"
+							value="#{zyosGroupBean.code}" style="width: 95%" maxlength="44">
+						</p:inputText> <pe:keyFilter for="code" preventPaste="false"/></td>
+					<td width="6%" />
+				</tr>
+				<tr>
+					<td width="6%" />
+					<td width="18%">#{bundle['page.zyosgroup.labelName']}</td>
+					<td width="19%"><p:inputText id="nameCa"
+							value="#{zyosGroupBean.name}" style="width: 95%" maxlength="50">
+						</p:inputText> <pe:keyFilter for="nameCa" preventPaste="false"/>
+						<p>
+							<h:outputText id="counter" />
+						</p>
+					</td>
+					<td />
+				</tr>
+			</table>
+			<div align="center">
+
+				<p:commandButton id="addButtonC" type="button"
+					styleClass="ui-priority-primary"
+					onclick="validateAddZyosGroup('addButtonC');" partialSubmit="true"
+					action="#{zyosGroupBean.addZyosGroup}"
+					rendered="#{zyosGroupBean.showAdd}"
+					value="#{bundle['page.zyosgroup.labelButtonAddZyosGroup']}" />
+					
+				<p:commandButton id="editButtonC" type="button"
+					styleClass="ui-priority-primary"
+					onclick="validateAddZyosGroup('editButtonC');" partialSubmit="true"
+					action="#{zyosGroupBean.editZyosGroup}" rendered="#{zyosGroupBean.showEdit}"
+					value="#{bundle['page.zyosgroup.labelButtonEditZyosGroup']}" />
+
+				<p:commandButton action="#{zyosGroupBean.goBack}"
+					partialSubmit="true" value="#{bundle['page.core.labelGoBack']}" />
+
+			</div>
+		</p:panel>
+	</h:form>
+</f:view>

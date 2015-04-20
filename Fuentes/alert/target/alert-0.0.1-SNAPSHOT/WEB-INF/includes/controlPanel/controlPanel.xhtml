@@ -1,0 +1,159 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pe="http://primefaces.org/ui/extensions" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
+	<p:outputPanel rendered="#{!controlPanelBean.getValidateUserRole(1,11)}">
+		<h:form id="controlPanelForm">
+			<p:spacer height="30">
+			</p:spacer>
+			<p:panel id="controlPanelPanel" header="#{bundle['page.controlPanel.headerPanel']}">
+
+				<p:panel header="#{bundle['page.controlPanel.headerAssistance']}" id="controlPanelAssistance">
+					<table id="marginHourTable">
+
+						<tr>
+							<td style="width: 6%"></td>
+							<td style="width: 18%"></td>
+							<td style="width: 19%"></td>
+							<td style="width: 6%"></td>
+							<td style="width: 18%"></td>
+							<td style="width: 18%"></td>
+							<td style="width: 6%"></td>
+						</tr>
+
+
+						<tr>
+							<td></td>
+							<td colspan="6"><h:outputText value="#{bundle['page.controlPanel.textGuideAssistance']}">
+								</h:outputText></td>
+						</tr>
+						<tr>
+							<td></td>
+
+						</tr>
+						<tr>
+							<td></td>
+
+						</tr>
+						<tr>
+							<td></td>
+							<td><h:outputText style="font-weight: bold;" value="#{bundle['page.controlPanel.labelNumberDay']}:">
+								</h:outputText></td>
+
+							<td><p:selectOneMenu style="width:100%" value="#{controlPanelBean.controlPanel.marginHour}">
+
+									<f:selectItem itemLabel="2" itemValue="2" />
+									<f:selectItem itemLabel="4" itemValue="4" />
+									<f:selectItem itemLabel="6" itemValue="6" />
+									<f:selectItem itemLabel="8" itemValue="8" />
+									<f:selectItem itemLabel="10" itemValue="10" />
+									<f:selectItem itemLabel="12" itemValue="12" />
+
+								</p:selectOneMenu></td>
+							<td></td>
+							<td><p:commandButton disabled="#{controlPanelBean.getValidateUserRole(2,11)}" action="#{controlPanelBean.registerMarginHour}"
+									partialSubmit="true" value="#{bundle['page.controlPanel.labelButtonUpdate']}" styleClass="ui-priority-primary">
+								</p:commandButton></td>
+						</tr>
+
+					</table>
+
+
+				</p:panel>
+
+				<p:panel header="#{bundle['page.controlPanel.headerTextAssistance']}" id="controlPanelPercentageAssistance">
+					<table id="controlPanelPercentageAssistanceTable">
+
+						<tr>
+							<td style="width: 6%"></td>
+							<td style="width: 18%"></td>
+							<td style="width: 19%"></td>
+							<td style="width: 6%"></td>
+							<td style="width: 18%"></td>
+							<td style="width: 18%"></td>
+							<td style="width: 6%"></td>
+						</tr>
+
+
+						<tr>
+							<td></td>
+							<td colspan="6"><h:outputText value="#{bundle['page.controlPanel.textGuideAssistanceRisk']}">
+								</h:outputText></td>
+						</tr>
+						<tr>
+							<td></td>
+
+						</tr>
+						<tr>
+							<td></td>
+
+						</tr>
+						<tr>
+							<td></td>
+							<td><h:outputText style="font-weight: bold;" value="#{bundle['page.controlPanel.labelAssistancePercentage']}">
+								</h:outputText></td>
+
+							<td><pe:inputNumber value="#{controlPanelBean.controlPanelAssistance.percentageAssistance}" style="width: 100%" maxValue="100"
+									id="percentageAssistanceControlPanel" decimalPlaces="0">
+								</pe:inputNumber></td>
+							<td></td>
+							<td><p:commandButton disabled="#{controlPanelBean.getValidateUserRole(2,11)}" value="#{bundle['page.controlPanel.labelButtonUpdate']}"
+									action="#{controlPanelBean.registerPercentageAssistance}" partialSubmit="true" styleClass="ui-priority-primary">
+								</p:commandButton></td>
+						</tr>
+
+
+					</table>
+
+
+
+
+
+				</p:panel>
+
+				<p:panel header="#{bundle['page.controlPanel.headerBadCalificationRisk']}" id="controlPanelriskFactor">
+					<table id="percentageRiskFactorTable">
+
+						<tr>
+							<td style="width: 6%"></td>
+							<td style="width: 18%"></td>
+							<td style="width: 19%"></td>
+							<td style="width: 6%"></td>
+							<td style="width: 18%"></td>
+							<td style="width: 18%"></td>
+							<td style="width: 6%"></td>
+						</tr>
+
+
+						<tr>
+							<td></td>
+							<td colspan="6"><h:outputText value="#{bundle['page.controlPanel.textGuideBadCalification']}">
+								</h:outputText></td>
+						</tr>
+						<tr>
+							<td></td>
+
+						</tr>
+						<tr>
+							<td></td>
+
+						</tr>
+						<tr>
+							<td></td>
+							<td><h:outputText style="font-weight: bold;" value="#{bundle['page.controlPanel.riskPercentage']}">
+								</h:outputText></td>
+
+							<td><pe:inputNumber value="#{controlPanelBean.controlPanelRisk.percentageRiskFactor}" style="width: 100%" maxValue="100"
+									id="percentageControlPanel" decimalPlaces="0">
+								</pe:inputNumber></td>
+							<td></td>
+							<td><p:commandButton disabled="#{controlPanelBean.getValidateUserRole(2,11)}" value="#{bundle['page.controlPanel.labelButtonUpdate']}"
+									action="#{controlPanelBean.registerPercentageRiskFactor}" partialSubmit="true" styleClass="ui-priority-primary">
+								</p:commandButton></td>
+						</tr>
+					</table>
+				</p:panel>
+			</p:panel>
+		</h:form>
+	</p:outputPanel>
+
+</f:view>

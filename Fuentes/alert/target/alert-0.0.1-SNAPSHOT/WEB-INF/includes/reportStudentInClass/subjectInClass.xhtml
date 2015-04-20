@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<p:outputPanel redered="#{subjectBean.getValidateUserRole() eq true}">
+	<h:form id="subjectForm">
+		<p:outputPanel id="subjectMain">
+			<p:outputPanel rendered="#{subjectBean.showMain}">
+				<ui:include src="/WEB-INF/includes/reportStudentInClass/subjectMainInClass.xhtml"></ui:include>
+			</p:outputPanel>
+		</p:outputPanel>
+		<p:outputPanel id="subjectDetail">
+			<p:outputPanel rendered="#{!subjectBean.showMain}">
+	
+				<p:outputPanel id="subject" style="clear:both;">
+					<p:outputPanel id="assistance"
+						rendered="#{subjectBean.showAssistance}">
+						<ui:include src="/WEB-INF/includes/reportStudentInClass/assistanceInClass.xhtml"></ui:include>
+					</p:outputPanel>
+			<p:outputPanel id="report" rendered="#{subjectBean.showReport}">
+						<ui:include src="/WEB-INF/includes/subject/report.xhtml"></ui:include>
+					</p:outputPanel>			
+				</p:outputPanel>
+			</p:outputPanel>
+		</p:outputPanel>
+	</h:form>
+	</p:outputPanel>
+		<script type="text/javascript">
+		function addReportToolTip(list) {
+			titleList = list.replace("[", "").replace("]", "").split("¥");
+			var i;
+			if (titleList.length > 0) {
+				for (i = 0; titleList.length > i; i++) {
+					var element = $("[for*='subjectForm\\:grid\\:"+i+"']")[0];
+					if(element!=undefined){
+						var title ="";
+						title = titleList[i].trim();
+						
+						if(i>0)
+							title = title.substring(title.indexOf(",") + 1, title.length).trim();
+													
+						element.title = title;	
+					}				
+				}
+			}
+
+		}
+	</script>
+</ui:composition>

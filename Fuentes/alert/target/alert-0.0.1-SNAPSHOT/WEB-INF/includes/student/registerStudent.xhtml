@@ -1,0 +1,184 @@
+
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pe="http://primefaces.org/ui/extensions" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<p:outputPanel>
+		<p:tooltip />
+		<h:form id="registerStudentForm">
+			<p:spacer width="10" height="30">
+			</p:spacer>
+			<p:panel id="registerStudentPanel" header="#{bundle['page.registerStudent.labelRegister']}">
+
+				<table style="width: 100%" border="0" cellpadding="5" cellspacing="5">
+					<tr>
+						<td style="width: 5%;" />
+						<td style="width: 5%;" />
+						<td style="width: 12%;" />
+						<td style="width: 26%;" />
+						<td style="width: 3%;" />
+						<td style="width: 26%;" />
+						<td style="width: 23%;" />
+
+					</tr>
+					<tr>
+
+						<td />
+						<td colspan="5">#{bundle['page.registerStudent.textGuide']}</td>
+
+					</tr>
+					<tr>
+						<td></td>
+					</tr>
+					<tr>
+						<td />
+
+						<td colspan="2">#{bundle['page.registerStudent.labelDocumentNumber']} estudiante:</td>
+						<td><p:inputText id="txtSearchUser" value="#{inscriptionStudentBean.documentUser}" style="width:95%;" maxlength="12" /> <pe:keyFilter
+								preventPaste="false" for="txtSearchUser" mask="pnum" /></td>
+						<td align="right" colspan="1" width="15%">#{bundle['page.registerStudent.lableEmail']}:</td>
+						<td width="19% "><p:inputText id="txtEmail" value="#{inscriptionStudentBean.emailUser}" style="width:95%;" maxlength="60" /></td>
+						<td><p:commandButton id="btnSearchUser" onstart="statusDialog.show();" styleClass="ui-priority-primary" oncomplete="statusDialog.hide();"
+								value="#{bundle['page.core.labelSearch']}" action="#{inscriptionStudentBean.searchUser}" /></td>
+					</tr>
+				</table>
+
+				<p:outputPanel rendered="#{inscriptionStudentBean.existUser}">
+
+					<table width="100%" border="0" cellpadding="5" cellspacing="5">
+						<tr>
+							<td></td>
+						</tr>
+						<tr>
+							<td />
+							<td colspan="7" align="center" style="background-color: #F2ECEC;" height="30"><b>#{bundle['page.student.labelStudentData']}</b></td>
+							<td />
+						</tr>
+						<tr>
+							<td />
+							<td style="width: 17%">#{bundle['page.user.label_userName']}:</td>
+							<td colspan="5"><p:inputText id="txtNameStudent"
+									value="#{inscriptionStudentBean.zyosUser.name} #{inscriptionStudentBean.zyosUser.lastName}" style="width:99%;" maxlength="100"
+									disabled="true" /></td>
+							<td />
+						</tr>
+						<tr>
+							<td />
+							<td>#{bundle['page.password.labelUser']}:</td>
+							<td style="width: 27%;"><p:inputText id="txtDocumentStudent" value="#{inscriptionStudentBean.zyosUser.documentNumber}" style="width:95%;"
+									disabled="true">
+								</p:inputText> <pe:keyFilter for="txtDocumentStudent" mask="num" /></td>
+
+							<td style="width: 16%; text-align: center;">#{bundle['page.registerStudent.lableEmail']}:</td>
+							<td colspan="3"><p:inputText id="txtEmailStudent" value="#{inscriptionStudentBean.zyosUser.email}" style="width:97%;" disabled="true" /></td>
+							<td />
+						</tr>
+
+						<tr>
+							<td><p:spacer height="15" /></td>
+						</tr>
+
+						<tr>
+							<td />
+
+							<td colspan="7" align="center" style="background-color: #F2ECEC;" height="30"><b>#{bundle['page.student.labelRiskFactor']}</b></td>
+							<td />
+						</tr>
+						<tr>
+							<td />
+
+						</tr>
+						<tr>
+							<td />
+							<td colspan="5">#{bundle['page.registerStudent.labelCategoryText']}</td>
+						</tr>
+						<tr>
+							<td />
+
+						</tr>
+						<tr>
+							<td />
+
+
+							<td>#{bundle['page.registerStudent.labelCategory']}:</td>
+							<td><p:selectOneMenu id="category" value="#{inscriptionStudentBean.idCategory}">
+									<f:selectItem itemLabel="#{bundle['page.core.selectOne']}" itemValue="0" />
+									<f:selectItems value="#{inscriptionStudentBean.getRiskFactorListCategory()}" var="r" itemLabel="#{r.name}" itemValue="#{r.id}" />
+									<p:ajax global="false" listener="#{inscriptionStudentBean.loadRiskFactorListByCategory()}" update="grid" />
+								</p:selectOneMenu></td>
+
+						</tr>
+						<tr>
+							<td colspan="7" align="center"><p:selectOneRadio id="grid" value="#{inscriptionStudentBean.reportStudent.idRiskFactor}" layout="grid"
+									columns="2">
+									<f:selectItems value="#{inscriptionStudentBean.riskFactorListByCategory}" var="risk" itemLabel="#{risk.name}"
+										itemValue="#{risk.idRiskFactor}" />
+									<p:ajax global="false" listener="#{inscriptionStudentBean.showObservation}" update="registerStudentForm:showObservation" />
+								</p:selectOneRadio></td>
+						</tr>
+						<tr>
+							<td><p:spacer height="15" /></td>
+						</tr>
+
+					</table>
+
+					<p:outputPanel id="showObservation" rendered="#{inscriptionStudentBean.showObservation }">
+						<table width="100%" border="0" cellpadding="5" cellspacing="5">
+
+							<tr>
+								<td />
+								<td colspan="7" align="center" style="background-color: #F2ECEC;" height="30"><b>#{bundle['page.ins.labelObservation']}</b></td>
+								<td />
+							</tr>
+
+							<tr>
+								<td></td>
+								<td colspan="7"><h:outputText value="#{bundle['page.registerStudent.textGuideObservation']}">
+									</h:outputText></td>
+							</tr>
+							<tr>
+								<td />
+								<td colspan="8"><p:inputTextarea autoResize="false" id="txtObservationStudent" value="#{inscriptionStudentBean.observation}"
+										style="width:98%;" cols="20" rows="5" maxlength="1000" /></td>
+								<td />
+							</tr>
+						</table>
+						<p:spacer height="20" />
+						<div align="center">
+							<p:commandButton id="btnRegisterStudent" action="#{inscriptionStudentBean.inscribeStudent}"
+								value="#{bundle['page.registerStudent.labelButtonRegister']}" onstart="statusDialog.show();" type="button" styleClass="ui-priority-primary"
+								onclick="valRegisterStudent();" oncomplete="statusDialog.hide();" />
+							<p:spacer width="10" />
+							<p:commandButton value="#{bundle['page.core.labelGoBack']}" onclick="history.back()" />
+						</div>
+						<p:spacer height="20" />
+					</p:outputPanel>
+
+
+				</p:outputPanel>
+
+			</p:panel>
+		</h:form>
+	</p:outputPanel>
+
+	<script type="text/javascript">
+		function addToolTip(list) {
+			titleList = list.replace("[", "").replace("]", "").split("¥");
+			var i;
+			if (titleList.length > 0) {
+				for (i = 0; titleList.length > i; i++) {
+					var element = $("[for*='registerStudentForm\\:grid\\:"+i+"']")[0];
+					if(element!=undefined){
+						var title ="";
+						title = titleList[i].trim();
+						
+						if(i>0)
+							title = title.substring(title.indexOf(",") + 1, title.length).trim();
+													
+						element.title = title;	
+					}				
+				}
+			}
+
+		}
+	</script>
+</f:view>

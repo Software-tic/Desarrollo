@@ -1,0 +1,125 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:form id="formZyosGroupList">
+	<p:spacer height="30"> </p:spacer>
+		<p:panel id="headerList"
+			header="#{bundle['page.zyosgroup.labelTitle']}">
+			<div align="center">
+				<p>#{bundle['page.zyosgroup.labelSubtitle']}</p>
+				<p:dataTable id="tableZyosGroup"
+					value="#{zyosGroupBean.zyosgroupModel}"
+					paginatorAlwaysVisible="false" resizableColumns="false"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="20,40,60" paginator="true" rows="20"
+					selection="#{zyosGroupBean.selectedZyosGroupList}"
+					filterDelay="600"
+					emptyMessage="#{bundle['page.core.tableNoFoundRecord']}"
+					var="zyosgroup" style="width:95%" widgetVar="zyosgroupTable">
+					<f:facet name="header">
+						#{bundle['page.zyosgroup.labelEnableZyosGroup']}
+						<p:outputPanel>
+							<div align="right">
+								<h:outputText value="#{bundle['page.core.labelSearch']}:" />
+								<p:inputText id="globalFilter" onkeyup="zyosgroupTable.filter()"
+									style="width:150px" />
+							</div>
+						</p:outputPanel>
+					</f:facet>
+
+					<p:column selectionMode="multiple" width="18" />
+
+					<p:column sortBy="#{zyosgroup.description}" width="100"
+						filterMatchMode="contains"
+						headerText="#{bundle['page.zyosgroup.labelCode']}"
+						filterBy="#{zyosgroup.description}">
+							 #{zyosgroup.description}
+					</p:column>
+
+					<p:column sortBy="#{zyosgroup.name}" filterMatchMode="contains" width="380"
+						headerText="#{bundle['page.zyosgroup.labelName']}" filterBy="#{zyosgroup.name}">
+							 #{zyosgroup.name}
+					</p:column>
+
+					<p:column width="20">
+						<div align="center">
+							<p:commandLink title="Consultar" immediate="true"
+								disabled="#{zyosGroupBean.getValidateUserRole(4,14)}"
+								partialSubmit="true" action="#{zyosGroupBean.goDetailZyosGroup}">
+								<p:graphicImage value="../css/images/detail.gif" height="20"
+									width="20" />
+								<f:setPropertyActionListener target="#{zyosGroupBean.zyosgroup}"
+									value="#{zyosgroup}" />
+							</p:commandLink>
+						</div>
+					</p:column>
+
+					<p:column width="20">
+						<f:facet name="header">
+							<div align="center">
+								<p:commandLink action="#{zyosGroupBean.goDeleteZyosGroup}"
+									disabled="#{zyosGroupBean.getValidateUserRole(5,14)}"
+									partialSubmit="true" title="Eliminar"
+									update=":formZyosGroupList:delCompPopup">
+									<p:graphicImage value="../css/images/delete.gif" height="20"
+										width="20" />
+								</p:commandLink>
+							</div>
+						</f:facet>
+						<div align="center">
+							<p:commandLink title="Editar" 
+								disabled="#{zyosGroupBean.getValidateUserRole(3,14)}"
+								action="#{zyosGroupBean.goEditZyosGroup}" partialSubmit="true">
+								<p:graphicImage value="../css/images/edit.gif" height="20"
+									width="20" />
+								<f:setPropertyActionListener target="#{zyosGroupBean.zyosgroup}"
+									value="#{zyosgroup}" />
+							</p:commandLink>
+						</div>
+					</p:column>
+
+					<f:facet name="footer">
+                        	En total hay #{fn:length(zyosGroupBean.zyosGroupList)} Perfil(es).
+               		</f:facet>
+				</p:dataTable>
+				<p align="center">
+					<p:commandButton action="#{zyosGroupBean.goAddZyosGroup}"
+						disabled="#{zyosGroupBean.getValidateUserRole(2,14)}"
+						styleClass="ui-priority-primary" partialSubmit="true"
+						onclick="statusDialog.show();"
+						value="#{bundle['page.zyosgroup.labelButtonAddZyosGroup']}" />
+				</p>
+			</div>
+
+			<p:dialog id="delCompPopup"
+				header="#{bundle['page.zyosgroup.labelPopupDel']}" modal="true"
+				resizable="false" draggable="false" showEffect="drop"
+				closeOnEscape="true" hideEffect="fade" widgetVar="delCompPopup"
+				width="350">
+				<p:outputPanel style="text-align:center;" layout="block">
+					<table width="100%" border="0" align="left">
+						<tr>
+							<td align="left">Las categorias seleccionados fueron:
+								#{zyosGroupBean.zyosgroupSelectedNameList}
+								#{bundle['page.zyosgroup.labelPopupDelSureAll']}</td>
+						</tr>
+						<tr>
+							<td align="center">
+								<p></p> <p:commandButton
+									value="#{bundle['page.core.labelAcept']}" partialSubmit="true"
+									styleClass="ui-priority-primary"
+									update=":formZyosGroupList:tableZyosGroup" process="@form"
+									oncomplete="delCompPopup.hide();"
+									actionListener="#{zyosGroupBean.deleteZyosGroup}" /> <p:commandButton
+									oncomplete="delCompPopup.hide();" partialSubmit="true"
+									value="#{bundle['page.login.labelButtonCancel']}" />
+							</td>
+						</tr>
+					</table>
+				</p:outputPanel>
+			</p:dialog>
+		</p:panel>
+	</h:form>
+</f:view>

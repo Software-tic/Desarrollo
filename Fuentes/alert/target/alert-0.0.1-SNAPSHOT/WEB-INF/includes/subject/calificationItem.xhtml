@@ -1,0 +1,428 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<p:panel id="calificationItemMainPanel"
+		header="#{subjectBean.subjectSelected.name} - #{subjectBean.subjectSelected.groupName}"
+		style="text-align:center;">
+		<table id="dataCalificationItemTable" width="100%">
+			<tr>
+				<td style="width:6%" />
+				<td style="width:18%" />
+				<td style="width:19%" />
+				<td style="width:18%" />
+				<td style="width:6%" />
+				<td style="width:19%" />
+				<td style="width:6%"/>
+			</tr>
+
+			<tr>
+				<td></td>
+				<td></td>
+				<td colspan="2" style="text-align: left"><h:outputText
+						style="font-weight: bold;color:#130645"
+						value="#{bundle['page.calificationItem.labelName']}:  #{subjectBean.calificationBean.evaluationSelected.name}">
+					</h:outputText></td>
+				<td colspan="3" style="text-align: left"><h:outputText
+						style="font-weight: bold;"
+						value="#{bundle['page.calificationItem.labelCalificationItemPercentage']}:  #{subjectBean.calificationBean.evaluationSelected.percentage}%">
+					</h:outputText></td>
+			</tr>
+			<tr>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+			</tr>
+
+
+		</table>
+
+		<table id="dataCalificationItemTable" width="100%">
+			<tr>
+				<td style="width:6%" />
+				<td style="width:18%" />
+				<td style="width:19%"/>
+				<td rowspan="2" style="width:18%" />
+				<td style="width:18%" />
+				<td style="width:19%"/>
+				<td style="width:6%" />
+			</tr>
+			<tr>
+				<td style="width: 20%"><p:commandButton
+						id="addCalificationItemButtom"
+						action="#{subjectBean.calificationBean.addCalificationItem}"
+						styleClass="ui-priority-primary" value="#{bundle['page.calificationItem.labelButtonAddCalification']}" /></td>
+
+				<p:outputPanel
+					rendered="#{subjectBean.calificationBean.studentCalificationItemList.size() > 0}">
+					<td style="width: 30%; text-align: left"><p:commandButton
+							id="editCalificationItemButtom"
+							action="#{subjectBean.calificationBean.editCalificationItem}"
+							styleClass="ui-priority-primary" value="#{bundle['page.calificationItem.labelEditCalification']}"  />
+					</td>
+				</p:outputPanel>
+
+
+				<td style="width: 20%; text-align: center; vertical-align: center"><p:outputPanel
+						rendered="#{subjectBean.calificationBean.studentCalificationItemList.size() > 0}">
+
+						<p:commandLink title="Exportar Notas a Excel" ajax="false">
+							<p:graphicImage cache="false" height="27" width="27"
+								value="../css/images/xlsx-report.png" />
+							<p:dataExporter target="dataTableCalification" type="xls"
+								postProcessor="#{subjectBean.calificationBean.handleDataExporter}"
+								fileName="reporte_corte" />
+
+						</p:commandLink>
+						<div style="vertical-align: center">
+							<h:outputText style="font-weight: bold; color: green"
+								value="#{bundle['page.calificationItemExportReport']}" >
+							</h:outputText>
+						</div>
+
+					</p:outputPanel> </td>
+					<td colspan="2"> <p:outputPanel
+						rendered="#{subjectBean.calificationBean.studentCalificationItemList.size() > 0}">					
+						<p:commandButton
+						id="generateAlertAutomatic" partialSubmit="true"
+						onclick="generateAlert.show()"
+						styleClass="ui-priority-primary" value="Generar Alerta Temprana" />
+			
+					</p:outputPanel> </td>
+		</tr>
+		</table>
+		<p:spacer height="20">
+		</p:spacer>
+
+		<p:scrollPanel mode="native">
+
+			<p:dataTable id="dataTableCalification" var="calificationItem"
+				scrollable="true" style="width: 100%" paginatorAlwaysVisible="false"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="50,70,90" paginator="true" rows="50"
+				value="#{subjectBean.calificationBean.studentCalificationItemList}"
+				emptyMessage="#{bundle['page.calificationItem.noRecordsFound']}">
+				<f:facet name="header">Listado de Notas</f:facet>
+				<f:facet name="footer">Se han encontrado #{fn:length(subjectBean.calificationBean.studentCalificationItemList)} estudiantes</f:facet>
+				
+				<p:column resizable="false" style="width:35%; text-align: center;"
+					headerText="#{bundle['page.calificationItem.labelNameStudent']}" sortBy="#{calificationItem.name}">
+					<h:outputText value="#{calificationItem.name} #{calificationItem.lastName}" />
+				</p:column>
+				<p:column resizable="false" style="width:35%; text-align: center;"
+					headerText="#{bundle['page.calificationItem.labelDocument']}" sortBy="#{calificationItem.code}">
+					<h:outputText value="#{calificationItem.code} " />
+				</p:column>
+
+				<c:forEach var="j" begin="0"
+					end="#{subjectBean.calificationBean.numberCalification -1}">
+					<p:column width="10%" resizable="false" style="text-align: center" 
+						exportable="false">
+
+						<f:facet name="header">
+							<h:outputText
+								value="#{subjectBean.calificationBean.calificationItemNameList.get(j).name}"></h:outputText> -  
+						<h:outputText
+								value="#{subjectBean.calificationBean.calificationItemNameList.get(j).percentage}">
+								<f:convertNumber groupingUsed="#{true}" maxFractionDigits="1" />
+							</h:outputText> <h:outputText value="%"> </h:outputText>
+						</f:facet>
+
+						<p:inputText style="width:80%; text-align: center;"
+							id="txtNote#{j+1}" value="#{calificationItem.studentGrade[j]}" />
+						<pe:keyFilter preventPaste="true" for="txtNote#{j+1}" mask="pnum" />
+					</p:column>
+				</c:forEach>
+				
+				<p:column width="10%" headerText="#{bundle['page.calificationItem.labelFinalCalification']}" style="text-align: center" sortBy="#{calificationItem.finalCalificationStudent}">
+					<h:outputText value="#{calificationItem.finalCalificationStudent}">
+						<f:convertNumber groupingUsed="#{true}" maxFractionDigits="2" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column width="10%" headerText="#{bundle['page.calificationItem.labelAbsent']}" 
+					style="text-align: center" sortBy="#{calificationItem.studentAbsent}">
+					<h:outputText value="#{calificationItem.studentAbsent}" />
+				</p:column>
+			</p:dataTable>
+		</p:scrollPanel>
+		<p:spacer height="15" />
+		
+		
+		<table id="dataCalificationItemTable" width="100%">
+			<tr>
+
+				<td style="width: 50%; text-align: right"><p:outputPanel
+						rendered="#{subjectBean.calificationBean.studentCalificationItemList.size() > 0}">
+						<p:commandButton id="updateCalificationItems"
+							action="#{subjectBean.updateCalification}" partialSubmit="true"
+							styleClass="ui-priority-primary" value="#{bundle['page.calificationItem.labelUpdateCalifications']}"
+							onclick="statusDialog.show()" />
+					</p:outputPanel></td>
+
+				<td style="width: 50%; text-align: left"><p:commandButton
+						action="#{subjectBean.goBackSubjectMain}"
+						update="subjectMain subjectDetail"
+						value="#{bundle['page.core.goBack']}" /></td>
+			</tr>
+		</table>
+	</p:panel>
+	<p:dialog id="dialogAddCalificationItem"
+		widgetVar="dialogAddCalificationItem" showHeader="false"
+		resizable="false" draggable="false" showEffect="drop"
+		hideEffect="fade" modal="true" width="500" dynamic="true">
+
+
+		<p:panel id="addCalificationItemPanel" header="#{bundle['page.calificationItem.labelDetailCalification']}"
+			style="text-align:left;">
+
+			<table id="tableDetailCalification" width="100%" border="0"
+				cellpadding="5" cellspacing="5">
+				<tr>
+					<td style="width: 20%" />
+					<td style="width: 20%" />
+					<td style="width: 58%" />
+					<td style="width: 2%" />
+
+				</tr>
+				<tr>
+
+					<td colspan="3" style="text-align: left"><p:outputPanel
+							rendered="#{subjectBean.calificationBean.fullPercentageCalification eq 0}">
+							<h:outputText value="#{bundle['page.calificationItem.textDialogAddCalification']}">
+							</h:outputText>
+							<h:outputText
+								value=" #{subjectBean.calificationBean.currentPercentageCalification} %">
+							</h:outputText>
+						</p:outputPanel> <p:outputPanel
+							rendered="#{subjectBean.calificationBean.fullPercentageCalification eq 1}">
+							<h:outputText 
+								value="#{bundle['page.calificationItem.textFullPercentage']}">
+							</h:outputText>
+							<tr>
+								<td style="text-align: center" colspan="5"><p:commandButton
+										id="closeAddCalificationItemButtonFull" value="#{bundle['page.core.labelAcept']}"
+										styleClass="ui-priority-primary"
+										onclick="dialogAddCalificationItem.hide()" /></td>
+							</tr>
+						</p:outputPanel></td>
+
+				</tr>
+
+
+				<p:outputPanel
+					rendered="#{subjectBean.calificationBean.fullPercentageCalification eq 0}">
+
+					<tr>
+
+						<td colspan="2" style="text-align: left"><h:outputText
+								value="#{bundle['page.calificationItem.labelTittleCalification']}">
+							</h:outputText></td>
+
+						<td colspan="2"><p:inputText id="nameCalificationItem"
+								value="#{subjectBean.calificationItem.name}" style="width: 100%">
+							</p:inputText></td>
+					</tr>
+
+					<tr>
+
+						<td colspan="2" style="text-align: left"><h:outputText   
+								value="#{bundle['page.calificationItem.percentage']}">
+							</h:outputText></td>
+
+						<td colspan="2"><pe:inputNumber style="width: 100%"
+								maxValue="100" id="percentageCalificationItem"
+								value="#{subjectBean.calificationItem.percentage}"
+								decimalPlaces="1">
+
+							</pe:inputNumber></td>
+					</tr>
+					<tr>
+						<td colspan="4" style="text-align: center"><p:commandButton
+								id="addCalificationItemButton" styleClass="ui-priority-primary"
+								action="#{subjectBean.goRegisterCalification}" type="button"
+								onclick="validateCreateCalificationItem()" value="Crear Nota" />
+							<p:spacer width="20" height="20" /> <p:commandButton
+								id="closeAddCalificationItemButton"
+								action="#{subjectBean.calificationBean.cleanDataAddCalificationItem}"
+								value="Cancelar" onclick="dialogAddCalificationItem.hide()" /></td>
+
+					</tr>
+				</p:outputPanel>
+
+			</table>
+		</p:panel>
+	</p:dialog>
+
+	<p:dialog id="dialogEditCalificationItem"
+		widgetVar="dialogEditCalificationItem" showHeader="false"
+		resizable="false" draggable="false" showEffect="drop"
+		hideEffect="fade" modal="true" width="500" dynamic="true">
+
+
+		<p:panel id="editCalificationItemPanel" header="#{bundle['page.calificationItem.editCalification']}"
+			style="text-align:left;">
+
+			<table id="tableTextGuideDetailCalification" width="100%">
+				<tr>
+					<td><h:outputText
+							value="#{bundle['page.calificationItem.textEditCalification']}">
+						</h:outputText></td>
+				</tr>
+
+
+
+			</table>
+			
+			<p:scrollPanel  mode="native" > 
+			<p:dataTable id="dataEditTableCalificationItem" var="calItem"
+				scrollable="true" scrollHeight="150"  style="width: 100%" paginatorAlwaysVisible="false"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="35,50,70" paginator="true" rows="35"
+				value="#{subjectBean.calificationBean.calificationItemNameList}"
+				emptyMessage="#{bundle['page.calificationItem.noRecordsFound']}">
+
+				<p:column width="50%" style="text-align: center;" headerText="#{bundle['page.calificationItem.labelName']}"
+					sortBy="#{calItem.name}">
+					<p:inputText style="width:90%; text-align: center;"
+						id="nameCalificationi" value="#{calItem.name}" />
+				</p:column>
+
+
+				<p:column headerText="#{bundle['page.calificationItem.percentageCalification']}" sortBy="#{calItem.percentage}"
+					style="text-align: center" width="40%">
+
+					<p:inputText style="width:90%; text-align: center;"
+						id="percentageCalificationi" value="#{calItem.percentage}" />
+					<pe:keyFilter preventPaste="true" for="percentageCalificationi"
+						mask="pnum" />
+				</p:column>
+
+				<p:column width="10%">
+					<p:commandLink id="deleteCalificationItem" title="Eliminar Nota"
+						partialSubmit="true" onclick="delCalificationItem.show()">
+						<p:graphicImage cache="false" height="35" width="35"
+							value="../css/icons/deleteEvaluationItem.jpg" />
+						<f:setPropertyActionListener
+							target="#{subjectBean.calificationBean.calificationItemToDelete}"
+							value="#{calItem}" />
+					</p:commandLink>
+				</p:column>
+
+
+
+			</p:dataTable>
+			
+			
+
+			<table id="buttonsCalificationItemTableDetail" width="100%">
+
+				<tr>
+					<td style="width: 50%; text-align: right"><p:commandButton
+							id="editCalificationItemButtonCal"
+							action="#{subjectBean.calificationBean.updateCalificationItem}"
+							styleClass="ui-priority-primary" value="#{bundle['page.calificationItem.updateCalification']}" /></td>
+
+					<td style="width: 50%"><p:commandButton
+							id="editCalificationItemButtonCalCancel"
+							onclick="dialogEditCalificationItem.hide()" value="Cancelar"
+							>
+						
+						</p:commandButton></td>
+
+				</tr>
+			</table>
+			
+			</p:scrollPanel>
+
+
+		</p:panel>
+	</p:dialog>
+
+	<p:dialog id="delCalificationItem" header="Eliminar Nota"
+		dynamic="true" modal="true" resizable="true" draggable="true"
+		showEffect="drop" hideEffect="fade" widgetVar="delCalificationItem"
+		width="350">
+
+		<p:outputPanel style="text-align:center;" layout="block">
+			<table width="100%" border="0" align="left"> 
+				<tr>
+					<td align="left">#{bundle['page.calificationItem.textDeleteCalification']} </td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="text-align: center"><p:commandButton 
+							value="#{bundle['page.core.labelAcept']}" styleClass="ui-priority-primary"
+							oncomplete="dialogEditCalificationItem.hide() delCalificationItem.hide()"
+							action="#{subjectBean.deleteCalificationitem}" /> <p:spacer
+							width="10" height="10"></p:spacer> <p:commandButton
+							partialSubmit="true" onclick="delCalificationItem.hide()"
+							value="#{bundle['page.core.labelCancel']}">
+
+						</p:commandButton></td>
+				</tr>
+			</table>
+		</p:outputPanel>
+	</p:dialog>
+	
+	
+	<p:dialog id="generateAlert" header="¡Generar Alerta Temprana!"
+		dynamic="false" modal="true" resizable="false" draggable="false"
+		showEffect="drop" hideEffect="fade" widgetVar="generateAlert" 	width="350">
+
+		
+			<table width="100%" align="left"> 
+				<tr>
+					<td align="justify">#{bundle['page.calificationItem.txtGenerateAlert']} </td>
+				</tr>
+					<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="text-align: justify;"><h:outputText style="font-weight: bold;" value=" #{bundle['page.calificationItem.secureGenerateAlert']}">  </h:outputText> </td>
+				</tr>
+			
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="text-align: center"><p:commandButton 
+							value="#{bundle['page.core.labelAcept']}" styleClass="ui-priority-primary"
+							oncomplete="generateAlert.hide()"  onclick="statusDialog.show()" action="#{subjectBean.generateAlert}" />
+													 <p:spacer
+							width="10" height="10"></p:spacer>
+							
+							
+							
+							 <p:commandButton
+							partialSubmit="true" onclick="generateAlert.hide()"
+							value="#{bundle['page.core.labelCancel']}">
+
+						</p:commandButton></td>
+				</tr>
+			</table>
+		
+	</p:dialog>
+	
+
+
+
+
+
+</f:view>

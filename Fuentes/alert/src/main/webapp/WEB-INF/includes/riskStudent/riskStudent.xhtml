@@ -1,0 +1,24 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:form id="riskStudentForm">
+	<p:spacer height="30"> </p:spacer>
+		<p:outputPanel id="riskStudentPanel" rendered="#{!reportStudentBean.getValidateUserRole(1,8)}">
+			<p:outputPanel rendered="#{reportStudentBean.showStudentList}">
+				<ui:include
+					src="/WEB-INF/includes/riskStudent/riskStudentList.xhtml" />
+			</p:outputPanel>
+			<p:outputPanel rendered="#{reportStudentBean.showStudentSelected}">
+				<ui:include
+					src="/WEB-INF/includes/riskStudent/riskStudentDetail.xhtml" />
+			</p:outputPanel>
+		</p:outputPanel>
+		<p:outputPanel rendered="#{reportStudentBean.getValidateUserRole(1,8)}"> 
+		Lo sentimos.... No cuenta con los permisos para acceder a esta página.
+		
+		
+		</p:outputPanel>
+	</h:form>
+</ui:composition>

@@ -1,0 +1,148 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	
+	<h:form id="executionsHistoricalForm">
+	<p:outputPanel rendered="#{!executionsHistoricalBean.getValidateUserRole(1,16)}"> 
+	<p:spacer height="30"> </p:spacer>
+	<p:panel header="Historico de Ejecuciones">
+		<br />
+		<h:outputText value="#{bundle['page.executionHistorical.textGuide']}"> </h:outputText> 
+		<br />
+		<br />
+			
+			<p:selectOneRadio id="radioGraphic"
+				value="#{executionsHistoricalBean.executionSelected}">
+				<f:selectItem itemLabel="Ejecuciones de Alertas automaticas" itemValue="1" />
+			 	<f:selectItem itemLabel="Ejecuciones de actualización de notas moodel" itemValue="2" />			
+				<p:ajax listener="#{executionsHistoricalBean.loadExecutionsHistoricalList}"
+					update=":executionsHistoricalForm:outPanelExecutions" />
+			</p:selectOneRadio>
+			<br />
+			<br />
+
+			<p:outputPanel id="outPanelExecutions">
+				<p:outputPanel rendered="#{executionsHistoricalBean.showAutomaticAlert}">				
+				
+			<p:dataTable value="#{executionsHistoricalBean.executionsHistoricalList}"
+			var="e" id="executionsHistoricalALertTable"
+			emptyMessage="#{bundle['page.executionHistorical.noRecordsFound']}"
+			scrollable="false" paginatorAlwaysVisible="false"
+			filteredValue="#{executionsHistoricalBean.executionsHistoricalListFiltered}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="30,60,120" paginator="true" rows="30" widgetVar="executionsHistoricalALertTableWV"	>
+			<f:facet name="header">  
+           	 		Listado de ejecuciones de alertas automáticas realizadas  
+           	 		<div align="right">
+								<h:outputText value="Buscar:" />
+								<p:inputText id="globalFilter" onkeyup="executionsHistoricalALertTableWV.filter()" style="width:150px" />
+							</div>
+        		</f:facet>
+        		<f:facet name="footer">  
+           	 		En total hay #{fn:length(executionsHistoricalBean.executionsHistoricalList)} Ejecuciones registradas  
+        		</f:facet>
+			<p:column sortBy="#{e.dateCreation}" filterBy="#{e.dateCreation}"
+				filterStyle="width:80%;" style="width:10%;text-align: center"
+				headerText="#{bundle['page.executionHistorical.labelDate']}">
+				<h:outputText value="#{e.dateCreation}" /> 
+			</p:column>
+			
+			<p:column sortBy="#{e.executionTime}" filterBy="#{e.executionTime}" 
+				filterStyle="width:80%;" style="width:10%;text-align: center"
+				headerText="#{bundle['page.executionHistorical.labelExecutionTime']}">
+				<h:outputText value="#{e.executionTime}" />
+			</p:column>
+			
+			<p:column sortBy="#{e.reportStudentNumber}" filterBy="#{e.reportStudentNumber}"
+				filterStyle="width:80%;" style="width:12%;text-align: center"
+				headerText="#{bundle['page.executionHistorical.labelReportStudentNumber']}">
+				<h:outputText value="#{e.reportStudentNumber}" />
+			</p:column>
+			
+			<p:column sortBy="#{e.zyosUserName}" filterBy="#{e.zyosUserName}"
+				filterStyle="width:80%;" style="width:18%;text-align: center"
+				headerText="#{bundle['page.executionHistorical.labelUserCreation']}">
+				<h:outputText value="#{e.zyosUserName} #{e.zyosUserLastName}" />
+			</p:column>		
+			
+				<p:column sortBy="#{e.riskFactorName}" filterBy="#{e.riskFactorName}"
+				filterStyle="width:80%;" style="width:14%;text-align: center"
+				headerText="#{bundle['page.executionHistorical.labelRiskFactor']}">
+				<h:outputText value="#{e.riskFactorName}" />
+			</p:column>
+			
+			<p:column sortBy="#{e.information}" filterBy="#{e.information}"
+				filterStyle="width:80%;" style="width:26%;text-align: center"
+				headerText="#{bundle['page.executionHistorical.labelInformation']}">
+				<h:outputText value="#{e.information}" />
+			</p:column>
+
+		</p:dataTable>
+					
+				</p:outputPanel>
+				<p:outputPanel rendered="#{executionsHistoricalBean.showExecutionsMoodle}">
+				<p:dataTable value="#{executionsHistoricalBean.executionsHistoricalList}"
+			var="eh" id="executionsHistoricalTable"
+			emptyMessage="#{bundle['page.executionHistorical.noRecordsFound']}"
+			scrollable="false" paginatorAlwaysVisible="false"
+			filteredValue="#{executionsHistoricalBean.executionsHistoricalListFiltered}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="30,60,120" paginator="true" rows="30" widgetVar="executionsHistoricalTableWV"	>
+			<f:facet name="header">  
+           	 		Listado de Ejecuciones de Moodle realizadas  
+           	 			<div align="right">
+								<h:outputText value="Buscar:" />
+								<p:inputText id="globalFilter" onkeyup="executionsHistoricalTableWV.filter()" style="width:150px" />
+							</div>
+        		</f:facet>
+        		<f:facet name="footer">  
+           	 		#{fn:length(executionsHistoricalBean.executionsHistoricalList)} Ejecuciones registradas  
+        		</f:facet>
+			<p:column sortBy="#{eh.dateCreation}" filterBy="#{eh.dateCreation}"
+				filterStyle="width:80%;" style="width:15%;text-align: center"
+				headerText="#{bundle['page.executionHistorical.labelDate']}">
+				<h:outputText value="#{eh.dateCreation}" />
+			</p:column>
+			
+			<p:column sortBy="#{eh.executionTime}" filterBy="#{eh.executionTime}"
+				filterStyle="width:80%;" style="width:17%;text-align: center"
+				headerText="#{bundle['page.executionHistorical.labelExecutionTime']}">
+				<h:outputText value="#{eh.executionTime}" />
+			</p:column>
+			
+			<p:column sortBy="#{eh.userCreation}" filterBy="#{eh.userCreation}"
+				filterStyle="width:80%;" style="width:23%;text-align: center"
+				headerText="#{bundle['page.executionHistorical.labelUserCreation']}">
+				<h:outputText value="#{eh.userCreation}" />
+			</p:column>
+			
+			<p:column sortBy="#{eh.information}" filterBy="#{eh.information}"
+				filterStyle="width:80%;" style="width:45%;text-align: center"
+				headerText="#{bundle['page.executionHistorical.labelInformation']}">
+				<h:outputText value="#{eh.information}" />
+			</p:column>
+
+		</p:dataTable>
+					
+				</p:outputPanel>
+				
+				</p:outputPanel>
+		
+		</p:panel>
+		
+		</p:outputPanel>
+		<p:outputPanel rendered="#{executionsHistoricalBean.getValidateUserRole(1,16)}">
+	<br/>
+		<ui:include src="/WEB-INF/includes/content/denied.xhtml" />
+	</p:outputPanel>
+		
+		</h:form>
+		
+		
+		
+
+</f:view>

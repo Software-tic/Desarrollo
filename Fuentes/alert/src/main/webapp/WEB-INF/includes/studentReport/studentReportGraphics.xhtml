@@ -1,0 +1,299 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:form id="reportForm">
+		<p:spacer height="30">
+		</p:spacer>
+		<p:panel header="Reportes">
+
+			<table style="width: 100%">
+				<tr>
+					<td style="width: 10%" />
+					<td style="width: 10%" />
+					<td style="width: 10%" />
+					<td style="width: 10%" />
+					<td style="width: 10%" />
+					<td style="width: 10%" />
+					<td style="width: 10%" />
+					<td style="width: 10%" />
+					<td style="width: 10%" />
+					<td style="width: 10%" />
+
+				</tr>
+				<tr>
+					<td colspan="4">
+						#{bundle['page.studentReportGraphic.textGuide']}</td>
+				</tr>
+				<tr>
+					<td><p:spacer height="10">
+						</p:spacer></td>
+				</tr>
+			</table>
+			<p:selectOneRadio id="radioGraphic"
+				value="#{reportStudentBean.graphicToShow}">
+				<f:selectItem itemLabel="Tipo de reportes" itemValue="0" />
+				<f:selectItem itemLabel="Reportes manuales" itemValue="1" />
+				<f:selectItem itemLabel="Factores de riesgo por categorias"
+					itemValue="2" />
+				<f:selectItem itemLabel="Factores de riesgo por programa"
+					itemValue="4" />
+				<f:selectItem itemLabel="Factores de riesgo por facultad"
+					itemValue="5" />
+				 	<f:selectItem itemLabel="Estudiantes en clase" itemValue="3" />  
+				<p:ajax listener="#{reportStudentBean.graphData}"
+					update=":reportForm:graphicPanel" />
+			</p:selectOneRadio>
+
+			<p:outputPanel id="graphicPanel">
+				<p:outputPanel rendered="#{reportStudentBean.showGraphic}">
+					<h:outputScript rendered="#{reportStudentBean.showReport}">
+							
+						loadPie(${generalReport}, "Generación de reportes", "Estudiantes reportados");
+				</h:outputScript>
+					<p:outputPanel id="graphicPanels"
+						rendered="#{reportStudentBean.showRisk}">
+
+						<table style="width: 100%">
+							<tr>
+								<td style="width: 6%" />
+								<td style="width: 6%" />
+								<td style="width: 10%" />
+								<td style="width: 10%" />
+								<td style="width: 10%" />
+								<td style="width: 10%" />
+								<td style="width: 10%" />
+								<td style="width: 10%" />
+								<td style="width: 15%" />
+								<td style="width: 15%" />
+
+
+							</tr>
+							<tr>
+								<td><p:spacer height="10">
+									</p:spacer></td>
+							</tr>
+
+
+							<tr>
+								<td colspan="2">Detallar categorias:</td>
+								<td colspan="2"><p:selectOneMenu style="width: 98%"
+										id="categorySelect"
+										value="#{reportStudentBean.idRiskFactorCategorySelected}">
+										<f:selectItem itemLabel="Reporte General" itemValue="0" />
+										<f:selectItems
+											value="#{reportStudentBean.getRiskFactorListCategory()}"
+											var="r" itemLabel="#{r.name}" itemValue="#{r.id}" />
+										<p:ajax
+											listener="#{reportStudentBean.detailRiskFactorCategory}"
+											update=":reportForm:graphicPanel" />
+									</p:selectOneMenu></td>
+
+							</tr>
+							<tr>
+								<td><p:spacer height="10">
+									</p:spacer></td>
+							</tr>
+						</table>
+						<h:outputScript rendered="#{reportStudentBean.showRisk}">
+					loadPie(${riskData}, "Reporte por categorias de factores de riesgo", "Porcentaje");
+					
+				</h:outputScript>
+
+					</p:outputPanel>
+					<p:outputPanel id="graphicP"
+						rendered="#{reportStudentBean.showRiskDegree}">
+						<h:outputScript rendered="#{reportStudentBean.showRiskDegree}">
+					loadPie(${riskDataDegree}, "Reporte de factores de riesgo por programas", "Porcentaje");
+					
+				</h:outputScript>
+						<table style="width: 100%">
+							<tr>
+								<td style="width: 6%" />
+								<td style="width: 6%" />
+								<td style="width: 10%" />
+								<td style="width: 10%" />
+								<td style="width: 10%" />
+								<td style="width: 10%" />
+								<td style="width: 10%" />
+								<td style="width: 10%" />
+								<td style="width: 15%" />
+								<td style="width: 15%" />
+
+
+							</tr>
+
+							<tr>
+								<td><p:spacer height="10">
+									</p:spacer></td>
+							</tr>
+
+
+
+							<tr>
+								<td colspan="2">Detallar categorias:</td>
+								<td colspan="2"><p:selectOneMenu style="width: 98%;"
+										id="categorySelectDegree" 
+										value="#{reportStudentBean.idRiskFactorCategoryDegree}">
+										<f:selectItem itemLabel="Reporte General" itemValue="0" />
+										<f:selectItems 
+											value="#{reportStudentBean.getRiskFactorListCategory()}"
+											var="rs" itemLabel="#{rs.name}" itemValue="#{rs.id}" />
+										<p:ajax listener="#{reportStudentBean.detailRiskFactorDegree}"
+											update=":reportForm:graphicPanel" />
+									</p:selectOneMenu></td>
+
+							</tr>
+
+							<p:outputPanel rendered="#{reportStudentBean.detailRiskDegree}">
+								<tr>
+									<td colspan="2">Detallar programar:</td>
+									<td colspan="2"><p:selectOneMenu style="width: 98%"
+											id="categorySelectDegreeDetail" panelStyle="word-wrap: break-word;max-width:800px;white-space: pre-wrap;"
+											value="#{reportStudentBean.idDegreeSelected}">
+											<f:selectItem itemLabel="Reporte General" itemValue="0" />
+											<f:selectItems value="#{reportStudentBean.degreeStudentList}"
+												var="s" itemLabel="#{s.name}" itemValue="#{s.id}" />
+											<p:ajax listener="#{reportStudentBean.detailDegreeReport}"
+												update=":reportForm:graphicPanel" />
+										</p:selectOneMenu></td>
+								</tr>
+							</p:outputPanel>
+							<tr>
+								<td><p:spacer height="10">
+									</p:spacer></td>
+							</tr>
+						</table>
+
+
+
+					</p:outputPanel>
+
+					<p:outputPanel id="graphicF"
+						rendered="#{reportStudentBean.showRiskFaculty}">
+						<h:outputScript rendered="#{reportStudentBean.showRiskFaculty}">
+					loadPie(${riskDataFaculty}, "Reporte de factores de riesgo por facultad", "Porcentaje");
+					
+				</h:outputScript>
+
+
+						<table style="width: 100%">
+							<tr>
+								<td style="width: 6%" />
+								<td style="width: 6%" />
+								<td style="width: 10%" />
+								<td style="width: 10%" />
+								<td style="width: 10%" />
+								<td style="width: 10%" />
+								<td style="width: 10%" />
+								<td style="width: 10%" />
+								<td style="width: 15%" />
+								<td style="width: 15%" />
+
+
+							</tr>
+
+							<tr>
+								<td><p:spacer height="10">
+									</p:spacer></td>
+							</tr>
+
+
+
+							<tr>
+								<td colspan="2">Detallar categorias:</td>
+								<td colspan="2"><p:selectOneMenu style="width: 98%"
+										id="categorySelectFaculty"
+										value="#{reportStudentBean.idRiskFactorCategoryFaculty}">
+										<f:selectItem itemLabel="Reporte General" itemValue="0" />
+										<f:selectItems
+											value="#{reportStudentBean.getRiskFactorListCategory()}"
+											var="f" itemLabel="#{f.name}" itemValue="#{f.id}" />
+										<p:ajax
+											listener="#{reportStudentBean.detailRiskFactorFaculty}"
+											update=":reportForm:graphicPanel" />
+									</p:selectOneMenu></td>
+
+							</tr>
+							<p:outputPanel rendered="#{reportStudentBean.detailRiskFaculty}">
+								<tr>
+									<td colspan="2">Detallar facultad:</td>
+									<td colspan="2"><p:selectOneMenu style="width: 98%"
+											id="categorySelectFacultyDetail"
+											value="#{reportStudentBean.idFacultySelected}">
+											<f:selectItem itemLabel="Reporte General" itemValue="0" />
+											<f:selectItems value="#{reportStudentBean.facultyStudentList}"
+												var="f" itemLabel="#{f.name}" itemValue="#{f.idFaculty}" />
+											<p:ajax listener="#{reportStudentBean.detailFacultyReport}"
+												update=":reportForm:graphicPanel" />
+										</p:selectOneMenu></td>
+
+								</tr>
+							</p:outputPanel>
+							
+							
+							<tr>
+								<td><p:spacer height="10">
+									</p:spacer></td>
+							</tr>
+						</table>
+
+					</p:outputPanel>
+
+
+
+					<h:outputScript rendered="#{reportStudentBean.showManual}">
+						var categoryData = "#{reportStudentBean.chartCategoryReport}";
+							
+						loadBar(categoryData, ${manualReport}, "Reportes manuales", "", "Estudiantes");	
+				</h:outputScript>
+					<div id="container"
+						style="min-width: 400px; height: 400px;margin: 0 auto" />
+				</p:outputPanel>
+
+				<p:outputPanel rendered="#{reportStudentBean.showManual or reportStudentBean.showRiskFaculty or reportStudentBean.showGraphic or reportStudentBean.showReport or reportStudentBean.showRisk or reportStudentBean.showRiskDegree}"> 
+					<table style="width: 100%">
+						<tr>
+							<td style="width: 6%" />
+							<td style="width: 6%" />
+							<td style="width: 10%" />
+							<td style="width: 10%" />
+							<td style="width: 10%" />
+							<td style="width: 10%" />
+							<td style="width: 10%" />
+							<td style="width: 10%" />
+							<td style="width: 15%" />
+							<td style="width: 15%" />
+
+
+						</tr>
+
+						<tr>
+							<td colspan="10" style="text-align: center">N° reportes
+								registrados: #{reportStudentBean.totalStudentReport}</td>
+						</tr>
+
+
+
+					</table>
+				</p:outputPanel>
+
+
+				<p:outputPanel rendered="#{reportStudentBean.showActiveStudent}">
+					<table style="width: 100%">
+						<tr style="width: 100%">
+							<td style="height:200px;vertical-align:middle;text-align: center">
+
+								<h:outputText value="#{reportStudentBean.totalStudent}"
+									style="font-size: 25px;font-weight: bold;" /> <br /> <h:outputText
+									value="Estudiantes activos en clase" style="font-size: 20px;" />
+							</td>
+						</tr>
+					</table>
+				</p:outputPanel>
+			</p:outputPanel>
+		</p:panel>
+	</h:form>
+</f:view>

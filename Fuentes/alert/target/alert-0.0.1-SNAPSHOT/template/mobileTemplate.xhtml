@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<f:view renderKitId="PRIMEFACES_MOBILE"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:pm="http://primefaces.org/mobile"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head >
+		<f:loadBundle basename="com.zyos.core.common.util.resource.messages"
+			var="bundle" />
+		<title>#{bundle['page.core.title']}</title>
+		<script type="text/javascript">
+			var lmPresence = <h:outputText value="#{bundle.labelPresence}"/>; var lmNotNumber = <h:outputText value="#{bundle.labelNotANumberMessage}"/>; var lmNotInteger = <h:outputText value="#{bundle.labelNotAnIntegerMessage}"/>; var lmWrong = <h:outputText value="#{bundle.labelWrongNumberMessage}"/>; var lmLowm = <h:outputText value="#{bundle.labelTooLowMessage}"/>; var lmHighm = <h:outputText value="#{bundle.labelTooHighMessage}"/>; var lmNotm = <h:outputText value="#{bundle.labelNotValid}"/>; var lmNotMail = <h:outputText value="#{bundle.labelNotValidMail}"/>; var lmC = <h:outputText value="#{bundle.labelCharacter}"/>; var lmShort = <h:outputText value="#{bundle.labelTooShortMessage}"/>; var lmLong = <h:outputText value="#{bundle.labelLongMessage}"/>; var lmIC = <h:outputText value="#{bundle.labelInvalidCharacter}"/>; var lmNotList = <h:outputText value="#{bundle.labelNotList}"/>;var lmNotMatch = <h:outputText value="#{bundle.labelDontMatch}"/>; var lmNotAcept = <h:outputText value="#{bundle.labelNotAcept}"/>;var lmMustSelectOne= <h:outputText value="#{bundle.labelMustSelectOne}"/>; 
+		</script>
+		<script src="../js/livevalidation.js" type="text/javascript"></script>
+		<script src="../js/zyosFunction.js" type="text/javascript"></script>
+		<ui:insert name="customHead"></ui:insert>
+	</h:head>
+	<pm:page title="IntelLab">
+		<p:outputPanel>
+			<ui:insert name="main">...</ui:insert>
+		</p:outputPanel>
+	</pm:page>
+</f:view>

@@ -1,0 +1,30 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<p:panel header="#{bundle['page.subject.labelPanel']}" style="text-align:center;">
+		<p:dataGrid var="subject" value="#{subjectBean.subjectList}" paginatorAlwaysVisible="false" 
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="50,100,150" paginator="true" 
+			columns="3" rows="25" emptyMessage="#{bundle['page.subjectMain.noRecordsFound']}" >
+			<f:facet name="header"> En total hay #{fn:length(subjectBean.subjectList)} asignaturas registradas  </f:facet> 
+			
+		
+			<p:panel header="#{subject.name} - #{subject.groupName}" style="text-align:center">
+				<h:panelGrid columns="3" style="width:100%">
+					<p:commandLink action="#{subjectBean.goSubjectDetail}"
+						update=":subjectForm:subjectMain :subjectForm:subjectDetail" onclick="statusDialog.show()">
+						<p:graphicImage value="../css/icons/studentSub.png" cache="false"
+							height="100" width="100" />
+						<f:setPropertyActionListener
+							target="#{subjectBean.subjectSelected}"
+							value="#{subject}" />
+					</p:commandLink>
+
+  
+				</h:panelGrid>
+			</p:panel>
+		</p:dataGrid>
+	</p:panel>
+</f:view>

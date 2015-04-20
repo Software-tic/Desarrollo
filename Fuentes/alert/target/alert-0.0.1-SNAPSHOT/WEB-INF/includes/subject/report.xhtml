@@ -1,0 +1,111 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+
+	<p:panel id="reportStudentPanel" header="#{bundle['page.report.reporStudent']}">
+		<table id="reportTable" width="100%">
+			<tr>
+				<td width="5%" />
+				<td width="5%" />
+				<td width="12%" />
+				<td width="26%" />
+				<td width="4%" />
+				<td width="12%" />
+				<td width="26%" />
+				<td width="5%" />
+				<td width="5%" />
+			</tr>
+			<tr>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="3"><h:outputText style="font-weight: bold; "
+						value="#{bundle['page.report.labelStudent']} #{subjectBean.studentSelected.name} #{subjectBean.studentSelected.lastName}"></h:outputText></td>
+			</tr>
+			<tr>
+				<td />
+				<td colspan="7" align="center" style="background-color: #F2ECEC;" height="30"><b>#{bundle['page.student.labelRiskFactor']}</b></td>
+				<td />
+			</tr>
+			<tr>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+			</tr>
+			<tr>
+				<td />
+				<td colspan="6">#{bundle['page.registerStudent.labelCategoryText']}</td>
+			</tr>
+			<tr>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+			</tr>
+			<tr>
+				<td />
+				<td>#{bundle['page.registerStudent.labelCategory']}</td>
+				<td><p:selectOneMenu id="category" value="#{subjectBean.idCategory}">
+						<f:selectItem itemLabel="#{bundle['page.core.selectOne']}" itemValue="0" />
+						<f:selectItems value="#{subjectBean.getRiskFactorListCategory()}" var="r" itemLabel="#{r.name}" itemValue="#{r.id}" />
+						<p:ajax global="false" listener="#{subjectBean.loadRiskFactorListByCategory}" update=":subjectForm:grid :subjectForm:subjectDetail" />
+					</p:selectOneMenu></td>
+
+			</tr>
+			<tr>
+				<td colspan="7" align="center">
+					<p:selectOneRadio id="grid" value="#{subjectBean.reportStudent.idRiskFactor}" layout="grid" columns="2">
+						<f:selectItems value="#{subjectBean.riskFactorListByCategory}" var="risk" itemLabel="#{risk.name}" itemValue="#{risk.idRiskFactor}" />
+						<p:ajax listener="#{subjectBean.showObservation}" update=":subjectForm:showObservation :subjectForm:subjectDetail" />
+					</p:selectOneRadio></td>
+			</tr>
+			<tr>
+				<td><p:spacer height="15" /></td>
+			</tr>
+		</table>
+
+		<p:outputPanel id="showObservation" rendered="#{subjectBean.showObservation}">
+			<table width="100%">
+
+				<tr>
+					<td><p:spacer height="15" /></td>
+				</tr>
+				<tr>
+					<td />
+					<td colspan="7" align="center" style="background-color: #F2ECEC;" height="30"><b>#{bundle['page.ins.labelObservation']}</b></td>
+					<td />
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+
+				<tr>
+					<td></td>
+					<td colspan="7"><h:outputText value="#{bundle['page.registerStudent.textGuideObservation']}">
+						</h:outputText></td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+
+				<tr>
+					<td />
+					<td colspan="7"><p:inputTextarea autoResize="false" id="txtObservationStudent" value="#{subjectBean.reportStudent.detailReport}"
+							style="width:98%;" cols="20" rows="5" maxlength="500" /></td>
+					<td />
+				</tr>
+			</table>
+
+			<p:spacer height="20" />
+			<div align="center">
+				<p:commandButton id="btnReportStudent" value="#{bundle['page.report.labelButtonReportStudent']}" action="#{subjectBean.saveReportStudent}"
+					type="button" styleClass="ui-priority-primary" onclick="validateCreateReport()" />
+				<p:spacer width="10" />
+				<p:commandButton value="Cancelar" action="#{subjectBean.goBackToAssistance}" />
+			</div>
+			<p:spacer height="20" />
+		</p:outputPanel>
+
+	</p:panel>
+</f:view>

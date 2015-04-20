@@ -1,0 +1,76 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<p:outputPanel rendered="#{!userBean.getValidateUserRole(1)}">
+		<h:form id="formContactUser">
+			<p:panel id="panelContact"
+				header="#{bundle['page.user.labelContactPopup']}" style="height:500px">
+				<p:outputPanel id="contactUserPopup">
+					<table width="100%" border="0" align="left">
+						<tr>
+							<td>
+								Para:
+							</td>
+							<td>
+								#{userBean.userSelectedNameList}
+							</td>
+						</tr>
+						<tr>
+							<td>
+								Plantilla:
+							</td>
+							<td>
+								<p:selectOneMenu filter="true" filterMatchMode="startsWith"  id="etl" effect="drop" style="width:20%"
+									value="#{userBean.idEmailTemplate}">
+									<f:selectItem itemLabel="#{bundle['page.core.selectOne']}"
+										itemValue="0" />
+									<f:selectItems value="#{userBean.emailTemplateList}" />
+									<p:ajax update=":formContactUser:subjectMsg"
+										listener="#{userBean.selectEmailTemplateList}" />
+								</p:selectOneMenu>
+							</td>
+						</tr>
+						<tr>
+							<td width="10%">
+								<h:outputText value="#{bundle['page.user.labelSubject']}" />
+							</td>
+							<td>
+								<p:inputText id="subjectMsg" style="width:90%"
+									value="#{userBean.subjectMsg}" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<h:outputText value="#{bundle['page.user.labelMsg']}" />
+								<p:separator />
+								<p:outputPanel id="editorPanel" autoUpdate="true">
+									<p:editor value="#{userBean.msg}" widgetVar="editor"
+										controls="bold italic underline strikethrough cut copy paste pastetext undo redo"
+										height="250" width="950" />
+									<p:separator />
+								</p:outputPanel>
+							</td>
+						</tr>
+						<tr>
+							<td align="center" colspan="2">
+								<p:commandButton value="#{bundle['page.user.sendMsg']}"
+									id="sendMessageButton" type="button"
+									onclick="validateSendMsg();"
+									actionListener="#{userBean.sendMsgUser}" />
+								<p:commandButton id="gbButton" action="#{userBean.comeBack}"
+									value="#{bundle['page.user.labelButtonComeBack']}" />
+							</td>
+						</tr>
+					</table>
+				</p:outputPanel>
+			</p:panel>
+		</h:form>
+	</p:outputPanel>
+	<p:outputPanel rendered="#{userBean.getValidateUserRole(1)}">
+		<ui:include src="/WEB-INF/includes/content/denied.xhtml"/>
+	</p:outputPanel>
+</f:view>
+
+
