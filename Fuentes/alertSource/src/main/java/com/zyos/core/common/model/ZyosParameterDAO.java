@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Query;
 
+import com.zyos.alert.studentReport.model.RiskFactor;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 
@@ -63,5 +64,58 @@ public class ZyosParameterDAO extends OracleBaseHibernateDAO {
 			throw e;
 		}
 	}
+	
+	public List<AParameter> loadParameterList(Long idParameter) {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append("select id from ");
+			hql.append("degree zp ");
+			hql.append("where ");
+			hql.append("zp.id = :idPa   ");
 
+			qo = getSession().createQuery(hql.toString());
+
+			qo.setParameter("idPa", idParameter);
+
+			return qo.list();
+		} catch (RuntimeException e) {
+			throw e;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	public AParameter validateDegreeUsed(Long idDegree)
+			throws Exception {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			
+			hql.append(" SELECT distinct d");
+			hql.append(" FROM ");
+			hql.append(" StudentDegree sd, Degree d ");			
+			hql.append(" WHERE ");
+			hql.append(" sd.idDegree = d.id and ");		
+			hql.append(" sd.idDegree IN :idDegree ");			
+			hql.append(" AND  sd.state =:state ");
+			hql.append(" AND  d.state =:state ");
+			
+			qo = getSession().createQuery(hql.toString());								
+			qo.setParameter("state", IZyosState.ACTIVE);
+			qo.setParameter("idDegree", idDegree);
+		
+
+			AParameter result = (AParameter) qo.uniqueResult();
+
+			return result;
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
 }

@@ -234,4 +234,16 @@ public class Enterprise extends AParameter implements java.io.Serializable {
 		this.selected = selected;
 	}
 
+	@Override
+	public Long getIdFacultad() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setIdFacultad(Long IdFacultad) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -1,5 +1,6 @@
 package com.zyos.core.common.controller;
 
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,18 +19,19 @@ import com.zyos.core.common.model.AParameter;
 import com.zyos.core.common.model.AParameterModel;
 import com.zyos.core.common.model.ZyosParameter;
 
-@ManagedBean
+@ManagedBean(name = "aParameterBean")
 @ViewScoped
 @URLMapping(id = "degree", pattern = "/portal/gestorCarreras", viewId = "/pages/degree/degree.jspx")
-public class AParameterBean extends ZyosBackingBean {
-
+public class AParameterBean extends ZyosBackingBean implements Serializable {
+	
 	private Long idZyosParameter;
 	private String parameterSelectedNameList, parameterFactorNameList, parameterDegreeNameList, name,
-			description;
+			description, parameterSelectedName;
 	private List<AParameter> parameterList;
 	private AParameter[] selectedParameterList;
-
+	
 	private AParameter aParameter;
+	private AParameter validateaParameter;
 	private AParameterController controller = new AParameterController();
 	private AParameterModel aparameterModel;
 	private ZyosParameter zyosParameter;
@@ -283,37 +285,33 @@ public class AParameterBean extends ZyosBackingBean {
 
 	}
 	
-	public void goEditParameter() {
-		
-	}
-
 	public void goDeleteParameter() {
 		try {
-			if (selectedParameterList != null && selectedParameterList.length > 0) {			
+			if (aParameter != null) {			
 				boolean validate = false;
 			
 				if (zyosParameter.getId() == 2) {
-					validate = validateDegreeUsed(selectedParameterList);
-				}
-
-				if (validate == false) {
-					parameterSelectedNameList = null;
-
-					StringBuilder userList = new StringBuilder();
-
-					for (AParameter zu : selectedParameterList) {
-						userList.append(zu.getName());
-						userList.append(", ");
-					}
-					parameterSelectedNameList = userList.toString();
-					getRequestContext().execute("delParameterPopupWV.show();");
+					addWarn("Eliminar Carrera",
+							"No se puede eliminar la carrera ya que es predeterminada del sistema.");
 				} else {
-					return;
+					validateaParameter = controller.validateDegreeUsed(zyosParameter.getId());
+
+					if (validateaParameter == null) {
+						setParameterSelectedName(null);
+
+						StringBuilder userList = new StringBuilder();
+						userList.append(aParameter.getName());
+
+
+						setParameterSelectedName(userList.toString());
+						getRequestContext().update("degreeForm:delParameterPopup");
+						getRequestContext().execute("delParameterPopupWV.show();");
+					} else {
+						addWarn("Eliminar Carrera",
+							"La Carrera no se puede eliminar debido a que existen estudiantes relacionados con esta carrera.");
+						return;
+					}
 				}
-
-			} else {
-				addWarn( "Borrar Parametros", "Debe seleccionar por lo menos un parametro para continuar");
-
 			}
 		} catch (Exception e) {
 			ErrorNotificacion.handleErrorMailNotification(e, this);
@@ -474,6 +472,12 @@ public class AParameterBean extends ZyosBackingBean {
 		this.parameterDegreeNameList = parameterDegreeNameList;
 	}
 	
-	
+	public String getParameterSelectedName() {
+		return parameterSelectedName;
+	}
+
+	public void setParameterSelectedName(String parameterSelectedName) {
+		this.parameterSelectedName = parameterSelectedName;
+	}
 
 }

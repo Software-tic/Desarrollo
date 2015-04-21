@@ -112,4 +112,16 @@ public class EmailTemplateType extends AParameter implements
 		this.idEnterprise = idEnterprise;
 	}
 
+	@Override
+	public Long getIdFacultad() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setIdFacultad(Long IdFacultad) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

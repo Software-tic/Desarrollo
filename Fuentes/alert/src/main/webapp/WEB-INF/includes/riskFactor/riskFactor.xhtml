@@ -64,7 +64,7 @@
 					<tr>
 						<td />
 						<td colspan="3" align="center"><br /> <p:dataTable id="tableRiskFactor" value="#{riskFactorBean.getRiskFactorList()}" editable="true"
-								paginatorAlwaysVisible="false" resizableColumns="false"
+								paginatorAlwaysVisible="true" resizableColumns="false"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rowsPerPageTemplate="20,40,60" paginator="true" rows="20" filterDelay="600" emptyMessage="#{bundle['page.core.tableNoFoundRecord']}"
 								var="risk" style="width:100%;" widgetVar="parameterTable">
@@ -74,7 +74,6 @@
 
 								<f:facet name="header">
 									#{bundle['page.riskFactor.labelRiskFactorList']}
-								
 								</f:facet>
 
 								<p:column headerText="#{bundle['page.riskFactor.labelName']}" sortBy="#{risk.name}" filterBy="#{risk.name}" filterStyle="width:70%">
@@ -157,7 +156,6 @@
 								<p /> <p:commandButton value="#{bundle['page.core.labelAcept']}" actionListener="#{riskFactorBean.deleteRiskFactor}"
 									oncomplete="delParameterPopupWV.hide();" update=":riskFactorForm:tableRiskFactor" styleClass="ui-priority-primary" /> <p:spacer width="10" />
 								<p:commandButton value="#{bundle['page.login.labelButtonCancel']}" oncomplete="delParameterPopupWV.hide();" />
-
 							</td>
 						</tr>
 					</table>

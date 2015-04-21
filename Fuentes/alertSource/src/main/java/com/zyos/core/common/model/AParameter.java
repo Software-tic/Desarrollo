@@ -7,7 +7,12 @@ public abstract class AParameter extends AZyosModel implements Serializable {
 	protected Long id;
 	protected String name;
 	protected String description;
+	protected Long IdFacultad;
 
+	public abstract Long getIdFacultad();
+
+	public abstract void setIdFacultad(Long IdFacultad);
+	
 	public abstract Long getId();
 
 	public abstract void setId(Long id);

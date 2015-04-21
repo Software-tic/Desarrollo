@@ -138,4 +138,16 @@ public class Profession extends AParameter implements java.io.Serializable {
 	public void setState(Long state) {
 		this.state = state;
 	}
+
+	@Override
+	public Long getIdFacultad() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setIdFacultad(Long IdFacultad) {
+		// TODO Auto-generated method stub
+		
+	}
 }

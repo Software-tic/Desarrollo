@@ -7,9 +7,11 @@ import org.hibernate.Transaction;
 import com.zyos.alert.calification.model.CalificationitemDAO;
 import com.zyos.alert.calification.model.Evaluation;
 import com.zyos.alert.studentReport.model.DegreeDAO;
+import com.zyos.alert.studentReport.model.RiskFactor;
 import com.zyos.alert.studentReport.model.RiskFactorDAO;
 import com.zyos.core.common.model.AParameter;
 import com.zyos.core.common.model.ZyosParameterDAO;
+import com.zyos.core.lo.user.model.ZyosUserGroupDAO;
 
 public class AParameterController extends ZyosController {
 
@@ -37,7 +39,20 @@ public class AParameterController extends ZyosController {
 			dao = null;
 		}
 	}
-
+	
+	public List<AParameter> loadParameterList(Long idPArameter) {
+		ZyosParameterDAO dao = new ZyosParameterDAO();
+		try {
+			return dao.loadParameterList(idPArameter);
+		} catch (RuntimeException e) {
+			dao.getSession().beginTransaction().rollback();
+			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}
+	}
+	
 	public void saveParameter(AParameter parameter) {
 		ZyosParameterDAO dao = new ZyosParameterDAO();
 		try {
@@ -89,7 +104,20 @@ public class AParameterController extends ZyosController {
 		}
 	}
 	
-	
-	
-	
+	public AParameter validateDegreeUsed(Long idAParameter)
+			throws Exception {
+		ZyosParameterDAO dao = new ZyosParameterDAO();
+		Transaction tx = null;
+		try {
+			tx = dao.getSession().beginTransaction();
+			return dao.validateDegreeUsed(idAParameter);
+		} catch (Exception e) {
+			tx.rollback();
+			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+			tx = null;
+		}
+	}
 }

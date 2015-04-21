@@ -119,4 +119,16 @@ public class RiskFactorCategory extends com.zyos.core.common.model.AParameter im
 		this.state = state;
 	}
 
+	@Override
+	public Long getIdFacultad() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setIdFacultad(Long IdFacultad) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
