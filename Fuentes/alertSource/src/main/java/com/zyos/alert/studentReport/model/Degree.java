@@ -30,6 +30,14 @@ public class Degree extends com.zyos.core.common.model.AParameter implements
 		this.dateCreation = dateCreation;
 		this.state = state;
 	}
+	
+	
+	
+	public Degree(Long id,String name, String description) {
+		this.id=id;
+		this.name = name;
+		this.description = description;
+	}
 
 	/** full constructor */
 	public Degree(String name, String description, String dateCreation,
@@ -118,18 +126,6 @@ public class Degree extends com.zyos.core.common.model.AParameter implements
 
 	public void setState(Long state) {
 		this.state = state;
-	}
-
-	@Override
-	public Long getIdFacultad() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setIdFacultad(Long IdFacultad) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

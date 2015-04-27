@@ -5,92 +5,59 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import org.primefaces.event.RowEditEvent;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
-import com.ocpsoft.pretty.faces.annotation.URLMappings;
-import com.zyos.core.common.api.IZyosGroup;
+import com.zyos.alert.facultyDegree.model.FacultyDegree;
+import com.zyos.alert.facultyDegree.model.FacultyDegreeModel;
+import com.zyos.alert.faculty.model.Faculty;
+import com.zyos.alert.studentReport.model.Degree;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.common.model.AParameter;
 import com.zyos.core.common.model.AParameterModel;
 import com.zyos.core.common.model.ZyosParameter;
+import com.zyos.core.lo.user.model.ZyosUserModel;
 
 @ManagedBean(name = "aParameterBean")
 @ViewScoped
 @URLMapping(id = "degree", pattern = "/portal/gestorCarreras", viewId = "/pages/degree/degree.jspx")
 public class AParameterBean extends ZyosBackingBean implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private boolean showListDegree = true, showAddDegree, showEditDegree, showDetailDegree;
+	
 	private Long idZyosParameter;
-	private String parameterSelectedNameList, parameterFactorNameList, parameterDegreeNameList, name,
-			description, parameterSelectedName;
+	private String parameterSelectedNameList, parameterFactorNameList, parameterDegreeNameList, name, description;
 	private List<AParameter> parameterList;
+	private List<FacultyDegree> FacultyDegreeList;
 	private AParameter[] selectedParameterList;
+	private FacultyDegree[] selectedFacultyDegreeList;
 	
 	private AParameter aParameter;
-	private AParameter validateaParameter;
+	private FacultyDegree selectedFacultyDegree;
 	private AParameterController controller = new AParameterController();
 	private AParameterModel aparameterModel;
+	private FacultyDegreeModel FacultyDegreeModel;
 	private ZyosParameter zyosParameter;
 
 	// default constructor
 	public AParameterBean() throws Exception {
-		
-	}
-
-	private AParameter getAParamenterByList(Long idValue, List list) {
-		if (list != null)
-			for (AParameter p : (List<AParameter>) list)
-				if (p.getId().equals(idValue))
-					return p;
-		return null;
-	}
-
-	// handle method
-
-	public void handleSelectParameter() {
 		try {
-			if (idZyosParameter != null && idZyosParameter.intValue() != 0) {
-				zyosParameter = (ZyosParameter) getAParamenterByList(
-						idZyosParameter, getZyosParameterList());
-				if (zyosParameter != null) {
-					parameterList = controller.loadParameterList(
-							getUserSession().getDefaultEnterprise(), 
-							zyosParameter.getDescription(), 
-							zyosParameter.getGlobalParameter().intValue());
-					aparameterModel = new AParameterModel(parameterList);
-					System.out.println(parameterList);
-					return;
-				}
-			}
-			parameterList = null;
+			//loadParameterListByEnterprise(getUserSession().getDefaultEnterprise(), getUserSession().getDefaultGroup());
+			//--- no se puede hacer la busqueda de las carreras por sede o seccional, no hay una relación en la base de datos para poder hacerlo
+			FacultyDegreeList = controller.loadParameterList();
+			setFacultyDegreeModel(new FacultyDegreeModel(FacultyDegreeList));
+			
 		} catch (Exception e) {
 			ErrorNotificacion.handleErrorMailNotification(e, this);
 		}
-	}
-
-	public void handleEditParameter(RowEditEvent event) {
-		try {
-			aParameter = (AParameter) event.getObject();
-			if (aParameter != null) {
-				saveOrUpdateParameter();
-				aparameterModel = new AParameterModel(parameterList);
-				addInfo( "Editar parámetro",
-						"El parámetro ha sido editado exitosamente");
-			}
-		} catch (Exception e) {
-			addError(
-					"Editar Parámetro",
-					"Se presento un error al intentar editar el parámetro, intente de nuevo o contacte al administrador");
-			ErrorNotificacion.handleErrorMailNotification(e, this);
-		}
-	}
-
-	public void handleCancelParameter(RowEditEvent event) {
-		aParameter = (AParameter) event.getObject();
 	}
 
 	// action methods
@@ -285,33 +252,41 @@ public class AParameterBean extends ZyosBackingBean implements Serializable {
 
 	}
 	
+	public void goEditParameter() {
+		
+	}
+
+	public void goDetailParameter() {
+		
+	}
+
 	public void goDeleteParameter() {
 		try {
-			if (aParameter != null) {			
+			if (selectedParameterList != null && selectedParameterList.length > 0) {			
 				boolean validate = false;
 			
 				if (zyosParameter.getId() == 2) {
-					addWarn("Eliminar Carrera",
-							"No se puede eliminar la carrera ya que es predeterminada del sistema.");
-				} else {
-					validateaParameter = controller.validateDegreeUsed(zyosParameter.getId());
-
-					if (validateaParameter == null) {
-						setParameterSelectedName(null);
-
-						StringBuilder userList = new StringBuilder();
-						userList.append(aParameter.getName());
-
-
-						setParameterSelectedName(userList.toString());
-						getRequestContext().update("degreeForm:delParameterPopup");
-						getRequestContext().execute("delParameterPopupWV.show();");
-					} else {
-						addWarn("Eliminar Carrera",
-							"La Carrera no se puede eliminar debido a que existen estudiantes relacionados con esta carrera.");
-						return;
-					}
+					validate = validateDegreeUsed(selectedParameterList);
 				}
+
+				if (validate == false) {
+					parameterSelectedNameList = null;
+
+					StringBuilder userList = new StringBuilder();
+
+					for (AParameter zu : selectedParameterList) {
+						userList.append(zu.getName());
+						userList.append(", ");
+					}
+					parameterSelectedNameList = userList.toString();
+					getRequestContext().execute("delParameterPopupWV.show();");
+				} else {
+					return;
+				}
+
+			} else {
+				addWarn( "Borrar Parametros", "Debe seleccionar por lo menos un parametro para continuar");
+
 			}
 		} catch (Exception e) {
 			ErrorNotificacion.handleErrorMailNotification(e, this);
@@ -471,13 +446,73 @@ public class AParameterBean extends ZyosBackingBean implements Serializable {
 	public void setParameterDegreeNameList(String parameterDegreeNameList) {
 		this.parameterDegreeNameList = parameterDegreeNameList;
 	}
-	
-	public String getParameterSelectedName() {
-		return parameterSelectedName;
+		
+	public boolean isshowListDegree() {
+		return showListDegree;
 	}
 
-	public void setParameterSelectedName(String parameterSelectedName) {
-		this.parameterSelectedName = parameterSelectedName;
+	public void setshowListDegree(boolean showListDegree) {
+		this.showListDegree = showListDegree;
+		showAddDegree = showDetailDegree = showEditDegree = false;
+	}
+
+	public boolean isshowAddDegree() {
+		return showAddDegree;
+	}
+
+	public void setshowAddDegree(boolean showAddDegree) {
+		this.showAddDegree = showAddDegree;
+		showEditDegree = showListDegree = false;
+	}
+
+	public boolean isshowEditDegree() {
+		return showEditDegree;
+	}
+
+	public void setshowEditDegree(boolean showEditDegree) {
+		this.showEditDegree = showEditDegree;
+		showAddDegree = showDetailDegree = showListDegree = false;
+	}
+
+	public boolean isshowDetailDegree() {
+		return showDetailDegree;
+	}
+
+	public void setshowDetailDegree(boolean showDetailDegree) {
+		this.showDetailDegree = showDetailDegree;
+		showAddDegree =  showEditDegree = showListDegree = false;
+	}
+
+	public FacultyDegreeModel getFacultyDegreeModel() {
+		return FacultyDegreeModel;
+	}
+
+	public void setFacultyDegreeModel(FacultyDegreeModel facultyDegreeModel) {
+		FacultyDegreeModel = facultyDegreeModel;
+	}
+
+	public FacultyDegree[] getSelectedFacultyDegreeList() {
+		return selectedFacultyDegreeList;
+	}
+
+	public void setSelectedFacultyDegreeList(FacultyDegree[] selectedFacultyDegreeList) {
+		this.selectedFacultyDegreeList = selectedFacultyDegreeList;
+	}
+	
+	public List<FacultyDegree> getFacultyDegreeList() {
+		return FacultyDegreeList;
+	}
+
+	public void setFacultyDegreeList(List<FacultyDegree> FacultyDegreeList) {
+		this. FacultyDegreeList = FacultyDegreeList;
+	}
+	
+	public FacultyDegree getSelectedFacultyDegree() {
+		return selectedFacultyDegree;
+	}
+
+	public void setSelectedFacultyDegree(FacultyDegree selectedFacultyDegree) {
+		this.selectedFacultyDegree = selectedFacultyDegree;
 	}
 
 }

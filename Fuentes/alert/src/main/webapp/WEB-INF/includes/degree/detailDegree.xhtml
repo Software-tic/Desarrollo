@@ -1,0 +1,46 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+		<h:form id="formViewDegree">
+			<p:panel>
+				<table width="98%" border="0" cellpadding="2" cellspacing="2">
+					<tr>
+						<td width="6%"></td>
+						<td width="88%"><p:panel
+								header="#{bundle['page.user.labelBasicData']}">
+								<table width="98%" border="0" cellpadding="1" cellspacing="7">
+									<tr>
+										<td width="6%"></td>
+										<td align="left">Facultad</td>
+										<td align="left">#{aParameterBean.aParameter.description}</td>
+										<td width="6%"></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td align="left">#{bundle['page.user.labelName']}</td>
+										<td align="left">#{aParameterBean.aParameter.description}</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td align="left">Descripción</td>
+										<td align="left">#{aParameterBean.aParameter.description}</td>
+										<td></td>
+									</tr>
+								</table>
+							</p:panel>
+						</td>
+						<td width="6%"></td>
+					</tr>
+					<tr>
+						<td colspan="3" align="center"><p:commandButton id="gbButton"
+								partialSubmit="true" action="#{aParameterBean.goBack}" global="false"
+								value="#{bundle['page.user.labelButtonComeBack']}" />
+						</td>
+					</tr>
+				</table>
+			</p:panel>
+		</h:form>
+</f:view>

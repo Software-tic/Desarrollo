@@ -4,7 +4,8 @@ import java.util.List;
 
 import org.hibernate.Query;
 
-import com.zyos.alert.studentReport.model.RiskFactor;
+import com.zyos.alert.facultyDegree.model.FacultyDegree;
+import com.zyos.core.common.model.AParameter;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 
@@ -43,9 +44,26 @@ public class ZyosParameterDAO extends OracleBaseHibernateDAO {
 			throw e;
 		}
 	}
+	
+	public List<FacultyDegree> loadParameterListdegree() {
+		try {			
+			StringBuilder hql = new StringBuilder("select new FacultyDegree(fd.id,f.id,f.name,d.id,d.name,d.description) "
+					+ " from Degree d, Faculty f, FacultyDegree fd where fd.idFaculty=f.id AND fd.idDegree = d.id "
+					+ "AND f.state = :state AND d.state = :state AND fd.state= :state");
+			
+			
+			Query qo = null;
+			qo = getSession().createQuery(hql.toString());
+			qo.setParameter("state", IZyosState.ACTIVE);
+			hql = null;
+			return qo.list();
+		} catch (RuntimeException e) {
+			throw e;
+		}
+	}
 
 	public List<AParameter> loadParameterList(Long idEnterprise,
-			String nameClass, int globalParameter) {
+			String nameClass, long globalParameter) {
 		try {
 			StringBuilder hql = new StringBuilder("from ");
 			hql.append(nameClass);
@@ -65,7 +83,7 @@ public class ZyosParameterDAO extends OracleBaseHibernateDAO {
 		}
 	}
 	
-	public List<AParameter> loadParameterList(Long idParameter) {
+	public List<AParameter> loadParameter(Long idParameter) {
 		StringBuilder hql = new StringBuilder();
 		Query qo = null;
 		try {

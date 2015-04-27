@@ -1,17 +1,10 @@
 package com.zyos.core.common.model;
 
-import java.io.Serializable;
-
-public abstract class AParameter extends AZyosModel implements Serializable {
+public abstract class AParameter extends com.zyos.core.common.model.AZyosModel implements java.io.Serializable  {
 
 	protected Long id;
 	protected String name;
 	protected String description;
-	protected Long IdFacultad;
-
-	public abstract Long getIdFacultad();
-
-	public abstract void setIdFacultad(Long IdFacultad);
 	
 	public abstract Long getId();
 

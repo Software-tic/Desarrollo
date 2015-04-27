@@ -124,16 +124,4 @@ public class EmailList extends AParameter implements java.io.Serializable {
 		this.state = state;
 	}
 
-	@Override
-	public Long getIdFacultad() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setIdFacultad(Long IdFacultad) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

@@ -9,6 +9,8 @@ import org.hibernate.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.zyos.alert.studentReport.model.Degree;
+import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 
 /**
@@ -136,5 +138,22 @@ public class FacultyDAO extends OracleBaseHibernateDAO {
 		}
 	}
 
-	
+	public List<Faculty> loadFacultyList() {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append(" FROM Faculty p ");
+			hql.append(" WHERE p.state = :state ");
+
+			qo = getSession().createQuery(hql.toString());		
+			qo.setParameter("state", IZyosState.ACTIVE);
+			return qo.list();
+			
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
 }

@@ -3,6 +3,7 @@
 	<name>alert</name>
 	<comment></comment>
 	<projects>
+		<project>alertSource</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

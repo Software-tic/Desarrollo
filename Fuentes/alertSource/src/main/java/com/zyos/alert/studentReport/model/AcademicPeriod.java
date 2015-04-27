@@ -138,18 +138,4 @@ public class AcademicPeriod extends com.zyos.core.common.model.AParameter
 		this.endDate = endDate;
 	}
 
-	@Override
-	public Long getIdFacultad() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setIdFacultad(Long IdFacultad) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-
 }

@@ -1,199 +1,26 @@
-<f:view xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-	<h:form id="degreeForm">
-		<p:outputPanel rendered="#{!aParameterBean.getValidateUserRole(1,6)}">
-			<p:spacer height="30"></p:spacer>
-			<p:panel header="#{bundle['page.degree.labelDegree']}">
-				<table width="100%" border="0" cellpadding="5" cellspacing="2">
-					<tr>
-						<td colspan="4" align="center"  style="background-color: #F2ECEC;" height="30"><b>Adición de Carreras</b></td>
-					</tr>			
-					<tr>
-						<td colspan="3">
-							<p />#{bundle['page.sp.fieldObligatory']}<p />
-						</td>
-					</tr>
-					<tr>
-						<td>*Facultad:<p:spacer width="20" /></td>
-						<td>
-							<p:selectOneMenu style="width: 98%" id="FacultySelect" value="#{aParameterBean.aParameter.IdFacultad}">
-								<f:selectItem itemLabel="Seleccione Uno" itemValue="" />
-								<f:selectItems value="#{aParameterBean.getRiskFactorListCategory()}" var="r" itemLabel="#{r.name}" itemValue="#{r.id}" />
-							</p:selectOneMenu>
-							<div id="selectCategory" class="LV_invalid" />
-						</td>
-					</tr>
-					<tr>
-						<td>*Nombre de la Carrera:<p:spacer width="20" /></td>
-						<td>
-							<p:inputText value="#{aParameterBean.aParameter.name}" id="nameaParameter" style="width:98%"/>
-						</td>
-					</tr>
-					<tr>
-						<td>*#{bundle['page.riskFactor.labelDescription']}:</td>
-						<td><p:inputTextarea id="descriptionParameter" style="width:98%" rows="2" value="#{aParameterBean.aParameter.description}" maxlength="256"
-							autoResize="false" />
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2" />
-						<td>
-							<p:commandButton id="buttonAddParameter" disabled="#{aParameterBean.getValidateUserRole(2,6)}"
-								value="#{bundle['page.riskFactor.labelButtonAdd']}" action="#{aParameterBean.saveDegree}" partialSubmit="true" global="false"
-								update=":degreeForm	" onclick="statusDialog.show()" oncomplete="statusDialog.hide()" styleClass="ui-priority-primary" />
-						</td>
-					</tr>
-					
-					<tr>
-						<td colspan="3" align="center">
-							<p:dataTable id="tableDegree" value="#{aParameterBean.aparameterModel}"	editable="true"
-								paginatorAlwaysVisible="true" resizableColumns="false"
-								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								rowsPerPageTemplate="20,40,60" paginator="true" rows="20" filterDelay="600" emptyMessage="#{bundle['page.core.tableNoFoundRecord']}"
-								selection="#{aParameterBean.selectedParameterList}"
-								var="parameter" style="width:100%;" widgetVar="parameterTable">
-
-								<p:ajax event="rowEdit" partialSubmit="true" global="false" listener="#{aParameterBean.handleEditParameter}" />
-								<p:ajax event="rowEditCancel" partialSubmit="true" listener="#{aParameterBean.handleCancelParameter}" />
-
-								<f:facet name="header"> #{bundle['page.degree.labelDegreeList']}		
-									<div align="right">
-										<h:outputText value="Buscar:" />
-										<p:inputText id="globalFilter" onkeyup="parameterTable.filter()" style="width:150px" />
-									</div>						
-								</f:facet>
-		
-								<p:column width="45%" headerText="#{bundle['page.degree.labelName']}"  filterMatchMode="contains" filterStyle="display:none"
-									sortBy="#{parameter.name}" filterBy="#{parameter.name}" style="text-align:left">
-									<p:cellEditor>
-										<f:facet name="output">
-											<h:outputText value="#{parameter.name}" />
-										</f:facet>
-										<f:facet name="input">
-											<p:inputText value="#{parameter.name}" style="width:100%" />
-										</f:facet>
-									</p:cellEditor>
-								</p:column>
-								
-								<p:column width="45%" headerText="#{bundle['page.degree.labelDescription']}"  filterMatchMode="contains" filterStyle="display:none"
-									sortBy="#{parameter.name}" filterBy="#{parameter.name}" style="text-align:left">
-									<p:cellEditor>
-										<f:facet name="output">
-											<h:outputText value="#{parameter.description}" />
-										</f:facet>
-										<f:facet name="input">
-											<p:inputText value="#{parameter.description}" style="width:100%" />
-										</f:facet>
-									</p:cellEditor>
-								</p:column>
-								
-								<p:column width="20" disabled="#{aParameterBean.getValidateUserRole(3,6)}">
-									<p:rowEditor  />
-								</p:column> 
-								
-								<p:column width="5%">
-									<p:commandLink id="deleteParameter" title="Eliminar Carrera" partialSubmit="true" disabled="#{aParameterBean.getValidateUserRole(5,6)}"
-										action="#{aParameterBean.goDeleteParameter}">
-										<p:graphicImage value="../css/images/delete.gif" style="width:20px;height:20px;" />
-										<f:setPropertyActionListener target="#{aParameterBean.aParameter}" value="#{parameter}" />
-									</p:commandLink>
-								</p:column>
-					
-							<f:facet name="footer">
-								<p:outputPanel>#{fn:length(aParameterBean.parameterList)} Carrera(s) habilitada(s)</p:outputPanel>
-							</f:facet>
-						</p:dataTable>
-						<br/>
-					</td>
-					<td/>
-				</tr>
-					
-				<tr>
-					<td/>
-					<td align="center" colspan="3">
-						<p:commandButton value="#{bundle['page.core.labelGoBack']}" onclick="history.back()" />
-					</td>
-					<td/>					
-				</tr>
-					
-			</table>
-				
-			</p:panel>
-			
-			<p:dialog id="delParameterPopup"
-				header="#{bundle['page.degree.deleteDegree']}" modal="true"
-				resizable="false" draggable="true" showEffect="drop"
-				hideEffect="fade" widgetVar="delParameterPopupWV" width="350">
-				<p:outputPanel style="text-align:center;" layout="block">
-					
-					<table style="width: 100%" border="0" cellspacing="5" cellpading="5" >
-						<tr>
-							<td align="left">
-								<h:outputText value="#{bundle['page.degree.textDelete']}: #{aParameterBean.parameterSelectedNameList}" /> 
-								<br/><br/>
-								<h:outputText value="¿#{bundle['page.degree.areSure']}?" />
-							</td>
-						</tr>
-						<tr>
-							<td align="center">
-								<p/>
-								<p:commandButton value="#{bundle['page.core.labelAcept']}"
-									actionListener="#{aParameterBean.delParameter}"
-									oncomplete="delParameterPopupWV.hide();"
-									update=":degreeForm:tableDegree"
-									styleClass="ui-priority-primary" />
-								
-								<p:spacer width="10"/>
-								
-								<p:commandButton value="#{bundle['page.login.labelButtonCancel']}" oncomplete="delParameterPopupWV.hide();"/>
-								
-							</td>
-						</tr>
-					</table>
-				</p:outputPanel>
-			</p:dialog>
-			
-			
-			<p:dialog id="delParameterPopup3"
-				header="#{bundle['page.degree.deleteDegree']}" modal="true"
-				resizable="false" draggable="true" showEffect="drop"
-				hideEffect="fade" widgetVar="delParameterPopupWV3" width="350">
-				<p:outputPanel style="text-align:center;" layout="block">
-					
-					<table style="width: 100%" border="0" cellspacing="5" cellpading="5" >
-						<tr>
-							<td align="left">
-								<h:outputText value="#{bundle['page.degree.textCantDelete']}" />
-								<br/><br/>
-								<h:outputText value=" #{aParameterBean.parameterDegreeNameList}" />
-								<br/>
-								
-							</td>
-						</tr>
-						<tr>
-							<td align="center">
-								<p/>
-								<p:commandButton value="#{bundle['page.core.labelAcept']}"									
-									oncomplete="delParameterPopupWV3.hide();"
-									update=":degreeForm:tableDegree"
-									styleClass="ui-priority-primary" />
-								
-								<p:spacer width="10"/>								
-								
-							</td>
-						</tr>
-					</table>
-				</p:outputPanel>
-			</p:dialog>
-		
-		<script type="text/javascript">
-			window.onload=function(){
-				loadDefaultParameter();
-			};
-		</script>
+	<p:outputPanel id="degreePanel" rendered="#{!aParameterBean.getValidateUserRole(1,6)}">
+		<p:outputPanel id="listD" rendered="#{aParameterBean.showListDegree}">
+			<ui:include src="/WEB-INF/includes/degree/ListDegree.xhtml"/>
 		</p:outputPanel>
-	</h:form>
-</f:view>
+	
+		<p:outputPanel id="addD" layout="block" rendered="#{aParameterBean.showAddDegree or aParameterBean.showEditDegree}">
+			<ui:include src="/WEB-INF/includes/degree/AddDegree.xhtml"/>
+		</p:outputPanel>
+	
+		<p:outputPanel id="viewD" rendered="#{aParameterBean.showDetailDegree}" layout="block">
+			<ui:include src="/WEB-INF/includes/degree/detailDegree.xhtml"/>
+		</p:outputPanel>
+	</p:outputPanel>
+	
+	<p:outputPanel rendered="#{aParameterBean.getValidateUserRole(1,6)}"> 
+		
+		<br> </br>
+		<ui:include src="/WEB-INF/includes/content/denied.xhtml" />
+	
+	</p:outputPanel>
+</ui:composition>

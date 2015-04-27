@@ -103,16 +103,4 @@ public class ExecutionHistoricalType extends AParameter implements java.io.Seria
 		this.state = state;
 	}
 
-	@Override
-	public Long getIdFacultad() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setIdFacultad(Long IdFacultad) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

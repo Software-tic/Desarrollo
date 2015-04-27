@@ -17,6 +17,10 @@ public class Faculty extends com.zyos.core.common.model.AZyosModel implements
 
 	}
 
+	public Faculty(Long idFaculty) {
+		this.idFaculty = idFaculty;
+	}
+	
 	public Faculty(Long idFaculty, String name) {
 		this.idFaculty = idFaculty;
 		this.name = name;

@@ -8,6 +8,10 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.zyos.alert.faculty.model.Faculty;
+import com.zyos.alert.studentReport.model.Degree;
+import com.zyos.core.login.model.ZyosLogin;
+
 @Entity
 @Table(name = "facultydegree")
 public class FacultyDegree extends com.zyos.core.common.model.AZyosModel
@@ -19,6 +23,8 @@ public class FacultyDegree extends com.zyos.core.common.model.AZyosModel
 	private Long idFacultyDegree;
 	private Long idFaculty;
 	private Long idDegree;
+	private transient String Faculty;
+	private transient String Degree;
 	
 
 	public FacultyDegree() {	
@@ -28,6 +34,14 @@ public class FacultyDegree extends com.zyos.core.common.model.AZyosModel
 		this.idFacultyDegree = idFacultyDegree;
 		this.idFaculty = idFaculty;
 		this.idDegree = idDegree;
+	}
+	
+	public FacultyDegree(Long idFacultyDegree, Long idFaculty, String namef, Long idDegree, String named, String descriptiond) {
+		this.idFacultyDegree = idFacultyDegree;
+		this.idFaculty = idFaculty;
+		this.idDegree = idDegree;
+		this.setFaculty(namef);
+		this.setDegree(named);
 	}
 
 	// Property accessors
@@ -42,7 +56,7 @@ public class FacultyDegree extends com.zyos.core.common.model.AZyosModel
 	public void setIdFacultyDegree(Long idFacultyDegree) {
 		this.idFacultyDegree = idFacultyDegree;
 	}
-
+	
 	@Column(name = "idFaculty", nullable = true)
 	public Long getIdFaculty() {
 		return idFaculty;
@@ -104,6 +118,22 @@ public class FacultyDegree extends com.zyos.core.common.model.AZyosModel
 
 	public void setState(Long state) {
 		this.state = state;
+	}
+
+	public String getFaculty() {
+		return Faculty;
+	}
+
+	public void setFaculty(String faculty) {
+		Faculty = faculty;
+	}
+
+	public String getDegree() {
+		return Degree;
+	}
+
+	public void setDegree(String degree) {
+		Degree = degree;
 	}
 
 }

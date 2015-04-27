@@ -1,11 +1,17 @@
 package com.zyos.alert.studentReport.model;
 
 import com.zyos.core.common.api.IZyosState;
+import com.zyos.core.common.util.ManageDate;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
+import com.zyos.core.lo.user.model.ZyosUser;
+
 import java.util.List;
+
 import org.hibernate.LockMode;
 import org.hibernate.Query;
+
 import static org.hibernate.criterion.Example.create;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -181,8 +187,59 @@ public class DegreeDAO extends OracleBaseHibernateDAO {
 			
 		} catch (RuntimeException re) {
 			throw re;
+		} finally {
+			hql = null;
+			qo = null;
 		}
 	}
 	
+	/*public List<Degree> loadDegreeList() throws Exception {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append("select new Degree( d.id, d.name, d.description, f.idfaculty, f.name )"
+			+ " from zyos.degree d, zyos.faculty f, zyos.facultydegree fd "
+			+ "where fd.idfaculty=f.idfaculty AND fd.iddegree=d.id "
+			+ "AND f.state=1 AND fd.state=:state AND d.state=:state");
+
+			qo = getSession().createQuery(hql.toString());
+
+			qo.setParameter("state", IZyosState.ACTIVE);
+
+			return qo.list();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}*/
+	
+	public void changeStateDegree(String idDegreeList, String documentNumber,Long state) {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append("update Degree ");
+			hql.append("set state = :state ,");
+			hql.append("userChange = :userChange ,");
+			hql.append("dateChange = :newdateChange ");
+			hql.append("where idFacultyDegree in (");
+			hql.append(idDegreeList);
+			hql.append(" )");
+
+			qo = getSession().createQuery(hql.toString());
+
+			qo.setParameter("state", state);
+			qo.setParameter("userChange", documentNumber);
+			qo.setParameter("newdateChange",ManageDate.getCurrentDate(ManageDate.YYYY_MM_DD_HH_MM_SS));
+
+			qo.executeUpdate();
+		} catch (RuntimeException e) {
+			throw e;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
 	
 }
