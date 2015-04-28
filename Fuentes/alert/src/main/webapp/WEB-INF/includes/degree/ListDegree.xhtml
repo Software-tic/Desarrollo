@@ -30,7 +30,7 @@
 				
 				<p:column selectionMode="multiple" width="20" />
 		
-				<p:column width="45%" headerText="#{bundle['page.riskFactor.labelName']}"  filterMatchMode="contains" filterStyle="display:none"
+				<p:column width="45%" headerText="#{bundle['page.degree.labelName']}"  filterMatchMode="contains" filterStyle="display:none"
 					sortBy="#{parameter.degree}" filterBy="#{parameter.degree}" style="text-align:center">
 					<div align="left">
 						#{parameter.degree}
@@ -80,7 +80,7 @@
 				<p:commandButton action="#{aParameterBean.goAddParameter}" disabled="#{aParameterBean.getValidateUserRole(2,6)}"
 					styleClass="ui-priority-primary" partialSubmit="true"
 					onclick="statusDialog.show();"
-					value="Agregar Nueva Carrera" />
+					value="#{bundle['page.degree.AddButton']}" />
 			</p>
 				
 			<p:dialog id="delParameterPopup"
@@ -90,9 +90,9 @@
 					<p:outputPanel style="text-align:center;" layout="block">
 						<table width="100%" border="0" align="left">
 							<tr>
-								<td align="left">las carreras seleccionadas fueron:
+								<td align="left">#{bundle['page.degree.textDelete']}
 									#{aParameterBean.parameterSelectedNameList}
-									#{bundle['page.user.labelPopupDelSureAll']}</td>
+									#{bundle['page.degree.labelPopupDelSureAll']}</td>
 							</tr>
 							<tr>
 								<td align="center">

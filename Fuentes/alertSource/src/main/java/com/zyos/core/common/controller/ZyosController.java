@@ -22,7 +22,8 @@ import com.zyos.core.mail.io.mn.model.EmailTemplate;
 
 public class ZyosController implements Serializable {
 
-	public List<ZyosGroup> getGroupList(Long idEnterprise, Long idZG, boolean withEqualByRole) {
+	public List<ZyosGroup> getGroupList(Long idEnterprise, Long idZG,
+			boolean withEqualByRole) {
 		try {
 			List<ZyosGroup> groups = BeanList.getZyosGroupList();
 			if (idZG == 1)
@@ -87,15 +88,18 @@ public class ZyosController implements Serializable {
 	/**
 	 * Method that find and load the validate user for the SP selected
 	 * 
-	 * @param idSP Long id of SP
+	 * @param idSP
+	 *            Long id of SP
 	 * @param idOZ
 	 * @return list with the user found
 	 */
-	public ArrayList<SelectItem> loadListUserBySP(Long idSP, Long idOZ, Long idZG) {
+	public ArrayList<SelectItem> loadListUserBySP(Long idSP, Long idOZ,
+			Long idZG) {
 		ZyosUserDAO userDAO = null;
 		try {
 			userDAO = new ZyosUserDAO();
-			ArrayList<SelectItem> usersList = userDAO.findBySP(idSP, idOZ, idZG);
+			ArrayList<SelectItem> usersList = userDAO
+					.findBySP(idSP, idOZ, idZG);
 			if (!usersList.isEmpty()) {
 				return usersList;
 			}
@@ -109,20 +113,26 @@ public class ZyosController implements Serializable {
 		}
 	}
 
-	public boolean validateForgotPassword(final String userMail, String userName, final String pass) {
+	public boolean validateForgotPassword(final String userMail,
+			String userName, final String pass) {
 		ZyosUserDAO dao = null;
 		try {
 			dao = new ZyosUserDAO();
 			String passwordMD5 = RSA.encrypt(pass);
-			String nameUser = dao.validateForgotPassword(userMail, userName, passwordMD5);
+			String nameUser = dao.validateForgotPassword(userMail, userName,
+					passwordMD5);
 			if (nameUser != null) {
 				dao.getSession().close();
 				try {
-					EmailTemplate et = EmailHandler.getEmailTemplate(Long.valueOf(1), IEmailTemplate.RESET_PASSWORD);
+					EmailTemplate et = EmailHandler.getEmailTemplate(
+							Long.valueOf(1), IEmailTemplate.RESET_PASSWORD);
 
 					SMTPEmail smtp = new SMTPEmail();
-					smtp.sendProcessEmail(ZyosBackingBean.getProperty("mail.smtp.user"), et.getSubject(),
-						EmailHandler.createGenericMessage(et.getBody(), et.getAnalyticsCode(), nameUser, userMail, pass), userMail);
+					smtp.sendProcessEmail(ZyosBackingBean
+							.getProperty("mail.smtp.user"), et.getSubject(),
+							EmailHandler.createGenericMessage(et.getBody(),
+									et.getAnalyticsCode(), nameUser, userMail,
+									pass), userMail);
 
 				} catch (Exception e) {
 					ErrorNotificacion.handleErrorMailNotification(e, "system");
@@ -132,7 +142,8 @@ public class ZyosController implements Serializable {
 
 			return false;
 		} catch (Exception e) {
-			ErrorNotificacion.handleErrorMailNotification(e, "ERROR-validate password");
+			ErrorNotificacion.handleErrorMailNotification(e,
+					"ERROR-validate password");
 			return false;
 		} finally {
 			dao.getSession().close();
@@ -157,7 +168,8 @@ public class ZyosController implements Serializable {
 		}
 	}
 
-	public List<SelectItem> queryUserByEnterprise(Long idSP, Long idOZ, Long idZG) {
+	public List<SelectItem> queryUserByEnterprise(Long idSP, Long idOZ,
+			Long idZG) {
 		ZyosUserDAO zyosUserDAO = new ZyosUserDAO();
 		try {
 			return zyosUserDAO.findBySP(idSP, idOZ, idZG);
@@ -222,6 +234,5 @@ public class ZyosController implements Serializable {
 			dao = null;
 		}
 	}
-
 
 }

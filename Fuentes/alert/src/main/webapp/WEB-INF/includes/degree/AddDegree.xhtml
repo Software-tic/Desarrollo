@@ -4,114 +4,132 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions">
-	
+
 	<h:form id="formAddDegree">
-			<h:inputHidden id="disableEnter"/>
-    		<p:defaultCommand target="disableEnter"/>
-				<p:panel>
-					<table width="100%" border="0" cellpadding="0" cellspacing="0">
+		<h:inputHidden id="disableEnter" />
+		<p:defaultCommand target="disableEnter" />
+		<p:panel>
+			<table width="100%" border="0" cellpadding="0" cellspacing="0">
+				<tr>
+					<td width="3%"></td>
+					<td height="23">#{bundle['page.user.label_asterisk']}</td>
+				</tr>
+				<tr>
+					<td width="3%"></td>
+					<td><p:panel id="userData"
+							header="#{bundle['page.degree.labelBasicData']}">
+							<p:outputPanel id="userDataPanel">
+								<table width="90%" border="0" cellpadding="5" cellspacing="5">
+									<tr>
+										<td width="6%"></td>
+										<td>#{bundle['page.degree.labelDescription']} *</td>
+										<td align="left">
+											<!-- style="width: 95%" filterMatchMode="startsWith" filter="true"-->
+											<p:selectOneMenu filter="false"
+												id="FacultyList" effect="fade"
+												value="#{aParameterBean.selectedFacultyDegree.idFaculty}">
+												<f:selectItem itemLabel="FACULTAD" itemValue="0"/>
+												<f:selectItems value="#{aParameterBean.facultiesList}"
+													var="faculty" itemValue="#{faculty.idFaculty}"
+													itemLabel="#{faculty.name}"/>
+											</p:selectOneMenu>
+											<div id="dtDiv" class="LV_invalid" /></td>
+										<td width="6%"></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td align="left">Nombre de la Carrera *</td>
+										<!--  maxlength="45" size="70"-->
+										<td align="left"><p:inputText id="nameUser" style="width:98%"
+												value="#{aParameterBean.selectedFacultyDegree.degree}">
+											</p:inputText></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td align="left">Descripción *</td>
+
+										<td align="left"><p:inputTextarea id="descriptionFaculty"
+												style="width:98%" rows="2"
+												value="#{aParameterBean.selectedFacultyDegree.degreeDescription}"
+												maxlength="256" autoResize="false" /></td>
+										<td></td>
+									</tr>
+								</table>
+							</p:outputPanel>
+						</p:panel></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<div align="center">
+							<p>
+								<p:outputPanel id="panelButton">
+									<p:commandButton id="addButtonD" type="button"
+										styleClass="ui-priority-primary"
+										partialSubmit="true"
+										disabled="#{aParameterBean.documentUserExist}"
+										action="#{aParameterBean.saveDegree}" widgetVar="userButton"
+										rendered="#{userBean.showAddUser}"
+										value="#{bundle['page.user.labelButtonCreateUser']}" />
+									<p:commandButton id="editButtonU" widgetVar="userButton"
+										styleClass="ui-priority-primary"
+										partialSubmit="true"
+										disabled="#{aParameterBean.documentUserExist}"
+										action="#{aParameterBean.editDegree}" type="button"
+										rendered="#{aParameterBean.showEditDegree}"
+										value="#{bundle['page.user.labelEditUserButton']}" />
+
+									<p:spacer width="10" />
+
+									<p:commandButton action="#{aParameterBean.goBack}"
+										value="#{bundle['page.user.labelButtonComeBack']}"
+										partialSubmit="true" style="width:60px" />
+
+								</p:outputPanel>
+							</p>
+						</div>
+					</td>
+				</tr>
+			</table>
+
+			<p:dialog id="reactivateDegreePopup"
+				header="#{bundle['page.user.labelPopupDel']}" modal="true"
+				resizable="false" draggable="false" showEffect="drop"
+				hideEffect="fade" widgetVar="reactivateDegreePopup" width="350"
+				height="80">
+				<p:outputPanel style="text-align:center;" layout="block">
+					<table width="100%" border="0" align="left">
 						<tr>
-							<td width="3%"></td>
-							<td height="23">#{bundle['page.user.label_asterisk']}</td>
-						</tr>
-						<tr>
-							<td width="3%"></td>
-							<td><p:panel id="userData"
-									header="#{bundle['page.user.labelBasicData']}">
-									<p:outputPanel id="userDataPanel">
-										<table width="90%" border="0" cellpadding="5" cellspacing="5">
-											<tr>
-												<td></td>
-												<td colspan="3" align="left">
-													<p:outputPanel id="msgPanel">
-														<h:outputText
-															value=" #{bundle['page.user.userDocumentExists']}"
-															rendered="#{aParameterBean.documentUserExist}"
-															style="color: red;" />
-													</p:outputPanel>
-												</td>
-											</tr>
-											<tr>
-												<td width="6%"></td>
-												<td> #{bundle['page.user.typeDocument']}</td>
-												<td align="left">
-													<p:selectOneMenu
-														filter="true" filterMatchMode="startsWith"
-														id="documentType" effect="fade"
-														value="#{aParameterBean.selectedZyosUser.idDocumentType}"
-														style="width: 95%">
-														<f:selectItem itemLabel="#{bundle['page.core.selectOne']}" itemValue="0" />
-														<f:selectItems value="#{aParameterBean.documentTypeList}" var="doc" itemValue="#{doc.id}" itemLabel="#{doc.name}" />
-													</p:selectOneMenu>
-													<div id="dtDiv" class="LV_invalid" />
-												</td>
-												<td width="6%"></td>
-											</tr>
-											<tr>
-												<td></td>
-												<td align="left">* #{bundle['page.user.labelName']}</td>
-												<td align="left">
-													<p:inputText id="nameUser" value="#{aParameterBean.userName}" size="25" maxlength="45">
-													</p:inputText>
-												</td>
-												<td></td>
-											</tr>
-											<tr>
-												<td></td>
-												<td align="left"> #{bundle['page.user.labelPhone']}</td>
-												<td align="left">
-													<p:inputText id="phoneNumber" size="25" value="#{aParameterBean.selectedZyosUser.phone}" maxlength="15"></p:inputText>
-													<pe:keyFilter preventPaste="true"  for="phoneNumber" mask="pnum" />
-												</td>
-												<td></td>
-											</tr>
-										</table>
-									</p:outputPanel>
-								</p:panel>
+							<td align="left">
+								#{bundle['page.user.labelPopupReactivateSure']} <br />
+								#{userBean.selectedZyosUser.name}
+								#{userBean.selectedZyosUser.lastName}"?
 							</td>
 						</tr>
-
+						<tr>
+							<td align="center">
+								<p></p> <p:commandButton
+									value="#{bundle['page.core.labelAcept']}"
+									styleClass="ui-priority-primary"
+									oncomplete="reactivateUserPopup.hide();"
+									actionListener="#{userBean.reactivateUser}" /> <p:commandButton
+									oncomplete="reactivateUserPopup.hide();"
+									value="#{bundle['page.core.labelCancel']}" />
+							</td>
+						</tr>
 					</table>
-				
-					<p:dialog id="reactivateDegreePopup"
-						header="#{bundle['page.user.labelPopupDel']}" modal="true"
-						resizable="false" draggable="false" showEffect="drop"
-						hideEffect="fade" widgetVar="reactivateDegreePopup" width="350"
-						height="80">
-						<p:outputPanel style="text-align:center;" layout="block">
-							<table width="100%" border="0" align="left">
-								<tr>
-									<td align="left">
-										#{bundle['page.user.labelPopupReactivateSure']} <br />
-										#{userBean.selectedZyosUser.name}
-										#{userBean.selectedZyosUser.lastName}"?
-									</td>
-								</tr>
-								<tr>
-									<td align="center">
-										<p></p>
-										<p:commandButton
-											value="#{bundle['page.core.labelAcept']}"
-											styleClass="ui-priority-primary"
-											oncomplete="reactivateUserPopup.hide();"
-											actionListener="#{userBean.reactivateUser}" />
-										<p:commandButton
-											oncomplete="reactivateUserPopup.hide();"
-											value="#{bundle['page.core.labelCancel']}" />
-									</td>
-								</tr>
-							</table>
-						</p:outputPanel>
-					</p:dialog>
-					<script>
-					function handleReactivatePopup(xhr, status, args) {
-						if (args != null) {
-							var reactivateUser = args.reactivateUser;
-							if (reactivateUser)
-								reactivateUserPopup.show();
-						}
+				</p:outputPanel>
+			</p:dialog>
+			<script>
+				function handleReactivatePopup(xhr, status, args) {
+					if (args != null) {
+						var reactivateUser = args.reactivateUser;
+						if (reactivateUser)
+							reactivateUserPopup.show();
 					}
-					</script>
-				</p:panel>
+				}
+			</script>
+		</p:panel>
 	</h:form>
 </f:view>

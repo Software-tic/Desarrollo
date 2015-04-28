@@ -6,6 +6,7 @@ import org.hibernate.Transaction;
 
 import com.zyos.alert.facultyDegree.model.FacultyDegree;
 import com.zyos.alert.studentReport.model.DegreeDAO;
+import com.zyos.alert.faculty.model.Faculty;
 import com.zyos.core.common.model.AParameter;
 import com.zyos.core.common.model.ZyosParameterDAO;
 
@@ -93,11 +94,37 @@ public class AParameterController extends ZyosController {
 			dao = null;
 		}
 	}
-	
+	//-------------degree-------------------------------------
 	public List<FacultyDegree> loadParameterList() {
 		ZyosParameterDAO dao = new ZyosParameterDAO();
 		try {
 			return dao.loadParameterListdegree();
+		} catch (RuntimeException e) {
+			dao.getSession().beginTransaction().rollback();
+			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}
+	}
+	
+	public List<Faculty> loadFacultyByDegree(Long IdDegree){
+		ZyosParameterDAO dao = new ZyosParameterDAO();
+		try {
+			return dao.loadFacultyByDegree(IdDegree);
+		} catch (RuntimeException e) {
+			dao.getSession().beginTransaction().rollback();
+			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}
+	}
+	
+	public List<Faculty> getFacultiesList(){
+		ZyosParameterDAO dao = new ZyosParameterDAO();
+		try {
+			return dao.loadFacultyList();
 		} catch (RuntimeException e) {
 			dao.getSession().beginTransaction().rollback();
 			throw e;

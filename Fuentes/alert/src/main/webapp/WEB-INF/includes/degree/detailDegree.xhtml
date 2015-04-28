@@ -9,24 +9,24 @@
 					<tr>
 						<td width="6%"></td>
 						<td width="88%"><p:panel
-								header="#{bundle['page.user.labelBasicData']}">
+								header="#{bundle['page.degree.labelBasicData']}">
 								<table width="98%" border="0" cellpadding="1" cellspacing="7">
 									<tr>
 										<td width="6%"></td>
 										<td align="left">Facultad</td>
-										<td align="left">#{aParameterBean.aParameter.description}</td>
+										<td align="left">#{aParameterBean.parameterFacultyNameList}</td>
 										<td width="6%"></td>
 									</tr>
 									<tr>
 										<td></td>
-										<td align="left">#{bundle['page.user.labelName']}</td>
-										<td align="left">#{aParameterBean.aParameter.description}</td>
+										<td align="left">Nombre de la Carrera</td>
+										<td align="left">#{aParameterBean.selectedFacultyDegree.degree}</td>
 										<td></td>
 									</tr>
 									<tr>
 										<td></td>
 										<td align="left">Descripción</td>
-										<td align="left">#{aParameterBean.aParameter.description}</td>
+										<td align="left">#{aParameterBean.selectedFacultyDegree.degreeDescription}</td>
 										<td></td>
 									</tr>
 								</table>

@@ -1,25 +1,19 @@
 package com.zyos.core.common.controller;
 
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import org.primefaces.event.RowEditEvent;
-
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.zyos.alert.facultyDegree.model.FacultyDegree;
 import com.zyos.alert.facultyDegree.model.FacultyDegreeModel;
 import com.zyos.alert.faculty.model.Faculty;
-import com.zyos.alert.studentReport.model.Degree;
-import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.common.model.AParameter;
 import com.zyos.core.common.model.AParameterModel;
 import com.zyos.core.common.model.ZyosParameter;
-import com.zyos.core.lo.user.model.ZyosUserModel;
+import com.zyos.core.lo.user.model.ZyosUser;
 
 @ManagedBean(name = "aParameterBean")
 @ViewScoped
@@ -34,14 +28,16 @@ public class AParameterBean extends ZyosBackingBean implements Serializable {
 	private boolean showListDegree = true, showAddDegree, showEditDegree, showDetailDegree;
 	
 	private Long idZyosParameter;
-	private String parameterSelectedNameList, parameterFactorNameList, parameterDegreeNameList, name, description;
+	private String parameterSelectedNameList, parameterFacultyNameList, parameterDegreeNameList, name, description;
 	private List<AParameter> parameterList;
 	private List<FacultyDegree> FacultyDegreeList;
 	private AParameter[] selectedParameterList;
 	private FacultyDegree[] selectedFacultyDegreeList;
+	private List<Faculty> selectedFacultyList;
 	
 	private AParameter aParameter;
 	private FacultyDegree selectedFacultyDegree;
+	private List<Faculty> FacultiesList;
 	private AParameterController controller = new AParameterController();
 	private AParameterModel aparameterModel;
 	private FacultyDegreeModel FacultyDegreeModel;
@@ -51,7 +47,8 @@ public class AParameterBean extends ZyosBackingBean implements Serializable {
 	public AParameterBean() throws Exception {
 		try {
 			//loadParameterListByEnterprise(getUserSession().getDefaultEnterprise(), getUserSession().getDefaultGroup());
-			//--- no se puede hacer la busqueda de las carreras por sede o seccional, no hay una relación en la base de datos para poder hacerlo
+			//--- no se puede hacer la busqueda de las carreras por sede o seccional, 
+			//--- no hay una relación en la base de datos para poder hacerlo
 			FacultyDegreeList = controller.loadParameterList();
 			setFacultyDegreeModel(new FacultyDegreeModel(FacultyDegreeList));
 			
@@ -62,7 +59,7 @@ public class AParameterBean extends ZyosBackingBean implements Serializable {
 
 	// action methods
 
-	public void goAddParameter() {
+	/*public void goAddParameter() {
 		try {
 			if (name != null & !name.isEmpty()) {
 
@@ -110,9 +107,9 @@ public class AParameterBean extends ZyosBackingBean implements Serializable {
 		} catch (Exception e) {
 			ErrorNotificacion.handleErrorMailNotification(e, this);
 		}
-	}
+	}*/
 
-	public void goAddParameterRiskFactor() {
+	/*public void goAddParameterRiskFactor() {
 		try {
 			if (zyosParameter != null && zyosParameter.getDescription() != null) {
 				if (validateName(name, parameterList)) {
@@ -157,9 +154,9 @@ public class AParameterBean extends ZyosBackingBean implements Serializable {
 		} catch (Exception e) {
 			ErrorNotificacion.handleErrorMailNotification(e, this);
 		}
-	}
+	}*/
 
-	public void goAddParameterCareer() {
+	/*public void goAddParameterCareer() {
 		try {
 			if (zyosParameter != null && zyosParameter.getDescription() != null) {
 				if (validateName(name, parameterList)) {
@@ -200,20 +197,20 @@ public class AParameterBean extends ZyosBackingBean implements Serializable {
 		} catch (Exception e) {
 			ErrorNotificacion.handleErrorMailNotification(e, this);
 		}
-	}
+	}*/
 
-	public static boolean validateName(String name2,
+	/*public static boolean validateName(String name2,
 			List<AParameter> parameterList2) throws Exception {
 		if (parameterList2 != null)
 			for (AParameter p : parameterList2)
 				if (p.getName().trim().equals(name2.trim()))
 					return false;
 		return true;
-	}
+	}*/
 
 	
 	
-	public boolean validateDegreeUsed(AParameter[] selectedParameterList2) {
+	/*public boolean validateDegreeUsed(AParameter[] selectedParameterList2) {
 		try {
 
 			List<Long> idDegree = new ArrayList<Long>();			
@@ -250,17 +247,49 @@ public class AParameterBean extends ZyosBackingBean implements Serializable {
 		}
 		return true;
 
+	}*/
+	
+	public void goAddParameter() {
+		try {
+			selectedFacultyDegree = new FacultyDegree();
+			clean();
+			setshowAddDegree(true);
+			setPanelView("addDegree", "Agregar Carrera", "aParameterBean");
+		} catch (Exception e) {
+			ErrorNotificacion.handleErrorMailNotification(e, this);
+		}
 	}
 	
 	public void goEditParameter() {
-		
+		try {
+			//degreeName = selectedFacultyDegree.getDegree();
+			//degreeDescription = selectedFacultyDegree.getDegreeDescription();
+			
+			selectedFacultyList = controller.loadFacultyByDegree(selectedFacultyDegree.getIdFacultyDegree());
+
+			setshowEditDegree(true);
+			setPanelView("editDegree", "Editar Carrera", "aParameterBean");
+		} catch (Exception e) {
+			ErrorNotificacion.handleErrorMailNotification(e, this);
+		}
 	}
 
 	public void goDetailParameter() {
-		
+		try {
+			selectedFacultyList = controller.loadFacultyByDegree(selectedFacultyDegree.getIdDegree());
+			parameterFacultyNameList = "";
+			for (Faculty o : selectedFacultyList) {
+				parameterFacultyNameList += o.getName() + " ";
+			}
+
+			setshowDetailDegree(true);
+			setPanelView("detailDegree", "Detallar Carrera", "aParameterBean");
+		} catch (Exception e) {
+			ErrorNotificacion.handleErrorMailNotification(e, this);
+		}
 	}
 
-	public void goDeleteParameter() {
+	/*public void goDeleteParameter() {
 		try {
 			if (selectedParameterList != null && selectedParameterList.length > 0) {			
 				boolean validate = false;
@@ -291,11 +320,11 @@ public class AParameterBean extends ZyosBackingBean implements Serializable {
 		} catch (Exception e) {
 			ErrorNotificacion.handleErrorMailNotification(e, this);
 		}
-	}
+	}*/
 
 	// save, delete, update and clean methods
 
-	private void saveOrUpdateParameter() throws RuntimeException {
+	/*private void saveOrUpdateParameter() throws RuntimeException {
 		aParameter.initializing(getUserSession().getDocumentNumber(),
 				aParameter.getId() == null ? true : false);
 		controller.saveOrUpdateParameter(aParameter);
@@ -349,7 +378,26 @@ public class AParameterBean extends ZyosBackingBean implements Serializable {
 					"Eliminar Parametro",
 					"Se presento un error al eliminar el/los parametros, por favor contacte al administrador");
 		}
+	}*/
+	
+	public void saveDegree() {
+		//saveOrEditProcess(true);
 	}
+
+	public void editDegree() {
+		//saveOrEditProcess(false);
+	}
+	
+	public void goBack() {
+		try {
+			clean();
+			setshowListDegree(true);
+			setPanelView("addDegree", "Agregar Carrera", "aParameterBean");
+		} catch (Exception e) {
+			ErrorNotificacion.handleErrorMailNotification(e, this);
+		}
+	}
+
 
 	public void clean() {
 		name = null;
@@ -431,14 +479,6 @@ public class AParameterBean extends ZyosBackingBean implements Serializable {
 		this.description = description;
 	}
 
-	public String getParameterFactorNameList() {
-		return parameterFactorNameList;
-	}
-
-	public void setParameterFactorNameList(String parameterFactorNameList) {
-		this.parameterFactorNameList = parameterFactorNameList;
-	}
-
 	public String getParameterDegreeNameList() {
 		return parameterDegreeNameList;
 	}
@@ -513,6 +553,23 @@ public class AParameterBean extends ZyosBackingBean implements Serializable {
 
 	public void setSelectedFacultyDegree(FacultyDegree selectedFacultyDegree) {
 		this.selectedFacultyDegree = selectedFacultyDegree;
+	}
+
+	public String getParameterFacultyNameList() {
+		return parameterFacultyNameList;
+	}
+
+	public void setParameterFacultyNameList(String parameterFacultyNameList) {
+		this.parameterFacultyNameList = parameterFacultyNameList;
+	}
+
+	public List<Faculty> getFacultiesList() {
+		FacultiesList = controller.getFacultiesList();
+		return FacultiesList;
+	}
+
+	public void setFacultiesList(List<Faculty> facultiesList) {
+		FacultiesList = facultiesList;
 	}
 
 }

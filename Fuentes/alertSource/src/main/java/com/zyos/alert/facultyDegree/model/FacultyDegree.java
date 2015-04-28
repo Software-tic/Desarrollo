@@ -23,11 +23,10 @@ public class FacultyDegree extends com.zyos.core.common.model.AZyosModel
 	private Long idFacultyDegree;
 	private Long idFaculty;
 	private Long idDegree;
-	private transient String Faculty;
-	private transient String Degree;
+	private transient String Faculty,Degree,DegreeDescription;
 	
 
-	public FacultyDegree() {	
+	public FacultyDegree() {
 	}	
 
 	public FacultyDegree(Long idFacultyDegree, Long idFaculty, Long idDegree) {
@@ -40,8 +39,9 @@ public class FacultyDegree extends com.zyos.core.common.model.AZyosModel
 		this.idFacultyDegree = idFacultyDegree;
 		this.idFaculty = idFaculty;
 		this.idDegree = idDegree;
-		this.setFaculty(namef);
-		this.setDegree(named);
+		this.Faculty=namef;
+		this.Degree=named;
+		this.DegreeDescription=descriptiond;
 	}
 
 	// Property accessors
@@ -134,6 +134,14 @@ public class FacultyDegree extends com.zyos.core.common.model.AZyosModel
 
 	public void setDegree(String degree) {
 		Degree = degree;
+	}
+
+	public String getDegreeDescription() {
+		return DegreeDescription;
+	}
+
+	public void setDegreeDescription(String degreeDescription) {
+		DegreeDescription = degreeDescription;
 	}
 
 }
