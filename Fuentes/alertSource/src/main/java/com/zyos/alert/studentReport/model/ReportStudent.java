@@ -387,7 +387,7 @@ public class ReportStudent extends com.zyos.core.common.model.AZyosModel
 	}
 	
 	
-	public void setSolicitorData(String solicitorData) {
+	/*public void setSolicitorData(String solicitorData) {
 		if (solicitorData != null) {
 			String[] splited = solicitorData.split(";");
 			if(splited.length == 2){
@@ -406,10 +406,10 @@ public class ReportStudent extends com.zyos.core.common.model.AZyosModel
 					this.emailSolicitor = splited[3];
 				}
 		}
-	} 
+	} */
 	
 	//descomentariar cuando sea postgres
-	/* 	public void setSolicitorData(String solicitorData) {
+	 public void setSolicitorData(String solicitorData) {
 		if (solicitorData != null) {
 			solicitorData = solicitorData.replace("\"", "").replace("(","").replace(")","").replace("{","").replace("}","").replace("\\", "");
 			String[] splited = solicitorData.split(",");
@@ -429,7 +429,7 @@ public class ReportStudent extends com.zyos.core.common.model.AZyosModel
 					this.emailSolicitor = splited[3];
 				}
 	}
-	}*/
+	}
 	
 
 	@Transient

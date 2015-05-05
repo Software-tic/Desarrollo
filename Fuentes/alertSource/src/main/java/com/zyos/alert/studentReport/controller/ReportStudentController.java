@@ -75,7 +75,7 @@ public class ReportStudentController extends ZyosController {
 	public List<ReportStudent> loadReportStudentList(Long idZyosGroup, Long ZyosUser, ReportStudent reportSearch) throws Exception {
 		ReportStudentDAO dao = new ReportStudentDAO();
 		try {
-			return dao.loadReportStudentList(idZyosGroup, ZyosUser);
+			return dao.loadReportStudentListPostgres(idZyosGroup, ZyosUser); //loadReportStudentList(idZyosGroup, ZyosUser);
 		} catch (Exception e) {
 			throw e;
 		} finally {

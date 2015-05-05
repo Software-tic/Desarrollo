@@ -289,6 +289,42 @@ public class AParameterBean extends ZyosBackingBean implements Serializable {
 		}
 	}
 
+	public void goDeleteParameter() {
+		try {
+			if(selectedFacultyDegreeList !=null && selectedFacultyDegreeList.length > 0){
+				parameterSelectedNameList=null;
+				StringBuilder parameterList = new StringBuilder();
+				for (FacultyDegree o : selectedFacultyDegreeList){
+					parameterList.append(o.getDegree()+", ");
+				}
+				parameterSelectedNameList = parameterList.toString();
+				getRequestContext().execute("delParameterPopup.show();");
+			} else {
+				addWarn( "Borrar Carreras",
+						"Debe seleccionar por lo menos una Carrera para continuar.");
+			}
+		} catch (Exception e) {
+			ErrorNotificacion.handleErrorMailNotification(e, this);
+		}
+	}
+	
+	public void deleteParameter() {
+		try {
+			if(selectedFacultyDegreeList !=null && selectedFacultyDegreeList.length > 0){
+				controller.deleteParameter(selectedFacultyDegreeList, getUserSession()
+						.getDocumentNumber());
+				parameterList.remove(selectedFacultyDegreeList);
+				addInfo( "Eliminar Carrera",
+						"Se han deshabilitado la/las Carrera(s) seleccionada(s) correctamente");
+			}
+		} catch (Exception e) {
+			ErrorNotificacion.handleErrorMailNotification(e, this);
+			addError(
+					"Eliminar Carrera",
+					"Se presento un error al eliminar la/las Carreras(s), por favor contacte al administrador");
+		}
+	}
+	
 	/*public void goDeleteParameter() {
 		try {
 			if (selectedParameterList != null && selectedParameterList.length > 0) {			
@@ -387,6 +423,43 @@ public class AParameterBean extends ZyosBackingBean implements Serializable {
 	public void editDegree() {
 		//saveOrEditProcess(false);
 	}
+	
+	/*private void saveOrEditProcess(boolean isNew) throws RuntimeException {
+		try {
+			if (validateUser()) {
+				selectedFacultyDegree.setName( userName);
+				selectedZyosUser.setLastName(userLastname);
+				selectedZyosUser.setDocumentNumber(userDocument);
+				selectedZyosUser.setEmail(userEmail);
+				selectedZyosUser.getZyosLogin().setUserLogin(userLogin);
+				selectedZyosUser.initializing(getUserDocument(), isNew);
+
+				if (isNew) {
+					selectedZyosUser.setIdEnterprise(getUserSession()
+							.getDefaultEnterprise());
+					controller.saveUser(selectedZyosUser, selectedZyosGroup);
+					//userList.add(selectedZyosUser);
+					((List<ZyosUser>)zyosUserModel.getWrappedData()).add(selectedZyosUser);
+					
+				} else {
+					controller.editUser(selectedZyosUser, selectedZyosGroup, getUserSession().getDocumentNumber());
+				}
+
+				selectedZyosUser.setDocumentType(getNameLabelList(getDocumentTypeList(),selectedZyosUser.getIdDocumentType()));
+				selectedZyosUser.setZyosGroup(getNameLabelList(getGroupList(),selectedZyosUser.getIdZyosGroup()));
+
+				addInfo( "Guardar Usuario",
+						"El usuario fue guardado exitosamente");
+				setShowListUser(true);
+				setPanelView("userList", "Listar Usuarios", "UserBean");
+			} else {
+				addError( "Guardar Usuario", "Se presento un error en la validación de usuario, valide los campos e intente de nuevo");
+			}
+		} catch (Exception e) {
+			ErrorNotificacion.handleErrorMailNotification(e, this);
+			addError("Editar Usuario", "Se presento un error al guardar el usuario, por favor contacte al administrador");
+		}
+	}*/
 	
 	public void goBack() {
 		try {

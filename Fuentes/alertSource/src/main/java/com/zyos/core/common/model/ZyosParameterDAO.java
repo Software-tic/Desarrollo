@@ -6,6 +6,7 @@ import org.hibernate.Query;
 
 import com.zyos.alert.facultyDegree.model.FacultyDegree;
 import com.zyos.core.common.model.AParameter;
+import com.zyos.core.common.util.ManageDate;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.alert.faculty.model.Faculty;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
@@ -164,6 +165,67 @@ public class ZyosParameterDAO extends OracleBaseHibernateDAO {
 			return result;
 
 		} catch (Exception e) {
+			throw e;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	public void changeState(String idDegreeList, String idFacultyDegreeList, String documentNumber,Long state){
+		this.changeStateDegree(idDegreeList, documentNumber, state);
+		this.changeStateFacultyDegree(idFacultyDegreeList, documentNumber, state);
+	}
+	
+	public void changeStateDegree(String idDegreeList, String documentNumber,Long state) {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append("update Degree ");
+			hql.append("set state = :state ,");
+			hql.append("userChange = :userChange ,");
+			hql.append("dateChange = :newdateChange ");
+			hql.append("where idDegree in (");
+			hql.append(idDegreeList);
+			hql.append(" )");
+
+			qo = getSession().createQuery(hql.toString());
+
+			qo.setParameter("state", state);
+			qo.setParameter("userChange", documentNumber);
+			qo.setParameter("newdateChange",
+					ManageDate.getCurrentDate(ManageDate.YYYY_MM_DD_HH_MM_SS));
+
+			qo.executeUpdate();
+		} catch (RuntimeException e) {
+			throw e;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	public void changeStateFacultyDegree(String idFacultyDegreeList, String documentNumber,Long state) {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append("update Degree ");
+			hql.append("set state = :state ,");
+			hql.append("userChange = :userChange ,");
+			hql.append("dateChange = :newdateChange ");
+			hql.append("where idDegree in (");
+			hql.append(idFacultyDegreeList);
+			hql.append(" )");
+
+			qo = getSession().createQuery(hql.toString());
+
+			qo.setParameter("state", state);
+			qo.setParameter("userChange", documentNumber);
+			qo.setParameter("newdateChange",
+					ManageDate.getCurrentDate(ManageDate.YYYY_MM_DD_HH_MM_SS));
+
+			qo.executeUpdate();
+		} catch (RuntimeException e) {
 			throw e;
 		} finally {
 			hql = null;

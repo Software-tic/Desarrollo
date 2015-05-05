@@ -3,112 +3,135 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-	
-	
-	<h:form id="degreeForm">
-		<p:defaultCommand target="disableEnter"/>
-		<h:inputHidden id="disableEnter"/>
-		<br/>
-		
-		<p:panel id="headerList" header="Administración de Carreras">
-			<h4>A continuación se presenta un listado de Carreras.</h4>
-			
-			<p:dataTable id="tableDegree" value="#{aParameterBean.facultyDegreeModel}" editable="false"
-				paginatorAlwaysVisible="true" resizableColumns="false"
-				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="20,40,60" paginator="true" rows="20" filterDelay="600" emptyMessage="#{bundle['page.core.tableNoFoundRecord']}"
-				selection="#{aParameterBean.selectedFacultyDegreeList}"
-				var="parameter" style="width:100%;" widgetVar="parameterTable">
 
-				<f:facet name="header">
+
+	<h:form id="degreeForm">
+		<p:defaultCommand target="disableEnter" />
+		<h:inputHidden id="disableEnter" />
+		<br />
+
+		<p:panel id="headerList" header="Administración de Carreras">
+			<div align="center">
+				<h4>A continuación se presenta un listado de Carreras.</h4>
+				<p:dataTable id="tableDegree"
+					value="#{aParameterBean.facultyDegreeModel}" editable="false"
+					paginatorAlwaysVisible="true" resizableColumns="false"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="20,40,60" paginator="true" rows="20"
+					filterDelay="600"
+					emptyMessage="#{bundle['page.core.tableNoFoundRecord']}"
+					selection="#{aParameterBean.selectedFacultyDegreeList}"
+					var="parameter" style="width:100%;" widgetVar="parameterTable">
+
+					<f:facet name="header">
 					#{bundle['page.degree.labelDegreeList']}		
 					<div align="right">
-						<h:outputText value="Buscar:" />
-						<p:inputText id="globalFilter" onkeyup="parameterTable.filter()" style="width:150px" />
-					</div>						
-				</f:facet>
-				
-				<p:column selectionMode="multiple" width="20" />
-		
-				<p:column width="45%" headerText="#{bundle['page.degree.labelName']}"  filterMatchMode="contains" filterStyle="display:none"
-					sortBy="#{parameter.degree}" filterBy="#{parameter.degree}" style="text-align:center">
-					<div align="left">
-						#{parameter.degree}
-					</div> 
-				</p:column>
-							
-				<p:column width="45%" headerText="#{bundle['page.degree.labelDescription']}"  filterMatchMode="contains" filterStyle="display:none"
-					sortBy="#{parameter.faculty}" filterBy="#{parameter.faculty}" style="text-align:center">
-					<div align="left">
-						#{parameter.faculty}
-					</div> 
-				</p:column>
-								
-				<p:column width="20">
-					<div align="center">
-						<p:commandLink title="Detallar" immediate="true" disabled="#{aParameterBean.getValidateUserRole(4,6)}"
-							partialSubmit="true" action="#{aParameterBean.goDetailParameter}">
-							<p:graphicImage value="../css/images/detail.gif" height="20" width="20" />
-							<f:setPropertyActionListener target="#{aParameterBean.selectedFacultyDegree}" value="#{parameter}" />
-						</p:commandLink>
-					</div>
-				</p:column>
-
-				<p:column width="20">
-					<f:facet name="header">
-						<div align="center">
-							<p:commandLink title="Eliminar" action="#{aParameterBean.goDeleteParameter}" disabled="#{aParameterBean.getValidateUserRole(5,6)}" partialSubmit="true" 
-								update=":degreeForm:delParameterPopup">
-								<p:graphicImage value="../css/images/delete.gif" height="20" width="20" />
-							</p:commandLink>
+							<h:outputText value="Buscar:" />
+							<p:inputText id="globalFilter" onkeyup="parameterTable.filter()"
+								style="width:150px" />
 						</div>
 					</f:facet>
-					<div align="center">
-						<p:commandLink title="Editar" action="#{aParameterBean.goEditParameter}" disabled="#{aParameterBean.getValidateUserRole(3,6)}" partialSubmit="true">
-							<p:graphicImage value="../css/images/edit.gif" height="20" width="20" />
-							<f:setPropertyActionListener target="#{aParameterBean.selectedFacultyDegree}" value="#{parameter}" />
-						</p:commandLink>
-					</div>
-				</p:column>
-					
-				<f:facet name="footer">
-					<p:outputPanel>#{fn:length(aParameterBean.facultyDegreeList)} Carrera(s) habilitada(s)</p:outputPanel>
-				</f:facet>
-			</p:dataTable>
-			
-			<p align="center">
-				<p:commandButton action="#{aParameterBean.goAddParameter}" disabled="#{aParameterBean.getValidateUserRole(2,6)}"
-					styleClass="ui-priority-primary" partialSubmit="true"
-					onclick="statusDialog.show();"
-					value="#{bundle['page.degree.AddButton']}" />
-			</p>
-				
+
+					<p:column selectionMode="multiple" width="20" />
+
+					<p:column width="45%"
+						headerText="#{bundle['page.degree.labelName']}"
+						filterMatchMode="contains" filterStyle="display:none"
+						sortBy="#{parameter.degree}" filterBy="#{parameter.degree}"
+						style="text-align:center">
+						<div align="left">#{parameter.degree}</div>
+					</p:column>
+
+					<p:column width="45%"
+						headerText="#{bundle['page.degree.labelDescription']}"
+						filterMatchMode="contains" filterStyle="display:none"
+						sortBy="#{parameter.faculty}" filterBy="#{parameter.faculty}"
+						style="text-align:center">
+						<div align="left">#{parameter.faculty}</div>
+					</p:column>
+
+					<p:column width="20">
+						<div align="center">
+							<p:commandLink title="Detallar" immediate="true"
+								disabled="#{aParameterBean.getValidateUserRole(4,6)}"
+								partialSubmit="true"
+								action="#{aParameterBean.goDetailParameter}">
+								<p:graphicImage value="../css/images/detail.gif" height="20"
+									width="20" />
+								<f:setPropertyActionListener
+									target="#{aParameterBean.selectedFacultyDegree}"
+									value="#{parameter}" />
+							</p:commandLink>
+						</div>
+					</p:column>
+
+					<p:column width="20">
+						<f:facet name="header">
+							<div align="center">
+								<p:commandLink title="Eliminar"
+									action="#{aParameterBean.goDeleteParameter}"
+									disabled="#{aParameterBean.getValidateUserRole(5,6)}"
+									partialSubmit="true" update=":degreeForm:delParameterPopup">
+									<p:graphicImage value="../css/images/delete.gif" height="20"
+										width="20" />
+								</p:commandLink>
+							</div>
+						</f:facet>
+						<div align="center">
+							<p:commandLink title="Editar"
+								action="#{aParameterBean.goEditParameter}"
+								disabled="#{aParameterBean.getValidateUserRole(3,6)}"
+								partialSubmit="true">
+								<p:graphicImage value="../css/images/edit.gif" height="20"
+									width="20" />
+								<f:setPropertyActionListener
+									target="#{aParameterBean.selectedFacultyDegree}"
+									value="#{parameter}" />
+							</p:commandLink>
+						</div>
+					</p:column>
+
+					<f:facet name="footer">
+						<p:outputPanel>#{fn:length(aParameterBean.facultyDegreeList)} Carrera(s) habilitada(s)</p:outputPanel>
+					</f:facet>
+				</p:dataTable>
+
+
+				<p align="center">
+					<p:commandButton action="#{aParameterBean.goAddParameter}"
+						disabled="#{aParameterBean.getValidateUserRole(2,6)}"
+						styleClass="ui-priority-primary" partialSubmit="true"
+						onclick="statusDialog.show();"
+						value="#{bundle['page.degree.AddButton']}" />
+				</p>
+			</div>
 			<p:dialog id="delParameterPopup"
-					header="#{bundle['page.user.labelPopupDel']}" modal="true"
-					resizable="false" draggable="true" showEffect="drop"
-					hideEffect="fade" widgetVar="delPopup" width="350">
-					<p:outputPanel style="text-align:center;" layout="block">
-						<table width="100%" border="0" align="left">
-							<tr>
-								<td align="left">#{bundle['page.degree.textDelete']}
-									#{aParameterBean.parameterSelectedNameList}
-									#{bundle['page.degree.labelPopupDelSureAll']}</td>
-							</tr>
-							<tr>
-								<td align="center">
-									<p></p> <p:commandButton
-										value="#{bundle['page.core.labelAcept']}" partialSubmit="true"
-										styleClass="ui-priority-primary"
-										update=":degreeForm:tableDegree" process="@form"
-										oncomplete="delParameterPopup.hide();"
-										actionListener="#{aParameterBean.deleteParameter}" /> <p:commandButton
-										oncomplete="delParameterPopup.hide();" partialSubmit="true"
-										value="#{bundle['page.login.labelButtonCancel']}" /></td>
-							</tr>
-						</table>
-					</p:outputPanel>
-				</p:dialog>
-			
+				header="#{bundle['page.user.labelPopupDel']}" modal="true"
+				resizable="false" draggable="true" showEffect="drop"
+				hideEffect="fade" widgetVar="delParameterPopup" width="350">
+				<p:outputPanel style="text-align:center;" layout="block">
+					<table width="100%" border="0" align="left">
+						<tr>
+							<td align="left">#{bundle['page.degree.textDelete']}
+								#{aParameterBean.parameterSelectedNameList}
+								#{bundle['page.degree.labelPopupDelSureAll']}</td>
+						</tr>
+						<tr>
+							<td align="center">
+								<p></p> <p:commandButton
+									value="#{bundle['page.core.labelAcept']}" partialSubmit="true"
+									styleClass="ui-priority-primary"
+									update=":degreeForm:tableDegree" process="@form"
+									oncomplete="delParameterPopup.hide();"
+									actionListener="#{aParameterBean.deleteParameter}" /> <p:commandButton
+									oncomplete="delParameterPopup.hide();" partialSubmit="true"
+									value="#{bundle['page.login.labelButtonCancel']}" />
+							</td>
+						</tr>
+					</table>
+				</p:outputPanel>
+			</p:dialog>
+
 		</p:panel>
 	</h:form>
 </f:view>

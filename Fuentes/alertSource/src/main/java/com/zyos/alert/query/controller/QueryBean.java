@@ -6,7 +6,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
+import com.zyos.alert.faculty.model.Faculty;
 import com.zyos.alert.studentReport.model.Subject;
+import com.zyos.core.common.controller.ErrorNotificacion;
 import com.zyos.core.common.controller.ZyosBackingBean;
 import com.zyos.core.lo.user.model.ZyosUser;
 
@@ -15,16 +17,23 @@ import com.zyos.core.lo.user.model.ZyosUser;
 @URLMapping(id = "queryBean", pattern = "/portal/consulta", viewId = "/pages/query/query.jspx")
 public class QueryBean extends ZyosBackingBean {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private boolean showUserList = true;
-	private boolean showSubjectByUserList ;
+	private boolean showSubjectByUserList;
+	
+	private String FacultyNameList, DocentePAAINameList;
 
 	private List<ZyosUser> userList;
 	private List<Subject> subjectListByStudent;
+	private List<Faculty> FacultiesList;
 
 	private QueryController controller = new QueryController();
 
 	public QueryBean() throws Exception {
-		userList = controller.getStudentList();
+		userList = controller.getUserPAAIList();
 	}
 
 	public void goShowInfo(ZyosUser zu) {
@@ -42,6 +51,12 @@ public class QueryBean extends ZyosBackingBean {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public List<ZyosUser> onChangeFaculty(){
+		
+		return userList;
+		
 	}
 	
 	public void goBack(){
@@ -90,6 +105,29 @@ public class QueryBean extends ZyosBackingBean {
 		this.showSubjectByUserList = showSubjectByUserList;
 		this.showUserList = !showSubjectByUserList;
 	}
-	
+
+	public List<Faculty> getFacultiesList() {
+		return FacultiesList;
+	}
+
+	public void setFacultiesList(List<Faculty> facultiesList) {
+		FacultiesList = facultiesList;
+	}
+
+	public String getFacultyNameList() {
+		return FacultyNameList;
+	}
+
+	public void setFacultyNameList(String facultyNameList) {
+		FacultyNameList = facultyNameList;
+	}
+
+	public String getDocentePAAINameList() {
+		return DocentePAAINameList;
+	}
+
+	public void setDocentePAAINameList(String docentePAAINameList) {
+		DocentePAAINameList = docentePAAINameList;
+	}	
 
 }

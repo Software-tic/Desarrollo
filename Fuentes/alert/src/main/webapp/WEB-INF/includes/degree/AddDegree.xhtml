@@ -16,9 +16,9 @@
 				</tr>
 				<tr>
 					<td width="3%"></td>
-					<td><p:panel id="userData"
+					<td><p:panel id="ParameterData"
 							header="#{bundle['page.degree.labelBasicData']}">
-							<p:outputPanel id="userDataPanel">
+							<p:outputPanel id="parameterDataPanel">
 								<table width="90%" border="0" cellpadding="5" cellspacing="5">
 									<tr>
 										<td width="6%"></td>
@@ -40,7 +40,7 @@
 										<td></td>
 										<td align="left">Nombre de la Carrera *</td>
 										<!--  maxlength="45" size="70"-->
-										<td align="left"><p:inputText id="nameUser" style="width:98%"
+										<td align="left"><p:inputText id="nameDegree" style="width:98%"
 												value="#{aParameterBean.selectedFacultyDegree.degree}">
 											</p:inputText></td>
 										<td></td>
@@ -68,24 +68,23 @@
 									<p:commandButton id="addButtonD" type="button"
 										styleClass="ui-priority-primary"
 										partialSubmit="true"
-										disabled="#{aParameterBean.documentUserExist}"
 										action="#{aParameterBean.saveDegree}" widgetVar="userButton"
-										rendered="#{userBean.showAddUser}"
-										value="#{bundle['page.user.labelButtonCreateUser']}" />
-									<p:commandButton id="editButtonU" widgetVar="userButton"
+										rendered="#{aParameterBean.showAddDegree}"
+										value="Crear Carrera" />
+										
+									
+									<p:commandButton id="editButtonD" widgetVar="userButton"
 										styleClass="ui-priority-primary"
 										partialSubmit="true"
-										disabled="#{aParameterBean.documentUserExist}"
 										action="#{aParameterBean.editDegree}" type="button"
 										rendered="#{aParameterBean.showEditDegree}"
-										value="#{bundle['page.user.labelEditUserButton']}" />
+										value="Editar Carrera" />
 
 									<p:spacer width="10" />
 
 									<p:commandButton action="#{aParameterBean.goBack}"
 										value="#{bundle['page.user.labelButtonComeBack']}"
 										partialSubmit="true" style="width:60px" />
-
 								</p:outputPanel>
 							</p>
 						</div>
@@ -103,33 +102,24 @@
 						<tr>
 							<td align="left">
 								#{bundle['page.user.labelPopupReactivateSure']} <br />
-								#{userBean.selectedZyosUser.name}
-								#{userBean.selectedZyosUser.lastName}"?
+								#{aParameterBean.selectedFacultyDegree.degree}"? <br />
 							</td>
 						</tr>
 						<tr>
 							<td align="center">
-								<p></p> <p:commandButton
+								<p></p>
+									<p:commandButton
 									value="#{bundle['page.core.labelAcept']}"
 									styleClass="ui-priority-primary"
-									oncomplete="reactivateUserPopup.hide();"
-									actionListener="#{userBean.reactivateUser}" /> <p:commandButton
-									oncomplete="reactivateUserPopup.hide();"
+									oncomplete="reactivateDegreePopup.hide();"/>
+									<p:commandButton
+									oncomplete="reactivateDegreePopup.hide();"
 									value="#{bundle['page.core.labelCancel']}" />
 							</td>
 						</tr>
 					</table>
 				</p:outputPanel>
 			</p:dialog>
-			<script>
-				function handleReactivatePopup(xhr, status, args) {
-					if (args != null) {
-						var reactivateUser = args.reactivateUser;
-						if (reactivateUser)
-							reactivateUserPopup.show();
-					}
-				}
-			</script>
 		</p:panel>
 	</h:form>
 </f:view>

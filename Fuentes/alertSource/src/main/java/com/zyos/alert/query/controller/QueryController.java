@@ -2,8 +2,10 @@ package com.zyos.alert.query.controller;
 
 import java.util.List;
 
+import com.zyos.alert.faculty.model.Faculty;
 import com.zyos.alert.studentReport.model.Subject;
 import com.zyos.core.common.controller.ZyosController;
+import com.zyos.core.common.model.ZyosParameterDAO;
 import com.zyos.core.lo.user.model.ZyosUser;
 import com.zyos.core.lo.user.model.ZyosUserDAO;
 
@@ -25,6 +27,31 @@ public class QueryController extends ZyosController {
 		ZyosUserDAO dao = new ZyosUserDAO();
 		try {
 			return dao.lodInfoToShow(zu.getIdStudent());
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}
+	}
+	
+	public List<Faculty> getFacultiesList(){
+		ZyosParameterDAO dao = new ZyosParameterDAO();
+		try {
+			return dao.loadFacultyList();
+		} catch (RuntimeException e) {
+			dao.getSession().beginTransaction().rollback();
+			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}
+	}
+	
+	public List<ZyosUser> getUserPAAIList() throws Exception {
+		ZyosUserDAO dao = new ZyosUserDAO();
+		try {
+			return dao.loadUserPAAIList(1l,"PAAI");
 		} catch (Exception e) {
 			throw e;
 		} finally {

@@ -502,6 +502,42 @@ public class ZyosUserDAO extends OracleBaseHibernateDAO {
 			qo = null;
 		}
 	}
+	
+	public List<ZyosUser> loadUserPAAIList(Long idEnterprise,String UserGroup) throws Exception {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			
+			hql.append("SELECT new ZyosUser( ");
+			hql.append("zu.id, ");
+			hql.append("zu.name, ");
+			hql.append("zu.lastName, ");
+			hql.append("zu.documentNumber, ");
+			hql.append("zg.id, ");
+			hql.append("zg.name, zu.email, zl.userLogin, zu.phone, zu.mobilePhone, zu.secondEmail, zu.idDocumentType, zu.state, zl.authMode) "
+					+ "FROM ZyosUser zu, ZyosGroup zg, ZyosUserGroup zug, ZyosUserEnterprise zue, ZyosLogin zl "
+					+ "WHERE zg.id IN (SELECT id FROM ZyosGroup WHERE name like :name AND state= :state) "
+					+ "AND zg.id=zug.idGroup AND zu.id=zug.idZyosUser AND zu.state= :state AND zug.state= :state "
+					+ "AND zu.id = zue.idZyosUser AND zu.id = zl.idZyosUser AND zue.idEnterprise = :idEnterprise AND zu.documentNumber is not null");
+
+			qo = getSession().createQuery(hql.toString());
+
+			qo.setParameter("idEnterprise", idEnterprise);
+			qo.setParameter("state", IZyosState.ACTIVE);
+			qo.setParameter("name", "%"+UserGroup+"%");
+			
+			List<ZyosUser> userGroups = qo.list();
+			qo = null;
+
+			return userGroups;
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
 
 	public List<SelectItem> loadZyosUserByEnterpriseList(Long idEnterprise)
 			throws Exception {

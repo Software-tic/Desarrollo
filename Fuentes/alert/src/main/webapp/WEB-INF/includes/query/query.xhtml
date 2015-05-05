@@ -5,13 +5,13 @@
 	xmlns:p="http://primefaces.org/ui">
 	<p:outputPanel id="riskStudentPanel"
 		rendered="#{!queryBean.getValidateUserRole(1,17)}">
-		<p:outputPanel id="listU" rendered="#{queryBean.showUserList}">
+		
+		<p:outputPanel id="Report" rendered="#{queryBean.showUserList}">
 			<ui:include src="/WEB-INF/includes/query/queryUser.xhtml" />
 		</p:outputPanel>
 		
-		 
 		<p:outputPanel rendered="#{queryBean.showSubjectByUserList}">
-			<ui:include src="/WEB-INF/includes/query/showSubject.xhtml" />
+			<ui:include src="/WEB-INF/includes/query/showReport.xhtml" />
 		</p:outputPanel>
 
 	</p:outputPanel>

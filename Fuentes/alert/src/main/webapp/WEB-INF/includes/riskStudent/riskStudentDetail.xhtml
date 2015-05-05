@@ -40,7 +40,7 @@
 					<td />
 					<td>#{bundle['page.riskStudent.labelRole']}:</td>
 					<td><h:outputText id="txtStartedBys"
-							value="#{riskStudent.idReportType eq 2 ? 'Reporte automatico': riskStudent.zyosGroupName eq null ? 'Usuario externo': riskStudent.zyosGroupName}"
+							value="#{riskStudent.idReportType eq 2 ? 'Reporte automatico': (riskStudent.zyosGroupName eq null ? 'Usuario externo' : riskStudent.zyosGroupName)}"
 							style="width:98%;" /></td>
 				</tr>
 			</p:outputPanel>
@@ -189,7 +189,7 @@
 							<td colspan="2" />
 							<td><h:outputText
 									value="#{bundle['page.riskStudent.labelReferTo']}:" /></td>
-							<td><p:selectOneMenu id="stage" style="width:160px" panelStyle="width:160px" panelStyleClass="ui-selectonemenu-panel-warper"
+							<td><p:selectOneMenu id="stage" style="width:180px" panelStyle="width:160px" panelStyleClass="ui-selectonemenu-panel-warper"
 									value="#{reportStudentBean.reportStudentSelected.idStage}" >
 									<f:selectItem itemLabel="#{bundle['page.core.selectOne']}"  />
 									<f:selectItems value="#{reportStudentBean.getStageList()}"
@@ -202,7 +202,7 @@
 							<td />
 							<td><h:outputText
 									value="#{bundle['page.riskStudent.labelResponsible']}:" /></td>
-							<td><p:selectOneMenu id="menuResponsible" panelStyle="width:160px" panelStyleClass="ui-selectonemenu-panel-warper"
+							<td><p:selectOneMenu id="menuResponsible" style="width:180px" panelStyle="width:160px" panelStyleClass="ui-selectonemenu-panel-warper"
 									value="#{reportStudentBean.reportStudentSelected.idAdviser}">
 									<f:selectItem itemLabel="#{bundle['page.core.selectOne']}" />
 									<f:selectItems value="#{reportStudentBean.responsibleList}"
@@ -219,7 +219,7 @@
 							<td colspan="2" />
 							<td><h:outputText value="#{bundle['page.user.labelState']}:" />
 							</td>
-							<td><p:selectOneMenu id="state" panelStyle="width:160px" panelStyleClass="ui-selectonemenu-panel-warper"
+							<td><p:selectOneMenu id="state" style="width:180px" panelStyle="width:160px" panelStyleClass="ui-selectonemenu-panel-warper"
 									value="#{reportStudentBean.reportStudentSelected.idStatusReportStudent}">
 									<f:selectItem itemLabel="#{bundle['page.core.selectOne']}" />
 									<f:selectItems

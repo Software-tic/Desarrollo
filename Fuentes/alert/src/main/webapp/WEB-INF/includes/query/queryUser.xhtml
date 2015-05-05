@@ -14,7 +14,7 @@
 				<h4>A continuación se presenta un listado de usuarios activos
 					del sistema.</h4>
 				<p:dataTable id="tableUser" value="#{queryBean.userList}"
-					paginatorAlwaysVisible="false" resizableColumns="false"
+					paginatorAlwaysVisible="true" resizableColumns="false"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					rowsPerPageTemplate="20,40,60" paginator="true" rows="20"
 					filterDelay="600"
@@ -49,13 +49,6 @@
 						filterMatchMode="contains" filterStyle="display:none" width="250">
 						<h:outputText value="#{zyosUser.name} #{zyosUser.lastName}" />
 					</p:column>
-
-					<p:column headerText="#{bundle['page.user.label_group']}"
-						sortBy="#{zyosUser.zyosGroup}" filterBy="#{zyosUser.zyosGroup}"
-						filterMatchMode="contains" filterStyle="display:none" width="100">
-						<div align="center">#{zyosUser.zyosGroup}</div>
-					</p:column>
-
 					<p:column headerText="#{bundle['page.user.label_email']}"
 						sortBy="#{zyosUser.email}" filterBy="#{zyosUser.email}"
 						filterMatchMode="contains" filterStyle="display:none" width="170">

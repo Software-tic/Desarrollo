@@ -7,8 +7,11 @@ import org.hibernate.Transaction;
 import com.zyos.alert.facultyDegree.model.FacultyDegree;
 import com.zyos.alert.studentReport.model.DegreeDAO;
 import com.zyos.alert.faculty.model.Faculty;
+import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.common.model.AParameter;
 import com.zyos.core.common.model.ZyosParameterDAO;
+import com.zyos.core.lo.user.model.ZyosUser;
+import com.zyos.core.lo.user.model.ZyosUserDAO;
 
 public class AParameterController extends ZyosController {
 
@@ -133,4 +136,27 @@ public class AParameterController extends ZyosController {
 			dao = null;
 		}
 	}
+	
+	public void deleteParameter(FacultyDegree[] selectedFacultyDegreeList, String documentNumber){
+		ZyosParameterDAO dao = null;
+		try {
+			dao = new ZyosParameterDAO();
+			StringBuilder uil = new StringBuilder();
+			StringBuilder uil2 = new StringBuilder();
+			for (FacultyDegree o : selectedFacultyDegreeList) {
+				uil.append(o.getIdDegree() + ",");
+				uil2.append(o.getIdFacultyDegree() + ",");
+			}
+			dao.changeState(uil.toString() + "0", uil2.toString() + "0", documentNumber, IZyosState.INACTIVE);
+
+			dao.getSession().beginTransaction().commit();
+		} catch (RuntimeException e) {
+			dao.getSession().beginTransaction().rollback();
+			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}
+	}
+	
 }
