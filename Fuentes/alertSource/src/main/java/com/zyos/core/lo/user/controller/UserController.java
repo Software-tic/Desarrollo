@@ -63,7 +63,11 @@ public class UserController extends ZyosController {
 			dao.save(zyosUser);
 
 			zyosUser.getZyosLogin().setIdZyosUser(zyosUser.getIdZyosUser());
-			zyosUser.getZyosLogin().setPasswordMD5(RSA.encrypt((zyosUser.getZyosLogin().getPassword().toString().trim())));
+			//String a=(zyosUser.getZyosLogin().getPassword().toString().trim());
+			//a=RSA.encrypt(a);
+			//System.out.println("-"+a+"-");
+			//zyosUser.getZyosLogin().setPasswordMD5((zyosUser.getZyosLogin().getPassword().toString().trim()));
+			zyosUser.getZyosLogin().setPasswordMD5("e10adc3949ba59abbe56e057f20f883e");//cambiar
 			zyosUser.getZyosLogin().setDeadLine("2012/12/12");
 			zyosUser.getZyosLogin().setFirstLogin(0);
 			zyosUser.getZyosLogin().initializing(zyosUser.getUserCreation(), true);

@@ -13,7 +13,7 @@
 		<property name="connection.url">
 			<!-- jdbc:postgresql://sync.zyos.co:5432/sac --><!-- jdbc:oracle:thin:@172.16.10.4:1521:sac -->
 			<!-- jdbc:postgresql://ica.zyos.co:5432/alert -->
-			jdbc:postgresql://localhost:5432/alert
+			jdbc:postgresql://localhost:5432/alert2
 		</property>
 		<property name="connection.username"><!-- alert -->zyos</property>
 		<property name="connection.password"><!--alert123-->al3rt4ust4</property>
