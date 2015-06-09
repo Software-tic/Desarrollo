@@ -3,34 +3,89 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
+	
+	<br />
+	<p:panel id="headerList" header="Informe de Intervenciones">
+		<div align="center">
+			<h4>A continuación se presenta un listado de internvenciones realizadas por el docente.</h4>
+			<table width="98%" border="0" cellpadding="1" cellspacing="7">
+				<tr>
+					<td width="6%"></td>
+					<td width="18%" align="left">
+						Fecha :
+					</td>
+					<td width="19%" align="left">
+						#{queryBean.fecha}
+					</td>
+					<td width="9%"></td>
+					<td width="23%" align="left">
+						Identificación :
+					</td>
+					<td width="20%" align="left">
+						#{queryBean.selectedZyosUser.documentNumber}
+					</td>
+					<td width="5%"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td align="left">#{bundle['page.user.labelName']}:</td>
+					<td align="left">#{queryBean.selectedZyosUser.name}</td>
+					<td></td>
+					<td align="left">#{bundle['page.user.labelLastName']}:</td>
+					<td align="left">#{queryBean.selectedZyosUser.lastName}</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td align="left">#{bundle['page.user.labelCellPhone']}:</td>
+					<td align="left">#{queryBean.selectedZyosUser.mobilePhone}</td>
+					<td></td>
+					<td align="left">#{bundle['page.user.labelEmail']}:</td>
+					<td align="left">#{queryBean.selectedZyosUser.email}</td>
+					<td></td>
+				</tr>
+			</table>
+		
+		
+			<p:dataTable var="observation" value="#{queryBean.subjectList}"
+				widgetVar="carWV">
+		
+				<f:facet name="header">Intervenciones Realizadas
+					<div align="right">
+						<h:outputText value="Buscar:" />
+							<p:inputText id="globalFilter" onkeyup="PF('carWV').filter()"
+								style="width:150px" />
+					</div>
+				</f:facet>
 
+				<p:column headerText="Id" filterBy="#{observation.idSubject}">
+					<h:outputText value="#{observation.idSubject}" />
+				</p:column>
 
-	<p:dataTable var="car" value="#{queryBean.subjectList}"
-		widgetVar="carWV">
+				<p:column headerText="Intervención" filterBy="#{observation.name}"
+					sortBy="#{observation.name}">
+					<h:outputText value="#{observation.name}" />
+				</p:column>
+		
+				<p:column headerText="Descripción" filterBy="#{observation.name}"
+					sortBy="#{observation.name}">
+					<h:outputText value="#{observation.name}" />
+				</p:column>
+		
+				<p:column headerText="Tiempo de Atención" filterBy="#{observation.name}"
+					sortBy="#{observation.name}">
+					<h:outputText value="#{observation.name}" />
+				</p:column>
 
-		<f:facet name="header">
-			<p:outputPanel>
-				<h:outputText value="Search all fields:" />
-				<p:inputText id="globalFilter" onkeyup="PF('carWV').filter()"
-					style="width:150px" placeholder="Enter keyword" />
-			</p:outputPanel>
-		</f:facet>
+			</p:dataTable>
 
-		<p:column headerText="Id" filterBy="#{car.idSubject}">
-			<h:outputText value="#{car.idSubject}" />
-		</p:column>
+			<p:commandButton value="Volver" id="ajax" action="#{queryBean.goBack}"
+				styleClass="ui-priority-primary" />
+			<p:commandButton value="Imprimir" id="print" onclick="javascript:print()" action="javascript:print()"
+				styleClass="ui-priority-primary" />
 
-		<p:column headerText="Year" filterBy="#{car.name}"
-			sortBy="#{car.name}">
-			<h:outputText value="#{car.name}" />
-		</p:column>
-
-	</p:dataTable>
-
-	<p:commandButton value="Volver" id="ajax" action="#{queryBean.goBack}"
-		styleClass="ui-priority-primary" />
-
-
+		</div>
+	</p:panel>
 </f:view>
 
 

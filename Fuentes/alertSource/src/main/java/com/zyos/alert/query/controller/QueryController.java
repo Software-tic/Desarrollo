@@ -3,6 +3,8 @@ package com.zyos.alert.query.controller;
 import java.util.List;
 
 import com.zyos.alert.faculty.model.Faculty;
+import com.zyos.alert.studentReport.model.Observation;
+import com.zyos.alert.studentReport.model.ObservationDAO;
 import com.zyos.alert.studentReport.model.Subject;
 import com.zyos.core.common.controller.ZyosController;
 import com.zyos.core.common.model.ZyosParameterDAO;
@@ -27,6 +29,18 @@ public class QueryController extends ZyosController {
 		ZyosUserDAO dao = new ZyosUserDAO();
 		try {
 			return dao.lodInfoToShow(zu.getIdStudent());
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}
+	}
+	
+	public List<Observation> lodInfoObservationToShow(ZyosUser zu) throws Exception {
+		ObservationDAO dao = new ObservationDAO();
+		try {
+			return dao.loadObservationByTeacher(zu.getIdZyosUser());
 		} catch (Exception e) {
 			throw e;
 		} finally {

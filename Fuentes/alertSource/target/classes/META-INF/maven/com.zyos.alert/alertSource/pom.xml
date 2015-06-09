@@ -39,6 +39,7 @@
             <groupId>javax.faces</groupId>
             <artifactId>jsf-api</artifactId>
             <version>2.1</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>

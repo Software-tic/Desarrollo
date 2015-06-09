@@ -1542,7 +1542,7 @@ public class ReportStudentDAO extends OracleBaseHibernateDAO {
 						
 			qo = getSession().createSQLQuery(hql.toString());
 			qo.setParameter("classmate", IZyosGroup.CLASS_MATE);
-						return (BigDecimal) qo.uniqueResult();
+						return (java.math.BigDecimal) qo.uniqueResult();
 		} catch (Exception e) {
 			throw e;
 		} finally {

@@ -7,9 +7,9 @@ import javax.faces.bean.ViewScoped;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.zyos.alert.faculty.model.Faculty;
-import com.zyos.alert.studentReport.model.Subject;
-import com.zyos.core.common.controller.ErrorNotificacion;
+import com.zyos.alert.studentReport.model.Observation;
 import com.zyos.core.common.controller.ZyosBackingBean;
+import com.zyos.core.common.util.ManageDate;
 import com.zyos.core.lo.user.model.ZyosUser;
 
 @ManagedBean
@@ -27,9 +27,11 @@ public class QueryBean extends ZyosBackingBean {
 	private String FacultyNameList, DocentePAAINameList;
 
 	private List<ZyosUser> userList;
-	private List<Subject> subjectListByStudent;
+	private List<Observation> ObservationList;
 	private List<Faculty> FacultiesList;
-
+	
+	private ZyosUser selectedZyosUser;
+	private String Fecha="";
 	private QueryController controller = new QueryController();
 
 	public QueryBean() throws Exception {
@@ -37,15 +39,10 @@ public class QueryBean extends ZyosBackingBean {
 	}
 
 	public void goShowInfo(ZyosUser zu) {
-		System.out.println(zu.getDocumentNumber());
 		try {
-			subjectListByStudent = null;
-			subjectListByStudent = controller.lodInfoToShow(zu);
-			
-			//execute("showInfoWV.show();");
-			
-			addWarn("sdadasdas", "sdasdasd");
-			
+			Fecha = ManageDate.getCurrentDate(ManageDate.YYYY_MM_DD);	
+			setObservationList(null);
+			setObservationList(controller.lodInfoObservationToShow(zu));		
 			setShowSubjectByUserList(true);
 			setPanelView("showSubject", "titulo", "QueryBean");
 		} catch (Exception e) {
@@ -89,14 +86,6 @@ public class QueryBean extends ZyosBackingBean {
 		this.controller = controller;
 	}
 
-	public List<Subject> getSubjectListByStudent() {
-		return subjectListByStudent;
-	}
-
-	public void setSubjectListByStudent(List<Subject> subjectListByStudent) {
-		this.subjectListByStudent = subjectListByStudent;
-	}
-
 	public boolean isShowSubjectByUserList() {
 		return showSubjectByUserList;
 	}
@@ -128,6 +117,30 @@ public class QueryBean extends ZyosBackingBean {
 
 	public void setDocentePAAINameList(String docentePAAINameList) {
 		DocentePAAINameList = docentePAAINameList;
-	}	
+	}
+
+	public List<Observation> getObservationList() {
+		return ObservationList;
+	}
+
+	public void setObservationList(List<Observation> observationList) {
+		ObservationList = observationList;
+	}
+
+	public ZyosUser getSelectedZyosUser() {
+		return selectedZyosUser;
+	}
+
+	public void setSelectedZyosUser(ZyosUser selectedZyosUser) {
+		this.selectedZyosUser = selectedZyosUser;
+	}
+
+	public String getFecha() {
+		return Fecha;
+	}
+
+	public void setFecha(String fecha) {
+		Fecha = fecha;
+	}
 
 }

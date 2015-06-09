@@ -28,7 +28,7 @@ public class SMTPEmail {
 
 	public static void main(String[] args) throws Exception {
 		new SMTPEmail().sendProcessEmail(SMTP_AUTH_USER, "prueba",
-				"test test test", "og@zyos.co");
+				"test test test", "leonardo.plazas@usantoto.edu.co");
 	}
 
 	private Session mailSession;

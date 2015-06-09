@@ -30,6 +30,10 @@ public class Observation extends com.zyos.core.common.model.AZyosModel
 	private Long idAdviser;
 	private String detailObservation;
 	private Long idStage;
+	private Long privacy;
+	private String timestart;
+	private String timefinish;
+	private String timeexecuteintervenction;
 
 	//Transients
 	
@@ -47,6 +51,20 @@ public class Observation extends com.zyos.core.common.model.AZyosModel
 	public Observation(String dateCreation, Long state) {
 		this.dateCreation = dateCreation;
 		this.state = state;
+	}
+	
+	public Observation(Long id, String dateIntervention, String role,
+			String responsible, String detailObservation, String timestart, String timefinish) {
+		this.idObservation = id;
+		this.dateIntervention = dateIntervention;
+		this.detailObservation = detailObservation;
+		this.timestart = timestart;
+		this.timefinish = timefinish;
+		this.responsible = responsible;
+		this.role = role;
+		double f= Long.parseLong(timefinish);
+		double s= Long.parseLong(timefinish);
+		this.timeexecuteintervenction=String.valueOf(f-s);
 	}
 
 	/** full constructor */
@@ -216,6 +234,38 @@ public class Observation extends com.zyos.core.common.model.AZyosModel
 
 	public void setDays(String days) {
 		this.days = days;
+	}
+
+	public Long getPrivacy() {
+		return privacy;
+	}
+
+	public void setPrivacy(Long privacy) {
+		this.privacy = privacy;
+	}
+
+	public String getTimestart() {
+		return timestart;
+	}
+
+	public void setTimestart(String timestart) {
+		this.timestart = timestart;
+	}
+
+	public String getTimefinish() {
+		return timefinish;
+	}
+
+	public void setTimefinish(String timefinish) {
+		this.timefinish = timefinish;
+	}
+
+	public String getTimeexecuteintervenction() {
+		return timeexecuteintervenction;
+	}
+
+	public void setTimeexecuteintervenction(String timeexecuteintervenction) {
+		this.timeexecuteintervenction = timeexecuteintervenction;
 	}
 
 	

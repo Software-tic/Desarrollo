@@ -2,10 +2,14 @@ package com.zyos.alert.studentReport.model;
 
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
+
 import java.util.List;
+
 import org.hibernate.LockMode;
 import org.hibernate.Query;
+
 import static org.hibernate.criterion.Example.create;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -135,6 +139,119 @@ public class ObservationDAO extends OracleBaseHibernateDAO {
 			throw re;
 		}
 	}
+	
+	public List<Observation> loadObservationByTeacher(Long idAdviser) throws Exception {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append(" SELECT NEW Observation(");
+			hql.append(" o.idObservation, ");
+			hql.append(" o.dateIntervention, ");
+			hql.append(" s.name, ");
+			hql.append(" zu.name || ' ' || ");
+			hql.append(" zu.lastName, ");
+			hql.append(" o.detailObservation,"
+					+ " o.timestart, o.timefinish) ");
+			hql.append(" FROM ");
+			hql.append(" Observation o, ");
+			hql.append(" ZyosUser zu, ");
+			hql.append(" ZyosGroup s ");
+			
+			hql.append(" WHERE ");
+			hql.append(" o.idAdviser = :idAdviser AND ");
+			hql.append(" zu.idZyosGroup = s.id AND ");
+			hql.append(" zu.state =:state AND ");
+			hql.append(" s.state =:state AND ");
+			hql.append(" o.state =:state ");
+			
+			
+			qo = getSession().createQuery(hql.toString());
+			qo.setParameter("idAdviser", idAdviser);
+			qo.setParameter("state", IZyosState.ACTIVE);
+		
+			return qo.list();
+			
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	public List<Observation> loadObservationByStudent(Long idStudent, Long idAdviser) throws Exception {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append(" SELECT NEW Observation(");
+			hql.append(" o.idObservation, ");
+			hql.append(" o.dateIntervention, ");
+			hql.append(" s.name, ");
+			hql.append(" zu.name || ' ' || ");
+			hql.append(" zu.lastName, ");
+			hql.append(" o.detailObservation) ");
+			hql.append(" FROM ");
+			hql.append(" Observation o, ");
+			hql.append(" ZyosUser zu, ");
+			hql.append(" ZyosGroup s ");
+			
+			hql.append(" WHERE ");
+			hql.append(" o.idReportStudent = :idStudent AND ");
+			hql.append(" o.idAdviser = zu.idZyosUser AND ");
+			hql.append(" zu.idZyosGroup = s.id AND ");
+			hql.append(" zu.state =:state AND ");
+			hql.append(" s.state =:state AND ");
+			hql.append(" o.state =:state ");
+			hql.append(" o.privacy =:privacy ");
+			int privacy=0;
+			if (FindAdviserPsic(idAdviser)){
+				privacy=1;
+			}
+			qo = getSession().createQuery(hql.toString());
+			qo.setParameter("idStudent", idStudent);
+			qo.setParameter("privacy", privacy);
+			qo.setParameter("state", IZyosState.ACTIVE);
+		
+			return qo.list();
+			
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	public boolean FindAdviserPsic(Long idAdviser) throws Exception {
+		//si el usuario es psicologo o psicopedagogo
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append("SELECT u.idzyosuser "
+					+ "FROM zyosuser u, zyosusergroup ug "
+					+ "WHERE ug.idgroup IN (SELECT id FROM zyosgroup WHERE name LIKE '%sic%') AND "
+					+ "ug.idzyosuser=u.idzyosuser AND u.state=:state AND ug.state=:state  AND u.idzyosuser=:idAdviser");
+			
+			qo = getSession().createQuery(hql.toString());
+			qo.setParameter("idAdviser", idAdviser);
+			qo.setParameter("state", IZyosState.ACTIVE);
+			
+			if(qo.uniqueResult()!=null){
+				Long a=(Long) qo.uniqueResult();
+				if (a==idAdviser){
+					return true;
+				}
+			}
+			
+		}catch(Exception e){
+			throw e;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+		return false;
+	}
+	
 
 	public List<Observation> loadObservationByStudent(Long idStudent) throws Exception {
 		StringBuilder hql = new StringBuilder();
