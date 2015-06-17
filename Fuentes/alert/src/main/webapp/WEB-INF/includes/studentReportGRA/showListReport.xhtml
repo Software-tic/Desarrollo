@@ -1,0 +1,99 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<h:form id="formListReportSGG">
+		<p:defaultCommand target="disableEnter" />
+		<h:inputHidden id="disableEnter" />
+		<br />
+		
+		<h4>Seleccione el periodo Académico</h4>
+		<p:panel id="AcademicPeriod" header="Periodo Académico">
+			<div align="center">
+				<p:selectOneListbox id="advanced" value="#{rstudentgradesBean.periodList}" var="t">
+					<p:column>
+						<h:outputText value="#{t.description}" />
+					</p:column>
+				</p:selectOneListbox>
+				
+				<p:commandButton value="Load" action="#{rstudentgradesBean.goShowPeriodInfo(t.id)}" />
+				
+			</div>
+		</p:panel>
+
+		<!-- <p:panel id="headerList" header="Informe de Estudiantes con Buen Rendimiento" rendered="#{rstudentgradesBean.showTableList}">
+			<div align="center">
+				<h4>A continuación se presenta un listado de los estudiantes
+					con buen rendimiento académico</h4>
+				<p:dataTable id="tableStudent"
+					value="#{rstudentgradesBean.userList}"
+					paginatorAlwaysVisible="true" resizableColumns="false"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="20,40,60" paginator="true" rows="20"
+					filterDelay="600"
+					emptyMessage="#{bundle['page.core.tableNoFoundRecord']}"
+					var="Student" style="width:100%" widgetVar="userTable">
+
+					<f:facet name="header">
+							Estudiantes
+						<div align="right">
+							<h:outputText value="Buscar:" />
+							<p:inputText id="globalFilter" onkeyup="userTable.filter()"
+								style="width:150px" />
+						</div>
+					</f:facet>
+
+					<p:column headerText="Código" sortBy="#{Student.code}"
+						filterBy="#{Student.code}" filterMatchMode="contains"
+						filterStyle="display:none" width="70">
+						<div align="center">#{Student.code}</div>
+					</p:column>
+
+					<p:column headerText="#{bundle['page.user.label_document']}"
+						sortBy="#{Student.documentNumber}"
+						filterBy="#{Student.documentNumber}" filterMatchMode="contains"
+						filterStyle="display:none" width="70">
+						<div align="center">#{Student.documentNumber}</div>
+					</p:column>
+
+					<p:column headerText="Facultad" sortBy="#{Student.nameDegree}"
+						filterBy="#{Student.nameDegree}" filterMatchMode="contains"
+						filterStyle="display:none" width="110">
+						<div align="center">#{Student.nameDegree}</div>
+					</p:column>
+
+					<p:column headerText="#{bundle['page.user.label_userName']}"
+						sortBy="#{Student.name}" filterBy="#{Student.name}"
+						filterMatchMode="contains" filterStyle="display:none" width="250">
+						<h:outputText value="#{Student.name} #{Student.lastName}" />
+					</p:column>
+
+					<p:column width="20">
+						<div align="center">
+							<p:commandLink title="Detallar" immediate="true"
+								disabled="#{rstudentgradesBean.getValidateUserRole(4,18)}"
+								partialSubmit="true"
+								action="#{rstudentgradesBean.goShowInfo(Student)}">
+								<p:graphicImage value="../css/images/detail.gif" height="20"
+									width="20" />
+								<f:setPropertyActionListener
+									target="#{rstudentgradesBean.selectedStudent}"
+									value="#{Student}" />
+							</p:commandLink>
+						</div>
+					</p:column>
+
+					<f:facet name="footer">
+                    	En total hay #{fn:length(RStudentGradesBean.userList)} usuarios.
+               		</f:facet>
+
+				</p:dataTable>
+			</div>
+		</p:panel> -->
+
+	</h:form>
+
+</f:view>

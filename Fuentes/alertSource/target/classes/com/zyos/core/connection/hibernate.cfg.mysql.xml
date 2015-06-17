@@ -10,10 +10,10 @@
 			org.hibernate.dialect.MySQLDialect
 		</property>
 		<property name="connection.url">
-			jdbc:mysql://172.18.48.19:3306/moodle
+			jdbc:mysql://172.18.48.5:3306/moodle
 		</property>
 		<property name="connection.username">root</property>
-		<property name="connection.password">sk1lln3t</property>
+		<property name="connection.password">sk1lln3t.2*13</property>
 		<property name="connection.driver_class">
 			com.mysql.jdbc.Driver
 		</property>

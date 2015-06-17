@@ -73,6 +73,20 @@ public class Student extends com.zyos.core.common.model.AZyosModel implements ja
 		this.userChange = userChange;
 		this.state = state;
 	}
+	
+	public Student(Long idStudent, Long idZyosUser, String code,
+			Long idStudentSAC, String name, String lastName,
+			String documentNumber, Long idDegree, String nameDegree) {
+		this.idStudent = idStudent;
+		this.idZyosUser = idZyosUser;
+		this.code = code;
+		this.idStudentSAC = idStudentSAC;
+		this.name = name;
+		this.lastName = lastName;
+		this.documentNumber = documentNumber;
+		this.idDegree = idDegree;
+		this.nameDegree = nameDegree;
+	}
 
 	/** @author jhernandez, @link loadStudentBySubjectList */
 	public Student(Long idStudent, String code, Long idZyosUser, String name, String lastName, String documentNumber, String email,

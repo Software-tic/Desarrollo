@@ -1,0 +1,90 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<p:panel id="headerList" header="Informe de Estudiante con buen rendimiento">
+		<div align="center">
+			<h4>A continuación se presentan las notas del estudiante</h4>
+			<table width="98%" border="0" cellpadding="1" cellspacing="7">
+				<tr>
+					<td width="6%"></td>
+					<td width="18%" align="left">
+						Fecha :
+					</td>
+					<td width="19%" align="left">
+						#{rstudentgradesBean.fecha}
+					</td>
+					<td width="9%"></td>
+					<td width="23%" align="left">
+						Identificación :
+					</td>
+					<td width="20%" align="left">
+						#{rstudentgradesBean.selectedZyosUser.documentNumber}
+					</td>
+					<td width="5%"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td align="left">#{bundle['page.user.labelName']}:</td>
+					<td align="left">#{rstudentgradesBean.selectedZyosUser.name}</td>
+					<td></td>
+					<td align="left">#{bundle['page.user.labelLastName']}:</td>
+					<td align="left">#{rstudentgradesBean.selectedZyosUser.lastName}</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td align="left">#{bundle['page.user.labelCellPhone']}:</td>
+					<td align="left">#{rstudentgradesBean.selectedZyosUser.mobilePhone}</td>
+					<td></td>
+					<td align="left">#{bundle['page.user.labelEmail']}:</td>
+					<td align="left">#{rstudentgradesBean.selectedZyosUser.email}</td>
+					<td></td>
+				</tr>
+			</table>
+		
+		
+			<p:dataTable var="observation" value="#{queryBean.subjectList}"
+				widgetVar="carWV">
+		
+				<f:facet name="header">Intervenciones Realizadas
+					<div align="right">
+						<h:outputText value="Buscar:" />
+							<p:inputText id="globalFilter" onkeyup="PF('carWV').filter()"
+								style="width:150px" />
+					</div>
+				</f:facet>
+
+				<p:column headerText="Id" filterBy="#{observation.idSubject}">
+					<h:outputText value="#{observation.idSubject}" />
+				</p:column>
+
+				<p:column headerText="Intervención" filterBy="#{observation.name}"
+					sortBy="#{observation.name}">
+					<h:outputText value="#{observation.name}" />
+				</p:column>
+		
+				<p:column headerText="Descripción" filterBy="#{observation.name}"
+					sortBy="#{observation.name}">
+					<h:outputText value="#{observation.name}" />
+				</p:column>
+		
+				<p:column headerText="Tiempo de Atención" filterBy="#{observation.name}"
+					sortBy="#{observation.name}">
+					<h:outputText value="#{observation.name}" />
+				</p:column>
+
+			</p:dataTable>
+
+			<p:commandButton value="Volver" id="ajax" action="#{queryBean.goBack}"
+				styleClass="ui-priority-primary" />
+			<p:commandButton value="Imprimir" id="print" onclick="javascript:print()" action="javascript:print()"
+				styleClass="ui-priority-primary" />
+
+		</div>
+	</p:panel>
+
+</f:view>

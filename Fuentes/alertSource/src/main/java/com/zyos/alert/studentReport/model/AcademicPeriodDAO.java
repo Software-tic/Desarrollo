@@ -62,7 +62,7 @@ public class AcademicPeriodDAO extends OracleBaseHibernateDAO {
 	}
 
 	public List<AcademicPeriod> findByExample(AcademicPeriod instance) {
-		log.debug("finding Academicperiod instance by example");
+		log.debug("finding AcademicPeriod instance by example");
 		try {
 			List<AcademicPeriod> results = (List<AcademicPeriod>) getSession()
 					.createCriteria(
@@ -78,10 +78,10 @@ public class AcademicPeriodDAO extends OracleBaseHibernateDAO {
 	}
 
 	public List findByProperty(String propertyName, Object value) {
-		log.debug("finding Academicperiod instance with property: "
+		log.debug("finding AcademicPeriod instance with property: "
 				+ propertyName + ", value: " + value);
 		try {
-			String queryString = "from Academicperiod as model where model."
+			String queryString = "from AcademicPeriod as model where model."
 					+ propertyName + "= ?";
 			Query queryObject = getSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
@@ -93,9 +93,9 @@ public class AcademicPeriodDAO extends OracleBaseHibernateDAO {
 	}
 
 	public List findAll() {
-		log.debug("finding all Academicperiod instances");
+		log.debug("finding all AcademicPeriod instances");
 		try {
-			String queryString = "from Academicperiod";
+			String queryString = "from AcademicPeriod";
 			Query queryObject = getSession().createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {

@@ -18,6 +18,7 @@ import com.zyos.core.common.api.IZyosGroup;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.common.util.ManageDate;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
+import com.zyos.core.lo.user.model.ZyosUser;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -567,6 +568,40 @@ public class StudentDAO extends OracleBaseHibernateDAO {
 			throw e;
 		} finally {
 			sql = null;
+			qo = null;
+		}
+	}
+	
+	public List<Student> loadStudentListByEnterprise(Long idE)
+			throws Exception {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append("SELECT NEW Student( "
+					+ " s.idstudent,zu.idzyosuser, s.code, s.idstudentsac, zu.name,"
+					+ " zu.lastname, zu.documentnumber, d.id, d.name) "
+					+ "FROM student s,zyosuser zu, zyosuserenterprise zue, degree d, studentdegree sd "
+					+ "WHERE s.idzyosuser=zu.idzyosuser"
+					+ " AND d.id = sd.iddegree"
+					+ " AND sd.idstudent=s.idstudent"
+					+ " AND zue.idzyosuser=zu.idzyosuser"
+					+ " AND zue.identerprise=:enterprise"
+					+ " AND s.state=:state"
+					+ " AND zu.state=:state"
+					+ " AND zue.state=:state"
+					+ " AND d.state=:state"
+					+ " AND sd.state=:state");
+
+			qo = getSession().createQuery(hql.toString());
+
+			qo.setParameter("enterprise", idE);
+			qo.setParameter("state", IZyosState.ACTIVE);
+
+			return qo.list();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			hql = null;
 			qo = null;
 		}
 	}

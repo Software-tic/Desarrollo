@@ -71,9 +71,9 @@ public class HibernateSessionFactory {
 					ZyosController controller = new ZyosController();
 					String academicPeriodName = controller.loadCurrentAcademicPeriodName();
 					
-					MySQLConfiguration.setProperty("connection.url", MySQL_URL.substring(0, MySQL_URL.indexOf("moodlepre"))+ "moodlepre"+academicPeriodName);
+					//MySQLConfiguration.setProperty("connection.url", MySQL_URL.substring(0, MySQL_URL.indexOf("moodlepre"))+ "moodlepre"+academicPeriodName);
 					
-					System.out.println("INFO: setting mysql moodle database "+  MySQL_URL.substring(0, MySQL_URL.indexOf("moodlepre"))+ "moodlepre"+ academicPeriodName);
+					//System.out.println("INFO: setting mysql moodle database "+  MySQL_URL.substring(0, MySQL_URL.indexOf("moodlepre"))+ "moodlepre"+ academicPeriodName);
 					MySQLServiceRegistry = new ServiceRegistryBuilder().applySettings(MySQLConfiguration.getProperties()).buildServiceRegistry();
 					
 					MySQLSessionFactory = MySQLConfiguration.buildSessionFactory(MySQLServiceRegistry);

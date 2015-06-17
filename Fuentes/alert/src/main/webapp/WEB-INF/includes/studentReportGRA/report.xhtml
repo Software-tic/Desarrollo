@@ -1,0 +1,24 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<p:outputPanel id="Panel"
+		rendered="#{!rstudentgradesBean.getValidateUserRole(1,18)}">
+		#{!rstudentgradesBean.showStudentList}
+		<p:outputPanel id="Report" rendered="#{!rstudentgradesBean.showStudentList}">
+			<ui:include src="/WEB-INF/includes/studentReportGRA/showListReport.xhtml" />
+		</p:outputPanel>
+		#{!rstudentgradesBean.showReportByStudent}
+		<p:outputPanel rendered="#{rstudentgradesBean.showReportByStudent}">
+			<ui:include src="/WEB-INF/includes/studentReportGRA/showUserReport.xhtml" />
+		</p:outputPanel>
+
+	</p:outputPanel>
+	<p:outputPanel rendered="#{rstudentgradesBean.getValidateUserRole(1,18)}">
+
+		<br> </br>
+		<ui:include src="/WEB-INF/includes/content/denied.xhtml" />
+
+	</p:outputPanel>
+</ui:composition>
