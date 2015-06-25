@@ -1,8 +1,6 @@
 package com.zyos.alert.query.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -11,7 +9,6 @@ import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.zyos.alert.faculty.model.Faculty;
 import com.zyos.alert.studentReport.model.AcademicPeriod;
 import com.zyos.alert.studentReport.model.Student;
-import com.zyos.core.common.controller.ErrorNotificacion;
 import com.zyos.core.common.controller.ZyosBackingBean;
 import com.zyos.core.common.util.ManageDate;
 

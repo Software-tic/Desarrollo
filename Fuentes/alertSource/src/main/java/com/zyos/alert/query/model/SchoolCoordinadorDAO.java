@@ -4,13 +4,7 @@ import java.util.List;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
-<<<<<<< HEAD
 import static org.hibernate.criterion.Example.create;
-=======
-
-import static org.hibernate.criterion.Example.create;
-
->>>>>>> origin/master
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

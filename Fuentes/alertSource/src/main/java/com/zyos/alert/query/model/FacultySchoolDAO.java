@@ -4,13 +4,7 @@ import java.util.List;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
-<<<<<<< HEAD
 import static org.hibernate.criterion.Example.create;
-=======
-
-import static org.hibernate.criterion.Example.create;
-
->>>>>>> origin/master
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,11 +34,7 @@ import com.zyos.core.connection.OracleBaseHibernateDAO;
 public class FacultySchoolDAO extends OracleBaseHibernateDAO {
 	private static final Logger log = LoggerFactory
 			.getLogger(FacultySchoolDAO.class);
-<<<<<<< HEAD
-
-=======
 	// property constants
->>>>>>> origin/master
 	public static final String DATECREATION = "datecreation";
 	public static final String DATECHANGE = "datechange";
 	public static final String USERCREATION = "usercreation";

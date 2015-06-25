@@ -1,20 +1,10 @@
 package com.zyos.alert.query.model;
 
 import java.util.List;
-<<<<<<< HEAD
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import static org.hibernate.criterion.Example.create;
-=======
-import java.util.Set;
-
-import org.hibernate.LockOptions;
-import org.hibernate.Query;
-
-import static org.hibernate.criterion.Example.create;
-
->>>>>>> origin/master
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,21 +12,13 @@ import com.zyos.core.connection.OracleBaseHibernateDAO;
 
 /**
  * A data access object (DAO) providing persistence and search support for
-<<<<<<< HEAD
  * MdlCourse entities. Transaction control of the save(), update() and delete()
-=======
- * School entities. Transaction control of the save(), update() and delete()
->>>>>>> origin/master
  * operations can directly support Spring container-managed transactions or they
  * can be augmented to handle user-managed Spring transactions. Each of these
  * methods provides additional information for how to configure it for the
  * desired type of transaction control.
  * 
-<<<<<<< HEAD
  * @see com.zyos.alert.moodle.model.MdlCourse
-=======
- * @see com.zyos.alert.query.model.School
->>>>>>> origin/master
  * @author MyEclipse Persistence Tools
  */
 public class SchoolDAO extends OracleBaseHibernateDAO {
