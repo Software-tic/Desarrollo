@@ -272,7 +272,7 @@
 					<tr>
 						<td style="border-width: 0px;">
 							<p:commandLink
-								disabled="#{!interventionBean.getValidateUserRole(6,20)}"
+								disabled="#{interventionBean.getValidateUserRole(6,20)}"
 								update=":riskStudentForm:riskStudentPanel" title="DAR TRAMITE"
 								action="#{interventionBean.goStudentRegister}">
 								<p:graphicImage value="../css/images/dartramite.png" height="20"
@@ -283,10 +283,9 @@
 							</p:commandLink></td>
 						<td style="border-width: 0px;">
 							<p:commandLink
-								disabled="#{!interventionBean.getValidateUserRole(11,20)}"
+								disabled="#{interventionBean.getValidateUserRole(11,20)}"
 								title="ASIGNAR DOCENTE"
 								action="#{interventionBean.goTeacherAsign}">
-								<!-- Asignar el metodo GO para la asignaciÃ³n del docente -->
 								<p:graphicImage value="../css/images/accept.png" height="20"
 									width="20" />
 								<f:setPropertyActionListener
@@ -338,7 +337,7 @@
 		</p:dataTable>
 		<br />
 		<div style="width: 100%" align="center">
-			<p:commandButton value="Solicitar AcompaÃ±amiento"
+			<p:commandButton value="Solicitar Acompañamiento"
 				action="#{interventionBean.redirectToReportStudent}"
 				styleClass="ui-priority-primary" />
 		</div>
@@ -501,7 +500,7 @@
 		<p:outputPanel style="text-align:center;" layout="block">
 			<table width="100%" border="0" align="left">
 				<tr>
-					<td align="left">Â¿EstÃ¡ seguro de eliminar el reporte seleccionado?</td>
+					<td align="left">¿Está seguro de eliminar el reporte seleccionado?</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -520,40 +519,38 @@
 				</tr>
 			</table>
 		</p:outputPanel>
-	</p:dialog>
-
+	</p:dialog>	
+	
 	<p:dialog id="asignTeacherCase"
 		widgetVar="asignTeacherCaseWV" showHeader="false" resizable="false" draggable="false" showEffect="drop"
-		hideEffect="fade" modal="true" width="800" height="375px" dynamic="true">
+		hideEffect="fade" modal="true" width="500px" height="180px" dynamic="true">
 		<p:panel id="asignTeacherCaseDialogPanel" header="#{interventionBean.headerDialog}" style="text-align:left;">
-			<table width="100%" border="0" align="left">
+			<table id="asignTeacherCaseTable" width="100%" border="0" align="left">
 				<tr>
 					<td align="center">
-						<h4>Seleccione el Docente</h4>	
+						<h4>Seleccione el Docente</h4>
 					</td>
 				</tr>
 				<tr>
-					<td>
-						<p:selectOneMenu id="TeacherSelectOne" style="width:90%"
+					<td align="center">
+						<p:selectOneMenu id="TeacherSelectOne" style="width:90%;"
 							value="#{interventionBean.reportSearch.idRiskFactor}">
 							<f:selectItem itemValue="0" itemLabel="#{bundle['page.core.selectOne']}" />
-							<f:selectItems
-								value="#{interventionBean.TeacherListByFaculty}" var="s"
+							<f:selectItems value="#{interventionBean.teacherListByFaculty}" var="s"
 								itemLabel="#{s.name}" itemValue="#{s.idRiskFactor}" />
 						</p:selectOneMenu>
 					</td>
 				</tr>
 				<tr>
+					<td><br/></td>
+				</tr>
+				<tr>
 					<td align="center">
-						<p:commandButton
-							id="asignTeacherCaseButton"
-							value="Asignar"
-							styleClass="ui-priority-primary"
-							action="#{interventionBean.asignTeacherCaseStudent}" />
+						<p:commandButton action="#{interventionBean.asignTeacherCaseStudent}" 
+						id="asignTeacherCaseButton" value="Asignar"	styleClass="ui-priority-primary"  />
 						<p:spacer width="10" height="10"></p:spacer>
-						<p:commandButton
-							partialSubmit="true" oncomplete="asignTeacherCaseWV.hide()"
-							value="#{bundle['page.core.labelCancel']}" />
+						<p:commandButton value="#{bundle['page.core.labelCancel']}"
+							partialSubmit="true" oncomplete="asignTeacherCaseWV.hide()"/>
 					</td>
 				</tr>
 			</table>

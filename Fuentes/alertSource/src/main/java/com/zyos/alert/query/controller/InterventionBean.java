@@ -53,7 +53,7 @@ import com.zyos.core.mail.io.mn.model.EmailTemplate;
 @ViewScoped
 @URLMapping(id = "interventionBean", pattern = "/portal/RegistroIntervenciones", viewId = "/pages/intervention/index.jspx")
 public class InterventionBean extends ZyosBackingBean {
-
+	
 	/**
 	 * SIAT TUNJA
 	 */
@@ -111,7 +111,7 @@ public class InterventionBean extends ZyosBackingBean {
 
 	private InterventionController controller = new InterventionController();
 	
-	private List<ZyosUser> TeacherListByFaculty;
+	private List<ZyosUser> teacherListByFaculty;
 
 	public InterventionBean() throws Exception {
 		try {
@@ -136,8 +136,10 @@ public class InterventionBean extends ZyosBackingBean {
 	public void goTeacherAsign() {
 		try {
 
-			TeacherListByFaculty = controller.loadDataTeacherByFaculty(getUserSession().getId());
-			
+			teacherListByFaculty = controller.loadDataTeacherByFaculty(getUserSession().getId());
+			for (ZyosUser zu : teacherListByFaculty) {
+				zu.getIdZyosUser();
+			}
 			headerDialog = "Asignar Docente";
 			ZyosBackingBean.update("riskStudentForm:asignTeacherCase");
 			ZyosBackingBean.getRequestContext().execute("asignTeacherCaseWV.show();");
@@ -1674,11 +1676,11 @@ public class InterventionBean extends ZyosBackingBean {
 	}
 
 	public List<ZyosUser> getTeacherListByFaculty() {
-		return TeacherListByFaculty;
+		return teacherListByFaculty;
 	}
 
 	public void setTeacherListByFaculty(List<ZyosUser> teacherListByFaculty) {
-		TeacherListByFaculty = teacherListByFaculty;
+		teacherListByFaculty = teacherListByFaculty;
 	}
 
 }
