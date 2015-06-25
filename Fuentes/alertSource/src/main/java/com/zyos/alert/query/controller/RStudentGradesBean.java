@@ -1,6 +1,8 @@
 package com.zyos.alert.query.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -9,19 +11,20 @@ import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.zyos.alert.faculty.model.Faculty;
 import com.zyos.alert.studentReport.model.AcademicPeriod;
 import com.zyos.alert.studentReport.model.Student;
+import com.zyos.core.common.controller.ErrorNotificacion;
 import com.zyos.core.common.controller.ZyosBackingBean;
+import com.zyos.core.common.util.ManageDate;
 
 @ManagedBean
 @ViewScoped
-@URLMapping(id = "rstudentgradesBean", pattern = "/portal/reporteAcademico", viewId ="/pages/studentReportGRA/report.jspx")
+@URLMapping(id = "rStudentGradesBean", pattern = "/portal/reporteAcademico", viewId ="/pages/studentReportGRA/report.jspx")
 public class RStudentGradesBean extends ZyosBackingBean {
 
 	/**
-	 * 
+	 * SIAT TUNJA
 	 */
 	private static final long serialVersionUID = 1L;
-	private boolean showStudentList = false;
-	private boolean showTableList = false;
+	private boolean showStudentList = true;
 	private boolean showReportByStudent;
 	
 	private String FacultyNameList, DocentePAAINameList;
@@ -29,32 +32,34 @@ public class RStudentGradesBean extends ZyosBackingBean {
 	private List<Student> userList;
 	private List<Faculty> FacultiesList;
 	private List<AcademicPeriod> PeriodList;
-	
+
+	private Long Period;
 	private Student selectedStudent;
 	private String Fecha="";
 	private RStudentGradesController controller = new RStudentGradesController();
 
 	public RStudentGradesBean() throws Exception {
-		PeriodList = controller.getAcademicPeriodList();
-		System.out.print("aqui");
-		/*for (AcademicPeriod ap : PeriodList) {
-			System.out.println("-----"+ap.getDescription());
-		}*/
+		this.PeriodList=controller.getAcademicPeriodList();
 	}
 	
-	public void goShowPeriodInfo(String Periodo) throws Exception {
-		userList = controller.getStudentList(this.getUserSession().getDefaultEnterprise());
-		setShowTableList(true);
+	public void loadStudentList() throws Exception {
+		userList = controller.getStudentList(this.getUserSession().getDefaultEnterprise(),Period);
+		
+		/*try {
+			showObservation = false;
+			riskFactorListByCategory = controller.loadRiskFactorListByCategory(idCategory);
+			loadTitleRiskList();
+		} catch (Exception e) {
+			ErrorNotificacion.handleErrorMailNotification(e, this);
+		}*/
 	}
 
 	public void goShowInfo(Student zu) {
-		try {
-			//setObservationList(controller.lodInfoObservationToShow(zu)); set para las notas del estudiante		
-			setshowReportByStudent(true);
-			setPanelView("showStudent", "titulo", "RStudentGradeBean");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Fecha = ManageDate.getCurrentDate(ManageDate.YYYY_MM_DD);
+		//setObservationList(controller.lodInfoObservationToShow(zu)); set para las notas del estudiante		
+		setShowReportByStudent(true);
+		setPanelView("showStudent", "titulo", "RStudentGradeBean");
+		
 	}
 	
 	public void goBack(){
@@ -62,16 +67,7 @@ public class RStudentGradesBean extends ZyosBackingBean {
 		setPanelView("showStudent", "titulo", "RStudentGradeBean");
 	}
 
-	public boolean isShowUserList() {
-		return showStudentList;
-	}
-
-	public void setShowStudentList(boolean showStudentList) {
-		this.showStudentList = showStudentList;
-		this.showReportByStudent = !showStudentList;
-		this.showTableList = !showStudentList;
-	}
-
+	
 	public List<Student> getUserList() {
 		return userList;
 	}
@@ -86,16 +82,6 @@ public class RStudentGradesBean extends ZyosBackingBean {
 
 	public void setController(RStudentGradesController controller) {
 		this.controller = controller;
-	}
-
-	public boolean isshowReportByStudent() {
-		return showReportByStudent;
-	}
-
-	public void setshowReportByStudent(boolean showReportByStudent) {
-		this.showReportByStudent = showReportByStudent;
-		this.showStudentList = !showReportByStudent;
-		this.showTableList = !showReportByStudent;
 	}
 
 	public List<Faculty> getFacultiesList() {
@@ -138,12 +124,22 @@ public class RStudentGradesBean extends ZyosBackingBean {
 		Fecha = fecha;
 	}
 
-	public boolean isShowTableList() {
-		return showTableList;
+	public boolean isShowStudentList() {
+		return showStudentList;
 	}
 
-	public void setShowTableList(boolean showTableList) {
-		this.showTableList = showTableList;
+	public void setShowStudentList(boolean showStudentList) {
+		this.showStudentList = showStudentList;
+		this.showReportByStudent = !showStudentList;
+	}
+
+	public boolean isShowReportByStudent() {
+		return showReportByStudent;
+	}
+
+	public void setShowReportByStudent(boolean showReportByStudent) {
+		this.showReportByStudent = showReportByStudent;
+		this.showStudentList =!showReportByStudent;
 	}
 
 	public List<AcademicPeriod> getPeriodList() {
@@ -152,6 +148,14 @@ public class RStudentGradesBean extends ZyosBackingBean {
 
 	public void setPeriodList(List<AcademicPeriod> periodList) {
 		PeriodList = periodList;
+	}
+
+	public Long getPeriod() {
+		return Period;
+	}
+
+	public void setPeriod(Long period) {
+		Period = period;
 	}
 
 }

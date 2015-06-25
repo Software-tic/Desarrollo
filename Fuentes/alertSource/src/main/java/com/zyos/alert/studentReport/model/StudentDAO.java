@@ -572,24 +572,19 @@ public class StudentDAO extends OracleBaseHibernateDAO {
 		}
 	}
 	
+	/**SIAT TUNJA*/
 	public List<Student> loadStudentListByEnterprise(Long idE)
 			throws Exception {
 		StringBuilder hql = new StringBuilder();
 		Query qo = null;
 		try {
-			hql.append("SELECT NEW Student( "
-					+ " s.idstudent,zu.idzyosuser, s.code, s.idstudentsac, zu.name,"
-					+ " zu.lastname, zu.documentnumber, d.id, d.name) "
-					+ "FROM student s,zyosuser zu, zyosuserenterprise zue, degree d, studentdegree sd "
-					+ "WHERE s.idzyosuser=zu.idzyosuser"
-					+ " AND d.id = sd.iddegree"
-					+ " AND sd.idstudent=s.idstudent"
-					+ " AND zue.idzyosuser=zu.idzyosuser"
-					+ " AND zue.identerprise=:enterprise"
-					+ " AND s.state=:state"
-					+ " AND zu.state=:state"
-					+ " AND zue.state=:state"
-					+ " AND d.state=:state"
+			hql.append("SELECT NEW Student("
+					+ "s.id,zu.id, s.code, s.idStudentSAC, zu.name, zu.lastName, zu.documentNumber, d.id, d.name) "
+					+ "FROM Student s,ZyosUser zu, ZyosUserEnterprise zue, Degree d, StudentDegree sd "
+					+ "WHERE s.idZyosUser=zu.id AND d.id = sd.idDegree AND sd.idStudent=s.id"
+					+ " AND zue.idZyosUser=zu.id AND zue.idEnterprise=:enterprise"
+					+ " AND s.state=:state AND zu.state=:state"
+					+ " AND zue.state=:state AND d.state=:state"
 					+ " AND sd.state=:state");
 
 			qo = getSession().createQuery(hql.toString());

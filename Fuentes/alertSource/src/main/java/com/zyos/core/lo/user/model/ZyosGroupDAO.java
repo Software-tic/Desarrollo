@@ -59,7 +59,7 @@ public class ZyosGroupDAO extends OracleBaseHibernateDAO {
 
 	public List<ZyosGroup> findAll() {
 		try {
-			String queryString = "from ZyosGroup where state > 0";
+			String queryString = "from ZyosGroup where state > 0 order by id";
 			Query queryObject = getSession().createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {

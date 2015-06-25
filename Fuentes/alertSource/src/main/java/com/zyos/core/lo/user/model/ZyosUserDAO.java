@@ -503,6 +503,7 @@ public class ZyosUserDAO extends OracleBaseHibernateDAO {
 		}
 	}
 	
+	/***SIAT TUNJA*/
 	public List<ZyosUser> loadUserPAAIList(Long idEnterprise,String UserGroup) throws Exception {
 		StringBuilder hql = new StringBuilder();
 		Query qo = null;

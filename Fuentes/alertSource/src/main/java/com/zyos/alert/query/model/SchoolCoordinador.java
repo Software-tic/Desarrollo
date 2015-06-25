@@ -11,18 +11,34 @@ import javax.persistence.Table;
 import com.zyos.core.lo.user.model.ZyosUser;
 
 /**
+<<<<<<< HEAD
  * MdlCourse entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "school_coordinador")
 public class SchoolCoordinador implements java.io.Serializable {
+=======
+ * SchoolCoordinador entity. @author MyEclipse Persistence Tools
+ */
+@Entity
+@Table(name = "school_coordinador")
+public class SchoolCoordinador extends com.zyos.core.common.model.AZyosModel
+	implements java.io.Serializable {
+
+	// Fields
+>>>>>>> origin/master
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+<<<<<<< HEAD
 	// Fields
 	private Long idschoolcoord;
+=======
+	private Long idschoolcoord;
+	private School school;
+>>>>>>> origin/master
 	private String datecreation;
 	private String usercreation;
 	private String datechange;
@@ -30,7 +46,10 @@ public class SchoolCoordinador implements java.io.Serializable {
 	private Long state;
 	
 	private transient Long zyosuser;
+<<<<<<< HEAD
 	private transient Long school;
+=======
+>>>>>>> origin/master
 
 	// Constructors
 
@@ -45,7 +64,11 @@ public class SchoolCoordinador implements java.io.Serializable {
 
 	/** full constructor */
 	public SchoolCoordinador(Long idschoolcoord, Long zyosuser,
+<<<<<<< HEAD
 			Long school, String datecreation, String usercreation,
+=======
+			School school, String datecreation, String usercreation,
+>>>>>>> origin/master
 			String datechange, String userchange, Long state) {
 		this.idschoolcoord = idschoolcoord;
 		this.zyosuser = zyosuser;
@@ -80,11 +103,19 @@ public class SchoolCoordinador implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idschool")
+<<<<<<< HEAD
 	public Long getSchool() {
 		return this.school;
 	}
 
 	public void setSchool(Long school) {
+=======
+	public School getSchool() {
+		return this.school;
+	}
+
+	public void setSchool(School school) {
+>>>>>>> origin/master
 		this.school = school;
 	}
 
@@ -132,5 +163,9 @@ public class SchoolCoordinador implements java.io.Serializable {
 	public void setState(Long state) {
 		this.state = state;
 	}
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> origin/master
 }

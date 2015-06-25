@@ -6,7 +6,11 @@ package com.zyos.core.common.api;
 
 public interface IZyosGroup {
 
+<<<<<<< HEAD
 public static final Long ADMINISTRATOR = Long.valueOf(1);
+=======
+	public static final Long ADMINISTRATOR = Long.valueOf(1);
+>>>>>>> origin/master
 	
 	public static final Long TEACHER = Long.valueOf(2);
 	
@@ -55,5 +59,8 @@ public static final Long ADMINISTRATOR = Long.valueOf(1);
 	public static final Long TUNJA_DECAN_FACULTY = Long.valueOf(35);
 	
 	public static final Long TUNJA_PROGRAM_COORD = Long.valueOf(36);
+<<<<<<< HEAD
 	
+=======
+>>>>>>> origin/master
 }

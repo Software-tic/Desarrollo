@@ -19,6 +19,10 @@ import com.zyos.core.common.model.AParameter;
 @Table(name = "cutOffTime")
 public class CutOffTime extends AParameter implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// Fields
 	private Long id;
 	private String cutHour;

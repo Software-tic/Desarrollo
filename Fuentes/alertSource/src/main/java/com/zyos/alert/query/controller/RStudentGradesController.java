@@ -18,11 +18,11 @@ import com.zyos.core.lo.user.model.ZyosUserDAO;
 public class RStudentGradesController extends ZyosController {
 
 	/**
-	 * 
+	 * SIAT TUNJA
 	 */
 	private static final long serialVersionUID = 1L;
-
-	public List<Student> getStudentList(Long idE) throws Exception {
+	
+	public List<Student> getStudentList(Long idE,Long idP) throws Exception {
 		StudentDAO dao = new StudentDAO();
 		try {
 			return dao.loadStudentListByEnterprise(idE);

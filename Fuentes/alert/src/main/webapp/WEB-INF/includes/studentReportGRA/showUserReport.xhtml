@@ -8,40 +8,40 @@
 	<p:panel id="headerList" header="Informe de Estudiante con buen rendimiento">
 		<div align="center">
 			<h4>A continuación se presentan las notas del estudiante</h4>
-			<table width="98%" border="0" cellpadding="1" cellspacing="7">
+			<table align="center" width="98%" border="0" cellpadding="1" cellspacing="7">
 				<tr>
 					<td width="6%"></td>
-					<td width="18%" align="left">
+					<td align="left" width="18%">
 						Fecha :
 					</td>
-					<td width="19%" align="left">
-						#{rstudentgradesBean.fecha}
+					<td align="left" width="19%">
+						#{rStudentGradesBean.fecha}
 					</td>
 					<td width="9%"></td>
-					<td width="23%" align="left">
+					<td align="left" width="23%">
 						Identificación :
 					</td>
-					<td width="20%" align="left">
-						#{rstudentgradesBean.selectedZyosUser.documentNumber}
+					<td align="left" width="20%">
+						#{rStudentGradesBean.selectedStudent.documentNumber}
 					</td>
 					<td width="5%"></td>
 				</tr>
 				<tr>
 					<td></td>
 					<td align="left">#{bundle['page.user.labelName']}:</td>
-					<td align="left">#{rstudentgradesBean.selectedZyosUser.name}</td>
+					<td align="left">#{rStudentGradesBean.selectedStudent.name}</td>
 					<td></td>
 					<td align="left">#{bundle['page.user.labelLastName']}:</td>
-					<td align="left">#{rstudentgradesBean.selectedZyosUser.lastName}</td>
+					<td align="left">#{rStudentGradesBean.selectedStudent.lastName}</td>
 					<td></td>
 				</tr>
 				<tr>
 					<td></td>
 					<td align="left">#{bundle['page.user.labelCellPhone']}:</td>
-					<td align="left">#{rstudentgradesBean.selectedZyosUser.mobilePhone}</td>
+					<td align="left">#{rStudentGradesBean.selectedStudent.mobilePhone}</td>
 					<td></td>
 					<td align="left">#{bundle['page.user.labelEmail']}:</td>
-					<td align="left">#{rstudentgradesBean.selectedZyosUser.email}</td>
+					<td align="left">#{rStudentGradesBean.selectedStudent.email}</td>
 					<td></td>
 				</tr>
 			</table>
@@ -79,7 +79,7 @@
 
 			</p:dataTable>
 
-			<p:commandButton value="Volver" id="ajax" action="#{queryBean.goBack}"
+			<p:commandButton value="Volver" id="ajax" action="#{rStudentGradesBean.goBack}"
 				styleClass="ui-priority-primary" />
 			<p:commandButton value="Imprimir" id="print" onclick="javascript:print()" action="javascript:print()"
 				styleClass="ui-priority-primary" />

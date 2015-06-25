@@ -596,7 +596,190 @@ public class ReportStudentDAO extends OracleBaseHibernateDAO {
 			qo = null;
 		}
 	}
-		
+	
+	public List<ZyosUser> loadTeacherByFacultyListTunja(Long idZyosUser) throws Exception{
+		StringBuilder sql = new StringBuilder();
+		Query qo = null;
+		try {
+			sql.append(" SELECT zu.idzyosuser,zu.name,zu.lastname "
+					+ " FROM teacher t,zyosuser zu,school s,faculty_school fs,faculty f, zyosgroup zg,zyosusergroup zug "
+					+ " WHERE t.idzyosuser=zu.idzyosuser "
+					+ " AND zu.idzyosuser <> :idZyosUser "
+					+ " AND zg.id = :idZyosGroup "
+					+ " AND zug.idzyosuser = zu.idzyosuser "
+					+ " AND zug.idgroup = zg.id "
+					+ " AND t.idschool = s.idschool "
+					+ " AND fs.idschool = s.idschool "
+					+ " AND fs.idfaculty = f.idfaculty "
+					+ " AND t.idschool IN (SELECT idschool FROM teacher where idzyosuser=:idZyosUser AND state=:state) "
+					+ " AND t.state = :state "
+					+ " AND zu.state = :state "
+					+ " AND s.state = :state "
+					+ " AND fs.state = :state "
+					+ " AND f.state = :state "
+					+ " AND zg.state = :state "
+					+ " AND zug.state = :state "
+					+ " ORDER BY zu.idzyosuser ");
+			
+			qo = getSession().createSQLQuery(sql.toString());
+			qo.setParameter("state", IZyosState.ACTIVE);
+			qo.setParameter("idZyosUser", idZyosUser);
+			qo.setParameter("idZyosGroup", IZyosGroup.TUNJA_TEACHER_PAAI);
+			
+			return qo.list();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			sql = null;
+			qo = null;
+		}
+	}
+	
+	/**SIAT TUNJA*/
+	public List<ReportStudent> loadReportStudentListTunja(Long idZyosGroup, Long idZyosUser) throws Exception {
+		StringBuilder sql = new StringBuilder();
+		Query qo = null;
+		try {
+			sql.append(" SELECT ");		
+			sql.append(" rs.idReportStudent, ");
+			sql.append(" rs.idStudent, ");
+			sql.append(" rs.dateCreation, ");
+			sql.append(" rs.detailReport, ");
+			sql.append(" rs.idReportType, ");
+			sql.append(" rs.idStatusReportStudent, ");
+			sql.append(" rs.idStage, ");
+			sql.append(" rs.firstIntervention, ");
+			sql.append(" rs.idAdviser, ");
+			sql.append(" rs.idSolicitor, ");
+			sql.append(" rf.name riskFactorName, ");
+			sql.append(" zu.name zyosUserName, ");
+			sql.append(" zu.lastname zyosUserLastName, zu.idZyosUser, zu.documentNumber, s.code, zu.phone, zu.mobilePhone, zu.email as emailStudent, rs.detailReport, rf.idRiskFactorCategory, ");
+			sql.append(" CASE WHEN (rs.idReportType = :idReportType OR rs.idReportType = :idReportTypeA) and rs.idSolicitor is not null ");
+			sql.append(" THEN array(select (z.name || ' ' || z.lastname, zg.name) from ZyosUser z, ZyosGroup zg where rs.idSolicitor = z.idZyosUser and rs.idZyosGroup = zg.id) ");
+			sql.append(" ELSE array(select (fs.name, fs.phone, fs.mobilePhone, fs.email) from FamilyStudent fs where fs.idStudent = s.idStudent and rs.idRiskFactor = fs.idRiskFactor) ");
+			sql.append(" END AS solicitorData, ");
+			sql.append(" CASE rs.idAdviser ");
+			sql.append(" WHEN :idZyosUser  ");
+			sql.append(" THEN 1 ");
+			sql.append(" ELSE 0 ");
+			sql.append(" END AS isButton, ");
+			sql.append(" CASE zu.idZyosUser ");
+			sql.append(" WHEN :idZyosUser ");
+			sql.append(" THEN 1 "); 
+			sql.append(" ELSE 0 ");
+			sql.append(" END AS isButtonCase ");
+			sql.append(" FROM ");
+			sql.append(" ReportStudent rs, ");
+			sql.append(" RiskFactor rf, ");
+			sql.append(" Student s, ");
+			sql.append(" ZyosUser zu ");
+			sql.append(" WHERE ");
+			
+			if (idZyosGroup.equals(IZyosGroup.TUNJA_TEACHER)) {
+				sql.append(" (rs.idAdviser =:idZyosUser OR (rs.idSolicitor =:idZyosUser AND rs.idZyosGroup =:idZyosGroup) ) AND  ");
+				sql.append(" rs.idStudent = s.idStudent AND ");
+				sql.append(" s.idZyosUser = zu.idZyosUser AND ");
+				sql.append(" rs.idRiskFactor = rf.idRiskFactor AND ");
+				sql.append(" rs.state = :state ");		
+				sql.append(" order by rs.idReportStudent desc ");
+				
+			} else if (idZyosGroup.equals(IZyosGroup.ADMINISTRATOR)) {
+				sql.append(" rs.idStudent = s.idStudent AND ");
+				sql.append(" s.idZyosUser = zu.idZyosUser AND ");
+				sql.append(" rs.idRiskFactor = rf.idRiskFactor AND ");
+				sql.append(" rs.state = :state ");
+				sql.append(" order by rs.idReportStudent desc ");
+				
+			} else if (idZyosGroup.equals(IZyosGroup.TUNJA_TEACHER_COORD_PAAI)) { //TODOS LOS REGISTROS DE ESTUDIANTES DE LA FACULTAD DEL DOCENTE
+				sql.append(" rs.idStudent = s.idStudent "
+						+ " AND s.idStudent IN (SELECT e.idstudent "
+						+ " FROM degree d,school s,teacher t,faculty_school fs,faculty f,facultydegree fd, "
+						+ " studentdegree sd,student e,zyosuser zu "
+						+ " WHERE d.id=fd.iddegree "
+						+ " AND fd.idfaculty = s.idschool "
+						+ " AND t.idzyosuser= :idZyosUser "
+						+ " AND t.idschool = s.idschool "
+						+ " AND fs.idschool = s.idschool "
+						+ " AND fs.idfaculty = f.idfaculty "
+						+ " AND sd.iddegree = d.id "
+						+ " AND sd.idstudent = e.idstudent "
+						+ " AND zu.idzyosuser = e.idzyosuser "
+						+ " AND d.state = :state "
+						+ " AND s.state = :state "
+						+ " AND fs.state = :state "
+						+ " AND f.state = :state "
+						+ " AND fd.state = :state "
+						+ " AND sd.state = :state "
+						+ " AND e.state = :state "
+						+ " AND zu.state = :state "
+						+ " AND fd.idfacultydegree > 1490) "
+						+ " AND s.idZyosUser = zu.idZyosUser "
+						+ " AND rs.idRiskFactor = rf.idRiskFactor "
+						+ " AND rs.state = 1 "
+						+ " ORDER BY rs.idReportStudent desc ");
+				
+			} else if (idZyosGroup.equals(IZyosGroup.TUNJA_TEACHER_PAAI) //TODOS LOS REGISTROS DE ESTUDIANTES ASIGNADOS AL DOCENTE PAAI 
+					|| idZyosGroup.equals(IZyosGroup.TUNJA_PSICOLOGY) //O AL PSICOLOGO 
+					|| idZyosGroup.equals(IZyosGroup.TUNJA_PSYCHOPEDAGOGY) //O AL PSICOPEDAGOGO
+					|| idZyosGroup.equals(IZyosGroup.TUNJA_DIVISION_SECRETARY)) {  //O AL SECRETARIO DE DIVISION
+				sql.append(" (rs.idAdviser =:idZyosUser OR (rs.idSolicitor =:idZyosUser AND rs.idZyosGroup =:idZyosGroup) ) AND ");
+				sql.append(" rs.idStudent = s.idStudent AND ");
+				sql.append(" s.idZyosUser = zu.idZyosUser AND ");
+				sql.append(" rs.idRiskFactor = rf.idRiskFactor AND ");
+				sql.append(" rs.state = :state ");		
+				sql.append(" order by rs.idReportStudent desc ");
+			} else {
+				sql.append(" (rs.idAdviser =:idZyosUser OR (rs.idSolicitor =:idZyosUser AND rs.idZyosGroup =:idZyosGroup) OR rs.idZyosUserAdviserFaculty =:idZyosUser ) AND ");
+				sql.append(" rs.idStudent = s.idStudent AND ");
+				sql.append(" s.idZyosUser = zu.idZyosUser AND ");
+				sql.append(" rs.idRiskFactor = rf.idRiskFactor AND ");
+				sql.append(" rs.state = :state ");
+				sql.append(" order by rs.idReportStudent desc ");
+			}
+			qo = getSession()
+					.createSQLQuery(sql.toString())
+					.addScalar("idReportStudent", StandardBasicTypes.LONG)
+					.addScalar("idStudent", StandardBasicTypes.BIG_DECIMAL)
+					.addScalar("dateCreation", StandardBasicTypes.STRING)
+					.addScalar("detailReport", StandardBasicTypes.STRING)
+					.addScalar("idReportType", StandardBasicTypes.LONG)
+					.addScalar("idStatusReportStudent", StandardBasicTypes.LONG)
+					.addScalar("idStage", StandardBasicTypes.LONG)
+					.addScalar("firstIntervention", StandardBasicTypes.LONG)
+					.addScalar("idAdviser", StandardBasicTypes.LONG)
+					.addScalar("idSolicitor", StandardBasicTypes.LONG)
+					.addScalar("riskFactorName", StandardBasicTypes.STRING)
+					.addScalar("zyosUserName", StandardBasicTypes.STRING)
+					.addScalar("zyosUserLastName", StandardBasicTypes.STRING)
+					.addScalar("idZyosUser", StandardBasicTypes.LONG)
+					.addScalar("code",  StandardBasicTypes.STRING)
+					.addScalar("phone",  StandardBasicTypes.STRING)
+					.addScalar("mobilePhone",  StandardBasicTypes.STRING)
+					.addScalar("emailStudent",  StandardBasicTypes.STRING)
+					.addScalar("detailReport",  StandardBasicTypes.STRING)	
+					.addScalar("idRiskFactorCategory",  StandardBasicTypes.LONG)
+					.addScalar("documentNumber", StandardBasicTypes.STRING)
+					.addScalar("solicitorData", StandardBasicTypes.STRING)
+					.addScalar("isButton", StandardBasicTypes.LONG)
+					.addScalar("isButtonCase", StandardBasicTypes.LONG)
+					.setResultTransformer(
+							Transformers.aliasToBean(ReportStudent.class));
+			
+			qo.setParameter("state", IZyosState.ACTIVE);
+			qo.setParameter("idReportType", IReportType.MANUAL);
+			qo.setParameter("idReportTypeA", IReportType.AUTOMATIC);		
+			qo.setParameter("idZyosUser", idZyosUser);
+			if(!idZyosGroup.equals(IZyosGroup.ADMINISTRATOR) && !idZyosGroup.equals(IZyosGroup.TUNJA_TEACHER_COORD_PAAI))
+				qo.setParameter("idZyosGroup", idZyosGroup);
+			
+			return qo.list();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			sql = null;
+			qo = null;
+		}
+	}
 	
 	/* postgrest */
 	public List<ReportStudent> loadReportStudentListPostgres(Long idZyosGroup,

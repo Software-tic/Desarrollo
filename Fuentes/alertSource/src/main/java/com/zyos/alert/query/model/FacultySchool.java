@@ -11,19 +11,34 @@ import javax.persistence.Table;
 import com.zyos.alert.faculty.model.Faculty;
 
 /**
+<<<<<<< HEAD
  * MdlCourse entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "faculty_school")
 public class FacultySchool implements java.io.Serializable {
+=======
+ * FacultySchool entity. @author MyEclipse Persistence Tools
+ */
+@Entity
+@Table(name = "faculty_school")
+public class FacultySchool extends com.zyos.core.common.model.AZyosModel 
+	implements java.io.Serializable {
+
+	// Fields
+>>>>>>> origin/master
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+<<<<<<< HEAD
 	// Fields
 	private Long idfacultyschool;
 	private Faculty faculty;
+=======
+	private Long idfacultyschool;
+>>>>>>> origin/master
 	private String datecreation;
 	private String datechange;
 	private String usercreation;
@@ -31,6 +46,11 @@ public class FacultySchool implements java.io.Serializable {
 	private Long state;
 	
 	private transient Long school;
+<<<<<<< HEAD
+=======
+	private transient Long faculty;
+
+>>>>>>> origin/master
 	// Constructors
 
 	/** default constructor */
@@ -43,7 +63,11 @@ public class FacultySchool implements java.io.Serializable {
 	}
 
 	/** full constructor */
+<<<<<<< HEAD
 	public FacultySchool(Long idfacultyschool, Long school, Faculty faculty,
+=======
+	public FacultySchool(Long idfacultyschool, Long school, Long faculty,
+>>>>>>> origin/master
 			String datecreation, String datechange, String usercreation,
 			String userchange, Long state) {
 		this.idfacultyschool = idfacultyschool;
@@ -79,11 +103,19 @@ public class FacultySchool implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idfaculty")
+<<<<<<< HEAD
 	public Faculty getFaculty() {
 		return this.faculty;
 	}
 
 	public void setFaculty(Faculty faculty) {
+=======
+	public Long getFaculty() {
+		return this.faculty;
+	}
+
+	public void setFaculty(Long faculty) {
+>>>>>>> origin/master
 		this.faculty = faculty;
 	}
 

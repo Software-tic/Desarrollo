@@ -24,6 +24,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.primefaces.model.StreamedContent;
 
+<<<<<<< HEAD
+=======
+import com.ocpsoft.pretty.PrettyContext;
+>>>>>>> origin/master
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.zyos.alert.faculty.model.Faculty;
 import com.zyos.alert.studentReport.api.IReportType;
@@ -52,9 +56,18 @@ import com.zyos.core.mail.io.mn.model.EmailTemplate;
 
 @ManagedBean
 @ViewScoped
+<<<<<<< HEAD
 @URLMapping(id = "interventionBean", pattern = "/portal/RegistroIntervenciones", viewId = "/pages/intervention/index.jspx")
 public class InterventionBean extends ZyosBackingBean {
 
+=======
+@URLMapping(id = "interventionBean", pattern = "/portal/RegistroIntervenciones", viewId = "/pages/interventions/index.jspx")
+public class InterventionBean extends ZyosBackingBean {
+
+	/**
+	 * SIAT TUNJA
+	 */
+>>>>>>> origin/master
 	private static final long serialVersionUID = 1L;
 
 	private Student studentDataSelected;
@@ -113,17 +126,25 @@ public class InterventionBean extends ZyosBackingBean {
 
 	public InterventionBean() throws Exception {
 		try {
+<<<<<<< HEAD
 			this.getUserSession().getDefaultEnterprise();
 			this.getUserSession().getId();
 			
 			
 			
+=======
+>>>>>>> origin/master
 			if (reportStudentList == null) {
 				reportSearch = new ReportStudent();
 				this.studentDataSelected = new Student();
 				this.degreeList = controller.loadDegreeList();
+<<<<<<< HEAD
 				//loadReportStudentList();
 				loadReportStudentListTunja();
+=======
+				loadReportStudentList();
+				//loadReportStudentListTunja();
+>>>>>>> origin/master
 				loadReportSearchList();
 				// validateStagePermission();
 			}
@@ -137,7 +158,11 @@ public class InterventionBean extends ZyosBackingBean {
 	/**SIAT TUNJA*/
 	public void goTeacherAsign() {
 		try {
+<<<<<<< HEAD
 			TeacherListByFaculty = controller.loadDataTeacherByFaculty(getUserSession().getId());
+=======
+			setTeacherListByFaculty(controller.loadDataTeacherByFaculty(getUserSession().getId()));
+>>>>>>> origin/master
 			
 			headerDialog = "Asignar Docente";
 			ZyosBackingBean.update("riskStudentForm:asignTeacherCase");
@@ -1673,4 +1698,15 @@ public class InterventionBean extends ZyosBackingBean {
 	public void setShowRiskFaculty(boolean showRiskFaculty) {
 		this.showRiskFaculty = showRiskFaculty;
 	}
+<<<<<<< HEAD
+=======
+
+	public List<ZyosUser> getTeacherListByFaculty() {
+		return TeacherListByFaculty;
+	}
+
+	public void setTeacherListByFaculty(List<ZyosUser> teacherListByFaculty) {
+		TeacherListByFaculty = teacherListByFaculty;
+	}
+>>>>>>> origin/master
 }

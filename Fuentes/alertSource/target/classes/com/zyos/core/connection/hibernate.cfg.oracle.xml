@@ -11,6 +11,7 @@
 		org.hibernate.dialect.PostgreSQLDialect
 	</property>
 	<property name="connection.url">
+<<<<<<< HEAD
 		<!-- jdbc:postgresql://sync.zyos.co:5432/sac --><!-- jdbc:oracle:thin:@172.16.10.4:1521:sac -->
 		<!-- jdbc:postgresql://ica.zyos.co:5432/alert -->
 		<!-- jdbc:postgresql://172.21.1.13:5432/alert -->
@@ -25,6 +26,17 @@
 	</property>
 	<property name="connection.driver_class">
 		<!-- org.postgresql.Driver --><!-- oracle.jdbc.OracleDriver -->
+=======
+		jdbc:postgresql://172.21.1.13:5432/alert2
+	</property>
+	<property name="connection.username">
+		zyos
+	</property>
+	<property name="connection.password">
+		al3rt4ust4
+	</property>
+	<property name="connection.driver_class">
+>>>>>>> origin/master
 		org.postgresql.Driver
 	</property>
 
@@ -32,7 +44,11 @@
 	<property name="default_schema">zyos</property>
 	<property name="show_sql">true</property>
 	<property name="connection.autoReconnectForPools">true</property>
+<<<<<<< HEAD
 	<property name="connection.autoReconnect">true</property>
+=======
+	<property name="connection.autoReconnect">false</property>
+>>>>>>> origin/master
 	<property name="cache.use_second_level_cache">false</property>
 	<property name="jdbc.batch_size">0</property>
 	<property name="temp.use_jdbc_metadata_defaults">false</property>
@@ -40,6 +56,7 @@
 	<property name="acquireRetryAttempts">1</property>
 	<property name="use_sql_comments">true</property>
 	<property name="acquireRetryDelay">250</property>
+<<<<<<< HEAD
 	<!-- <property name="hbm2ddl.auto">update</property> -->
 
 	<mapping class="com.zyos.core.common.model.DocumentType" />
@@ -48,6 +65,13 @@
 	<mapping class="com.zyos.core.lo.enterprise.model.Settings" />
 	<mapping
 		class="com.zyos.core.lo.enterprise.model.ZyosUserEnterprise" />
+=======
+
+	<mapping class="com.zyos.core.common.model.ZyosParameter" />
+	<mapping class="com.zyos.core.lo.enterprise.model.Enterprise" />
+	<mapping class="com.zyos.core.lo.enterprise.model.Settings" />
+	<mapping class="com.zyos.core.lo.enterprise.model.ZyosUserEnterprise" />
+>>>>>>> origin/master
 	<mapping class="com.zyos.core.lo.user.model.Funcionality" />
 	<mapping class="com.zyos.core.lo.user.model.Profession" />
 	<mapping class="com.zyos.core.lo.user.model.ZyosGroup" />
@@ -141,8 +165,17 @@
 		class="com.zyos.alert.sac.model.CambioIdentificacionEstudiante" />
 	<mapping
 		class="com.zyos.alert.sac.model.NotRecordStudentSubjectDay" />
+<<<<<<< HEAD
 	<mapping class="com.zyos.alert.query.model.School" />
 	<mapping class="com.zyos.alert.query.model.FacultySchool" />
+=======
+	<!-- SIAT TUNJA -->
+	<mapping class="com.zyos.alert.query.model.School" />
+	<mapping class="com.zyos.alert.query.model.SchoolCoordinador" />
+	<mapping class="com.zyos.alert.query.model.FacultySchool" />
+	<mapping class="com.zyos.alert.query.model.Teacher" />
+	<mapping class="com.zyos.core.common.model.DocumentType" />
+>>>>>>> origin/master
 
 
 </session-factory>

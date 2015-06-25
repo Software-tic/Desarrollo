@@ -10,7 +10,7 @@
 					<p>Seleccione el grupo al que desea modificarle los permisos y luego localice en la tabla el menú de navegación, puede bloquear o desbloquar
 						funcionalidades completas. Al finalizar haga clic en el botón actualizar cambios</p>
 					<p:selectOneMenu filter="true" filterMatchMode="contains" id="zyosGroupList" effect="fade" value="#{permissionBean.idZyosGroup}"
-						style="width: 150px">
+						style="width: 200px">
 						<f:selectItems value="#{permissionBean.zyosUserGroupList}" var="group" itemLabel="#{group.name}" itemValue="#{group.id}" />
 						<p:ajax update=":groupRoleForm:treePanel" onstart="statusDialog.show();" listener="#{permissionBean.handleGroupChange}" />
 					</p:selectOneMenu>

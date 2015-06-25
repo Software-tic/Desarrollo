@@ -16,6 +16,10 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "documentType")
 public class DocumentType extends AParameter implements java.io.Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 
 	// Constructors

@@ -8,18 +8,35 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+<<<<<<< HEAD
 /**
  * MdlCourse entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "teacher")
 public class Teacher implements java.io.Serializable {
+=======
+import com.zyos.core.lo.user.model.ZyosUser;
+
+/**
+ * Teacher entity. @author MyEclipse Persistence Tools
+ */
+@Entity
+@Table(name = "teacher")
+public class Teacher extends com.zyos.core.common.model.AZyosModel
+	implements java.io.Serializable {
+
+	// Fields
+>>>>>>> origin/master
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+<<<<<<< HEAD
 	// Fields
+=======
+>>>>>>> origin/master
 	private Long idteacher;
 	private School school;
 	private String datecreation;
@@ -28,8 +45,15 @@ public class Teacher implements java.io.Serializable {
 	private String userchange;
 	private Long state;
 	
+<<<<<<< HEAD
 	private transient Long zyosuser;
 	
+=======
+	private transient String zyosUserName;
+	private transient String zyosUserLastName;
+	private transient Long idZyosUser;
+
+>>>>>>> origin/master
 	// Constructors
 
 	/** default constructor */
@@ -42,11 +66,18 @@ public class Teacher implements java.io.Serializable {
 	}
 
 	/** full constructor */
+<<<<<<< HEAD
 	public Teacher(Long idteacher, Long zyosuser, School school,
 			String datecreation, String usercreation, String datechange,
 			String userchange, Long state) {
 		this.idteacher = idteacher;
 		this.zyosuser = zyosuser;
+=======
+	public Teacher(Long idteacher, ZyosUser zyosuser, School school,
+			String datecreation, String usercreation, String datechange,
+			String userchange, Long state) {
+		this.idteacher = idteacher;
+>>>>>>> origin/master
 		this.school = school;
 		this.datecreation = datecreation;
 		this.usercreation = usercreation;
@@ -54,6 +85,16 @@ public class Teacher implements java.io.Serializable {
 		this.userchange = userchange;
 		this.state = state;
 	}
+<<<<<<< HEAD
+=======
+	
+	public Teacher(Long idteacher, Long zyosuser, String Name, String LastName) {
+		this.idteacher = idteacher;
+		this.idZyosUser = zyosuser;
+		this.zyosUserName = Name;
+		this.zyosUserLastName = LastName;
+	}
+>>>>>>> origin/master
 
 	// Property accessors
 	@Id
@@ -69,11 +110,19 @@ public class Teacher implements java.io.Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idzyosuser")
 	public Long getZyosuser() {
+<<<<<<< HEAD
 		return this.zyosuser;
 	}
 
 	public void setZyosuser(Long zyosuser) {
 		this.zyosuser = zyosuser;
+=======
+		return this.idZyosUser;
+	}
+
+	public void setZyosuser(Long zyosuser) {
+		this.idZyosUser = zyosuser;
+>>>>>>> origin/master
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -130,5 +179,25 @@ public class Teacher implements java.io.Serializable {
 	public void setState(Long state) {
 		this.state = state;
 	}
+<<<<<<< HEAD
 	
+=======
+
+	public String getZyosUserLastName() {
+		return zyosUserLastName;
+	}
+
+	public void setZyosUserLastName(String zyosUserLastName) {
+		this.zyosUserLastName = zyosUserLastName;
+	}
+
+	public String getZyosUserName() {
+		return zyosUserName;
+	}
+
+	public void setZyosUserName(String zyosUserName) {
+		this.zyosUserName = zyosUserName;
+	}
+
+>>>>>>> origin/master
 }

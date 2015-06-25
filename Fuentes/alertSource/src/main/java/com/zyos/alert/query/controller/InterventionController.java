@@ -22,15 +22,26 @@ import com.zyos.alert.studentReport.model.RiskFactorReportStudentDAO;
 import com.zyos.alert.studentReport.model.StatusReportStudent;
 import com.zyos.alert.studentReport.model.Student;
 import com.zyos.alert.studentReport.model.StudentDAO;
+<<<<<<< HEAD
 import com.zyos.alert.studentReport.model.Subject;
 import com.zyos.core.common.controller.ZyosController;
 import com.zyos.core.common.model.ZyosParameterDAO;
+=======
+import com.zyos.core.common.controller.ZyosController;
+>>>>>>> origin/master
 import com.zyos.core.lo.user.model.ZyosGroup;
 import com.zyos.core.lo.user.model.ZyosUser;
 import com.zyos.core.lo.user.model.ZyosUserDAO;
 
 public class InterventionController extends ZyosController {
+<<<<<<< HEAD
 
+=======
+	
+	/**
+	 * SIAT TUNJA
+	 */
+>>>>>>> origin/master
 	private static final long serialVersionUID = 1L;
 
 	/**@author oortiz*/
@@ -705,6 +716,10 @@ public class InterventionController extends ZyosController {
 			dao = null;
 			tx = null;
 		}
+<<<<<<< HEAD
 	} 
 
+=======
+	} 	
+>>>>>>> origin/master
 }
