@@ -15,18 +15,24 @@ import com.zyos.core.lo.user.model.ZyosUser;
  */
 @Entity
 @Table(name = "school_coordinador")
-public class SchoolCoordinador implements java.io.Serializable {
+public class SchoolCoordinador extends com.zyos.core.common.model.AZyosModel
+	implements java.io.Serializable {
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long idschoolcoord;
-	private ZyosUser zyosuser;
 	private School school;
 	private String datecreation;
 	private String usercreation;
 	private String datechange;
 	private String userchange;
 	private Long state;
+	
+	private transient Long zyosuser;
 
 	// Constructors
 
@@ -40,7 +46,7 @@ public class SchoolCoordinador implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public SchoolCoordinador(Long idschoolcoord, ZyosUser zyosuser,
+	public SchoolCoordinador(Long idschoolcoord, Long zyosuser,
 			School school, String datecreation, String usercreation,
 			String datechange, String userchange, Long state) {
 		this.idschoolcoord = idschoolcoord;
@@ -66,11 +72,11 @@ public class SchoolCoordinador implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idzyosuser")
-	public ZyosUser getZyosuser() {
+	public Long getZyosuser() {
 		return this.zyosuser;
 	}
 
-	public void setZyosuser(ZyosUser zyosuser) {
+	public void setZyosuser(Long zyosuser) {
 		this.zyosuser = zyosuser;
 	}
 

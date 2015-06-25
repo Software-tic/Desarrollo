@@ -88,10 +88,8 @@
 		<mapping class="com.zyos.alert.studentReport.model.GroupSubject" />
 		<mapping class="com.zyos.alert.familyStudent.model.FamilyStudent" />
 		<mapping class="com.zyos.alert.controlPanel.model.ControlPanel" />
-		<mapping
-			class="com.zyos.alert.monitorstudentsubject.model.MonitorStudentSubject" />
-		<mapping
-			class="com.zyos.alert.executionsHistorical.model.ExecutionsHistorical" />
+		<mapping class="com.zyos.alert.monitorstudentsubject.model.MonitorStudentSubject" />
+		<mapping class="com.zyos.alert.executionsHistorical.model.ExecutionsHistorical" />
 		<mapping class="com.zyos.alert.facultyDegree.model.FacultyDegree" />
 		<mapping class="com.zyos.alert.faculty.model.Faculty" />
 		<mapping class="com.zyos.alert.facultyCoordinator.model.FacultyCoordinator" />
@@ -109,8 +107,7 @@
 		<mapping class="com.zyos.alert.sac.model.Materias" />
 		<mapping class="com.zyos.alert.sac.model.MateriasEstudiantes" />
 		<mapping class="com.zyos.alert.sac.model.MateriasGrupo" />
-		<mapping
-			class="com.zyos.alert.characterization.model.CaracterizacionOpciones" />
+		<mapping class="com.zyos.alert.characterization.model.CaracterizacionOpciones" />
 		<mapping class="com.zyos.alert.integration.model.DegreeSAC" />
 		<mapping class="com.zyos.alert.integration.model.GroupSubjectSAC" />
 		<mapping class="com.zyos.alert.integration.model.StudentSAC" />
@@ -122,13 +119,17 @@
 		<mapping class="com.zyos.alert.sac.model.DecanoFacultad" />
 		<mapping class="com.zyos.alert.sac.model.MailZUsers" />
 		<mapping class="com.zyos.alert.sac.model.NotRecordStudentSubject" />
-		<mapping
-			class="com.zyos.alert.executionsHistorical.model.ExecutionHistoricalType" />
+		<mapping class="com.zyos.alert.executionsHistorical.model.ExecutionHistoricalType" />
 		<mapping class="com.zyos.alert.sac.model.EstudiantesMateriasHorarios" />
 
 		<mapping class="com.zyos.alert.studentReport.model.RiskFactorCategory" />
 		<mapping class="com.zyos.alert.sac.model.CambioIdentificacionEstudiante" />
 		<mapping class="com.zyos.alert.sac.model.NotRecordStudentSubjectDay" />
+		<!-- SIAT TUNJA -->
+		<mapping class="com.zyos.alert.query.model.School" />
+		<mapping class="com.zyos.alert.query.model.SchoolCoordinador" />
+		<mapping class="com.zyos.alert.query.model.FacultySchool" />
+		<mapping class="com.zyos.alert.query.model.Teacher" />
 
 
 	</session-factory>

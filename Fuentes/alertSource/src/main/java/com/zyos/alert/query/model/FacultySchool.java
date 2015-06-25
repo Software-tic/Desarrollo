@@ -15,7 +15,8 @@ import com.zyos.alert.faculty.model.Faculty;
  */
 @Entity
 @Table(name = "faculty_school")
-public class FacultySchool implements java.io.Serializable {
+public class FacultySchool extends com.zyos.core.common.model.AZyosModel 
+	implements java.io.Serializable {
 
 	// Fields
 
@@ -24,13 +25,14 @@ public class FacultySchool implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long idfacultyschool;
-	private School school;
-	private Faculty faculty;
 	private String datecreation;
 	private String datechange;
 	private String usercreation;
 	private String userchange;
 	private Long state;
+	
+	private transient Long school;
+	private transient Long faculty;
 
 	// Constructors
 
@@ -44,7 +46,7 @@ public class FacultySchool implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public FacultySchool(Long idfacultyschool, School school, Faculty faculty,
+	public FacultySchool(Long idfacultyschool, Long school, Long faculty,
 			String datecreation, String datechange, String usercreation,
 			String userchange, Long state) {
 		this.idfacultyschool = idfacultyschool;
@@ -70,21 +72,21 @@ public class FacultySchool implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idschool")
-	public School getSchool() {
+	public Long getSchool() {
 		return this.school;
 	}
 
-	public void setSchool(School school) {
+	public void setSchool(Long school) {
 		this.school = school;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idfaculty")
-	public Faculty getFaculty() {
+	public Long getFaculty() {
 		return this.faculty;
 	}
 
-	public void setFaculty(Faculty faculty) {
+	public void setFaculty(Long faculty) {
 		this.faculty = faculty;
 	}
 

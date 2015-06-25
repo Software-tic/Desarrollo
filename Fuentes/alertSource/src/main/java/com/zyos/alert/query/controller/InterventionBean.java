@@ -117,17 +117,12 @@ public class InterventionBean extends ZyosBackingBean {
 
 	public InterventionBean() throws Exception {
 		try {
-			this.getUserSession().getDefaultEnterprise();
-			this.getUserSession().getId();
-			
-			
-			
 			if (reportStudentList == null) {
 				reportSearch = new ReportStudent();
 				this.studentDataSelected = new Student();
 				this.degreeList = controller.loadDegreeList();
-				//loadReportStudentList();
-				loadReportStudentListTunja();
+				loadReportStudentList();
+				//loadReportStudentListTunja();
 				loadReportSearchList();
 				// validateStagePermission();
 			}
@@ -141,8 +136,7 @@ public class InterventionBean extends ZyosBackingBean {
 	/**SIAT TUNJA*/
 	public void goTeacherAsign() {
 		try {
-			//studentDataSelected = controller.loadDataStudentReport(reportStudentSelected);
-			TeacherListByFaculty = controller.loadDataTeacherByFaculty(getUserSession().getId());//loadDataStudentReport(reportStudentSelected);
+			setTeacherListByFaculty(controller.loadDataTeacherByFaculty(getUserSession().getId()));
 			
 			headerDialog = "Asignar Docente";
 			ZyosBackingBean.update("riskStudentForm:asignTeacherCase");
@@ -1677,5 +1671,13 @@ public class InterventionBean extends ZyosBackingBean {
 
 	public void setShowRiskFaculty(boolean showRiskFaculty) {
 		this.showRiskFaculty = showRiskFaculty;
+	}
+
+	public List<ZyosUser> getTeacherListByFaculty() {
+		return TeacherListByFaculty;
+	}
+
+	public void setTeacherListByFaculty(List<ZyosUser> teacherListByFaculty) {
+		TeacherListByFaculty = teacherListByFaculty;
 	}
 }

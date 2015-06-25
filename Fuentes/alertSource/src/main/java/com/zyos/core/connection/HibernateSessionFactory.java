@@ -27,12 +27,6 @@ public class HibernateSessionFactory {
 	 * the default package. Use #setConfigFile() to update the location of the
 	 * configuration file for the current session.
 	 */
-	/*private static String CONFIG_ORACLE2_FILE_LOCATION = "/com/zyos/core/connection/hibernate.cfg.sac.xml";
-	private static final ThreadLocal<Session> OracleThreadLocal2 = new ThreadLocal<Session>();
-    private static Configuration OracleConfiguration2 = new Configuration();
-	private static org.hibernate.SessionFactory OracleSessionFactory2;
-	private static String OracleConfigFile2 = CONFIG_ORACLE2_FILE_LOCATION;
-    private static ServiceRegistry OracleServiceRegistry2;*/
     
 	private static String CONFIG_ORACLE_FILE_LOCATION = "/com/zyos/core/connection/hibernate.cfg.oracle.xml";
 	private static final ThreadLocal<Session> OracleThreadLocal = new ThreadLocal<Session>();
@@ -55,10 +49,6 @@ public class HibernateSessionFactory {
 				MySQLConfigFile = "/com/zyos/core/connection/hibernate.cfg.mysql.server.xml";			
 			}
 			
-			/*OracleConfiguration2.configure(OracleConfigFile2);
-			OracleServiceRegistry2 = new ServiceRegistryBuilder().applySettings(OracleConfiguration2.getProperties()).buildServiceRegistry();
-			OracleSessionFactory2 = OracleConfiguration2.buildSessionFactory(OracleServiceRegistry2);*/
-			
 			OracleConfiguration.configure(OracleConfigFile);
 			OracleServiceRegistry = new ServiceRegistryBuilder().applySettings(OracleConfiguration.getProperties()).buildServiceRegistry();
 			OracleSessionFactory = OracleConfiguration.buildSessionFactory(OracleServiceRegistry);
@@ -71,9 +61,9 @@ public class HibernateSessionFactory {
 					ZyosController controller = new ZyosController();
 					String academicPeriodName = controller.loadCurrentAcademicPeriodName();
 					
-					//MySQLConfiguration.setProperty("connection.url", MySQL_URL.substring(0, MySQL_URL.indexOf("moodlepre"))+ "moodlepre"+academicPeriodName);
+					MySQLConfiguration.setProperty("connection.url", MySQL_URL.substring(0, MySQL_URL.indexOf("moodlepre"))+ "moodlepre"+academicPeriodName);
 					
-					//System.out.println("INFO: setting mysql moodle database "+  MySQL_URL.substring(0, MySQL_URL.indexOf("moodlepre"))+ "moodlepre"+ academicPeriodName);
+					System.out.println("INFO: setting mysql moodle database "+  MySQL_URL.substring(0, MySQL_URL.indexOf("moodlepre"))+ "moodlepre"+ academicPeriodName);
 					MySQLServiceRegistry = new ServiceRegistryBuilder().applySettings(MySQLConfiguration.getProperties()).buildServiceRegistry();
 					
 					MySQLSessionFactory = MySQLConfiguration.buildSessionFactory(MySQLServiceRegistry);

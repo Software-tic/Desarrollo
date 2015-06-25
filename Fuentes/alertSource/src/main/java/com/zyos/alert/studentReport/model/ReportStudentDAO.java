@@ -601,10 +601,31 @@ public class ReportStudentDAO extends OracleBaseHibernateDAO {
 		StringBuilder sql = new StringBuilder();
 		Query qo = null;
 		try {
-			sql.append(" SELECT ");
+			sql.append(" SELECT zu.idzyosuser,zu.name,zu.lastname "
+					+ " FROM teacher t,zyosuser zu,school s,faculty_school fs,faculty f, zyosgroup zg,zyosusergroup zug "
+					+ " WHERE t.idzyosuser=zu.idzyosuser "
+					+ " AND zu.idzyosuser <> :idZyosUser "
+					+ " AND zg.id = :idZyosGroup "
+					+ " AND zug.idzyosuser = zu.idzyosuser "
+					+ " AND zug.idgroup = zg.id "
+					+ " AND t.idschool = s.idschool "
+					+ " AND fs.idschool = s.idschool "
+					+ " AND fs.idfaculty = f.idfaculty "
+					+ " AND t.idschool IN (SELECT idschool FROM teacher where idzyosuser=:idZyosUser AND state=:state) "
+					+ " AND t.state = :state "
+					+ " AND zu.state = :state "
+					+ " AND s.state = :state "
+					+ " AND fs.state = :state "
+					+ " AND f.state = :state "
+					+ " AND zg.state = :state "
+					+ " AND zug.state = :state "
+					+ " ORDER BY zu.idzyosuser ");
 			
 			qo = getSession().createSQLQuery(sql.toString());
-			qo.setParameter("manual", IReportType.MANUAL);
+			qo.setParameter("state", IZyosState.ACTIVE);
+			qo.setParameter("idZyosUser", idZyosUser);
+			qo.setParameter("idZyosGroup", IZyosGroup.TUNJA_TEACHER_PAAI);
+			
 			return qo.list();
 		} catch (Exception e) {
 			throw e;

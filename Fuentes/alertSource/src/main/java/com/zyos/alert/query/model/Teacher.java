@@ -15,7 +15,8 @@ import com.zyos.core.lo.user.model.ZyosUser;
  */
 @Entity
 @Table(name = "teacher")
-public class Teacher implements java.io.Serializable {
+public class Teacher extends com.zyos.core.common.model.AZyosModel
+	implements java.io.Serializable {
 
 	// Fields
 
@@ -24,13 +25,16 @@ public class Teacher implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long idteacher;
-	private ZyosUser zyosuser;
 	private School school;
 	private String datecreation;
 	private String usercreation;
 	private String datechange;
 	private String userchange;
 	private Long state;
+	
+	private transient String zyosUserName;
+	private transient String zyosUserLastName;
+	private transient Long idZyosUser;
 
 	// Constructors
 
@@ -48,13 +52,19 @@ public class Teacher implements java.io.Serializable {
 			String datecreation, String usercreation, String datechange,
 			String userchange, Long state) {
 		this.idteacher = idteacher;
-		this.zyosuser = zyosuser;
 		this.school = school;
 		this.datecreation = datecreation;
 		this.usercreation = usercreation;
 		this.datechange = datechange;
 		this.userchange = userchange;
 		this.state = state;
+	}
+	
+	public Teacher(Long idteacher, Long zyosuser, String Name, String LastName) {
+		this.idteacher = idteacher;
+		this.idZyosUser = zyosuser;
+		this.zyosUserName = Name;
+		this.zyosUserLastName = LastName;
 	}
 
 	// Property accessors
@@ -70,12 +80,12 @@ public class Teacher implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idzyosuser")
-	public ZyosUser getZyosuser() {
-		return this.zyosuser;
+	public Long getZyosuser() {
+		return this.idZyosUser;
 	}
 
-	public void setZyosuser(ZyosUser zyosuser) {
-		this.zyosuser = zyosuser;
+	public void setZyosuser(Long zyosuser) {
+		this.idZyosUser = zyosuser;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -131,6 +141,22 @@ public class Teacher implements java.io.Serializable {
 
 	public void setState(Long state) {
 		this.state = state;
+	}
+
+	public String getZyosUserLastName() {
+		return zyosUserLastName;
+	}
+
+	public void setZyosUserLastName(String zyosUserLastName) {
+		this.zyosUserLastName = zyosUserLastName;
+	}
+
+	public String getZyosUserName() {
+		return zyosUserName;
+	}
+
+	public void setZyosUserName(String zyosUserName) {
+		this.zyosUserName = zyosUserName;
 	}
 
 }

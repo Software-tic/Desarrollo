@@ -15,7 +15,8 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "school")
-public class School implements java.io.Serializable {
+public class School extends com.zyos.core.common.model.AZyosModel 
+	implements java.io.Serializable {
 
 	// Fields
 
@@ -25,11 +26,7 @@ public class School implements java.io.Serializable {
 	private String usercreation;
 	private String datechange;
 	private String userchange;
-	private Long state;
-	private Set<Teacher> teachers = new HashSet<Teacher>(0);
-	private Set<SchoolCoordinador> schoolCoordinadors = new HashSet<SchoolCoordinador>(
-			0);
-	private Set<FacultySchool> facultySchools = new HashSet<FacultySchool>(0);
+	private Long state;	
 
 	// Constructors
 
@@ -46,9 +43,7 @@ public class School implements java.io.Serializable {
 	/** full constructor */
 	public School(Long idschool, String nameSchool, String datecreation,
 			String usercreation, String datechange, String userchange,
-			Long state, Set<Teacher> teachers,
-			Set<SchoolCoordinador> schoolCoordinadors,
-			Set<FacultySchool> facultySchools) {
+			Long state) {
 		this.idschool = idschool;
 		this.nameSchool = nameSchool;
 		this.datecreation = datecreation;
@@ -56,9 +51,6 @@ public class School implements java.io.Serializable {
 		this.datechange = datechange;
 		this.userchange = userchange;
 		this.state = state;
-		this.teachers = teachers;
-		this.schoolCoordinadors = schoolCoordinadors;
-		this.facultySchools = facultySchools;
 	}
 
 	// Property accessors
@@ -125,32 +117,4 @@ public class School implements java.io.Serializable {
 	public void setState(Long state) {
 		this.state = state;
 	}
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "school")
-	public Set<Teacher> getTeachers() {
-		return this.teachers;
-	}
-
-	public void setTeachers(Set<Teacher> teachers) {
-		this.teachers = teachers;
-	}
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "school")
-	public Set<SchoolCoordinador> getSchoolCoordinadors() {
-		return this.schoolCoordinadors;
-	}
-
-	public void setSchoolCoordinadors(Set<SchoolCoordinador> schoolCoordinadors) {
-		this.schoolCoordinadors = schoolCoordinadors;
-	}
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "school")
-	public Set<FacultySchool> getFacultySchools() {
-		return this.facultySchools;
-	}
-
-	public void setFacultySchools(Set<FacultySchool> facultySchools) {
-		this.facultySchools = facultySchools;
-	}
-
 }
