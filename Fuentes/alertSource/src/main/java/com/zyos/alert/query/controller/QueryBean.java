@@ -18,7 +18,7 @@ import com.zyos.core.lo.user.model.ZyosUser;
 public class QueryBean extends ZyosBackingBean {
 
 	/**
-	 * 
+	 * SIAT TUNJA
 	 */
 	private static final long serialVersionUID = 1L;
 	private boolean showUserList = true;

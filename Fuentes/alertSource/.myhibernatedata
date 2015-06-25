@@ -1,5 +1,5 @@
 #MyEclipse Hibernate Properties
-#Fri Dec 27 16:40:18 COT 2013
+#Mon Jun 22 17:18:20 COT 2015
 genBasicCompId=true
 sessionFactoryName=com.zyos.core.connection.HibernateSessionFactory
 profile=
@@ -18,4 +18,4 @@ genAnnotations=true
 reSettingsFile=
 configFile=/alertSource/src/main/java/com/zyos/core/connection/hibernate.cfg.oracle.xml
 createConfigFile=false
-baseDaoClass=com.zyos.core.connection.BaseHibernateDAO
+baseDaoClass=BaseHibernateDAO

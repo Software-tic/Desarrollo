@@ -73,7 +73,7 @@ public class Student extends com.zyos.core.common.model.AZyosModel implements ja
 		this.userChange = userChange;
 		this.state = state;
 	}
-	
+	/**SIAT TUNJA*/
 	public Student(Long idStudent, Long idZyosUser, String code,
 			Long idStudentSAC, String name, String lastName,
 			String documentNumber, Long idDegree, String nameDegree) {

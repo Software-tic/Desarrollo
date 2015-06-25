@@ -82,7 +82,7 @@ public class ZyosParameterDAO extends OracleBaseHibernateDAO {
 			throw e;
 		}
 	}
-
+	
 	public List<Faculty> loadFacultyList() {
 		try {
 			StringBuilder hql = new StringBuilder(

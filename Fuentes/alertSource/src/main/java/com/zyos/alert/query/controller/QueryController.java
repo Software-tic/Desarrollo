@@ -11,8 +11,11 @@ import com.zyos.core.common.model.ZyosParameterDAO;
 import com.zyos.core.lo.user.model.ZyosUser;
 import com.zyos.core.lo.user.model.ZyosUserDAO;
 
+/**
+ * SIAT TUNJA
+ */
 public class QueryController extends ZyosController {
-
+	
 	public List<ZyosUser> getStudentList() throws Exception {
 		ZyosUserDAO dao = new ZyosUserDAO();
 		try {
