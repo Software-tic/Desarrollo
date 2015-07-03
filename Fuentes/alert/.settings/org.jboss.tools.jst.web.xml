@@ -7,11 +7,6 @@
  <file-system NAME="src" location="%workspace.home%/../../java" model-entity="FileSystemFolder"/>
  <file-system NAME="lib" location="%workspace.home%/lib" model-entity="FileSystemFolder"/>
  <file-system NAME="classes" location="%workspace.home%/classes" model-entity="FileSystemFolder"/>
- <file-system NAME="src-1"
-  location="%workspace.home%/../../../test/java" model-entity="FileSystemFolder"/>
- <file-system NAME="src-2"
-  location="%workspace.home%/../../../test/resources" model-entity="FileSystemFolder"/>
- <file-system NAME="src-3" location="%workspace.home%/../../resources" model-entity="FileSystemFolder"/>
  <file-system NAME="lib-resources.jar"
   location="C:\Users\TIC\AppData\Local\MyEclipse Professional 2014\binary\com.sun.java.jdk7.win32.x86_64_1.7.0.u45\jre\lib\resources.jar" model-entity="FileSystemJar"/>
  <file-system NAME="lib-jfr.jar"
@@ -126,6 +121,7 @@
   location="C:\Users\TIC\.m2\repository\org\hibernate\common\hibernate-commons-annotations\4.0.2.Final\hibernate-commons-annotations-4.0.2.Final.jar" model-entity="FileSystemJar"/>
  <file-system NAME="lib-c3p0-0.9.1.2.jar"
   location="C:\Users\TIC\.m2\repository\c3p0\c3p0\0.9.1.2\c3p0-0.9.1.2.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="alert" location="%eclipse.project%" model-entity="FileSystemFolder"/>
  <web SERVLET_VERSION="2.4" model-entity="JstWeb" model-path="/web.xml">
   <module URI="/WEB-INF/faces-config.xml" model-entity="WebJSFModule"
    model-path="/faces-config.xml" src="src" web-root="WEB-ROOT"/>

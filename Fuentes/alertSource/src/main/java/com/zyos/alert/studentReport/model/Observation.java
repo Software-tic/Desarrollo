@@ -30,10 +30,15 @@ public class Observation extends com.zyos.core.common.model.AZyosModel
 	private Long idAdviser;
 	private String detailObservation;
 	private Long idStage;
+	
+	//SIAT -TUNJA
+	
 	private Long privacy;
 	private String timestart;
 	private String timefinish;
-	private String timeexecuteintervenction;
+	//private String timeexecuteintervenction;
+	private String agreements;
+	
 
 	//Transients
 	
@@ -64,7 +69,7 @@ public class Observation extends com.zyos.core.common.model.AZyosModel
 		this.role = role;
 		double f= Long.parseLong(timefinish);
 		double s= Long.parseLong(timefinish);
-		this.timeexecuteintervenction=String.valueOf(f-s);
+		//this.timeexecuteintervenction=String.valueOf(f-s);
 	}
 
 	/** full constructor */
@@ -236,6 +241,8 @@ public class Observation extends com.zyos.core.common.model.AZyosModel
 		this.days = days;
 	}
 
+	//SIAT - TUNJA
+	
 	public Long getPrivacy() {
 		return privacy;
 	}
@@ -260,12 +267,20 @@ public class Observation extends com.zyos.core.common.model.AZyosModel
 		this.timefinish = timefinish;
 	}
 
-	public String getTimeexecuteintervenction() {
+	/*public String getTimeexecuteintervenction() {
 		return timeexecuteintervenction;
 	}
 
 	public void setTimeexecuteintervenction(String timeexecuteintervenction) {
 		this.timeexecuteintervenction = timeexecuteintervenction;
+	}*/
+
+	public String getAgreements() {
+		return agreements;
+	}
+
+	public void setAgreements(String agreements) {
+		this.agreements = agreements;
 	}
 
 	

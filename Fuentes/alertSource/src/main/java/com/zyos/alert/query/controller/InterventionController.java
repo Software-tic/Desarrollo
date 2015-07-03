@@ -19,12 +19,12 @@ import com.zyos.alert.studentReport.model.RiskFactor;
 import com.zyos.alert.studentReport.model.RiskFactorCategory;
 import com.zyos.alert.studentReport.model.RiskFactorDAO;
 import com.zyos.alert.studentReport.model.RiskFactorReportStudentDAO;
+import com.zyos.alert.studentReport.model.Stage;
+import com.zyos.alert.studentReport.model.StageDAO;
 import com.zyos.alert.studentReport.model.StatusReportStudent;
 import com.zyos.alert.studentReport.model.Student;
 import com.zyos.alert.studentReport.model.StudentDAO;
-import com.zyos.alert.studentReport.model.Subject;
 import com.zyos.core.common.controller.ZyosController;
-import com.zyos.core.common.model.ZyosParameterDAO;
 import com.zyos.core.lo.user.model.ZyosGroup;
 import com.zyos.core.lo.user.model.ZyosUser;
 import com.zyos.core.lo.user.model.ZyosUserDAO;
@@ -104,10 +104,10 @@ public class InterventionController extends ZyosController {
 	
 	/**SIAT TUNJA
 	 * @throws Exception */
-	public List<ZyosUser> loadDataTeacherByFaculty(Long ZyosUser) throws Exception{
+	public List<ZyosUser> loadDataTeacherByFaculty(Long ZyosUser, Long idZyosGroup) throws Exception{
 		ReportStudentDAO dao = new ReportStudentDAO();
 		try {
-			return dao.loadTeacherByFacultyListTunja(ZyosUser);
+			return dao.loadTeacherByFacultyListTunja(ZyosUser,idZyosGroup);
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -709,6 +709,20 @@ public class InterventionController extends ZyosController {
 			tx = null;
 		}
 
-	} 
+	}
+	
+	/** SIAT-TUNJA */
+	public List<Stage> loadStageListTunja() throws Exception{
+		StageDAO dao = new StageDAO();
+		try {
+			return dao.loadStageListTunja();
+		} catch (RuntimeException re) {
+			dao.getSession().beginTransaction().rollback();
+			throw re;
+		}finally{
+			dao.getSession().close();
+			dao = null;
+		}
+	}
 
 }

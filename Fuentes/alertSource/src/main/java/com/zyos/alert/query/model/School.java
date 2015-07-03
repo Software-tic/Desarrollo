@@ -1,29 +1,22 @@
 package com.zyos.alert.query.model;
 
-import javax.persistence.Column;
+import java.util.Set;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.zyos.core.common.model.AZyosModel;
-
 /**
- * MdlCourse entity. @author MyEclipse Persistence Tools
+ * School entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "school")
-public class School extends AZyosModel implements java.io.Serializable {
+public class School extends AbstractSchool implements java.io.Serializable {
+
+	// Constructors
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	// Fields
-	private Long id;
-	private String name;
-
-
-	// Constructors
 
 	/** default constructor */
 	public School() {
@@ -31,41 +24,15 @@ public class School extends AZyosModel implements java.io.Serializable {
 
 	/** minimal constructor */
 	public School(Long idschool, String nameSchool) {
-		this.id = idschool;
-		this.name = nameSchool;
+		super(idschool, nameSchool);
 	}
 
 	/** full constructor */
 	public School(Long idschool, String nameSchool, String datecreation,
 			String usercreation, String datechange, String userchange,
 			Long state) {
-		this.id = idschool;
-		this.name = nameSchool;
-		this.dateCreation = datecreation;
-		this.userCreation = usercreation;
-		this.dateChange = datechange;
-		this.userChange = userchange;
-		this.state = state;
+		super(idschool, nameSchool, datecreation, usercreation, datechange,
+				userchange, state);
 	}
 
-	// Property accessors
-	@Id
-	@Column(name = "idschool", unique = true, nullable = false)
-	public Long getIdschool() {
-		return this.id;
-	}
-
-	public void setIdschool(Long idschool) {
-		this.id = idschool;
-	}
-
-	@Column(name = "name_school", nullable = false, length = 200)
-	public String getNameSchool() {
-		return this.name;
-	}
-
-	public void setNameSchool(String nameSchool) {
-		this.name = nameSchool;
-	}
-	
 }

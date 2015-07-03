@@ -597,31 +597,43 @@ public class ReportStudentDAO extends OracleBaseHibernateDAO {
 		}
 	}
 	
-	public List<ZyosUser> loadTeacherByFacultyListTunja(Long idZyosUser) throws Exception{
+	public List<ZyosUser> loadTeacherByFacultyListTunja(Long idZyosUser, Long idGroup) throws Exception{
 		StringBuilder sql = new StringBuilder();
 		Query qo = null;
 		try {
-			sql.append(" SELECT zu.idzyosuser,zu.name,zu.lastname "
-					+ " FROM teacher t,zyosuser zu,school s,faculty_school fs,faculty f, zyosgroup zg,zyosusergroup zug "
-					+ " WHERE t.idzyosuser=zu.idzyosuser "
-					+ " AND zu.idzyosuser <> :idZyosUser "
+			sql.append(" SELECT zu.idZyosUser,zu.name,zu.lastName "//SELECT new ZyosUser(zu.idZyosUser,zu.name,zu.lastName) "
+					+ " FROM Teacher t,ZyosUser zu,School s,FacultySchool fs,Faculty f,ZyosGroup zg,ZyosUserGroup zug "
+					+ " WHERE t.idZyosUser=zu.idZyosUser ");
+					
+			if (idGroup.equals(IZyosGroup.ADMINISTRATOR)) {
+				//falta la carga de docente segin la facultad
+				sql.append(" AND t.idSchool IN (SELECT idschool FROM School WHERE state=:state) ");
+			} else {
+				sql.append(" AND t.idSchool IN (SELECT idSchool FROM Teacher WHERE idZyosUser=:idZyosUser AND state=:state) ");
+			}
+			sql.append(" AND zu.idZyosUser <> :idZyosUser "
 					+ " AND zg.id = :idZyosGroup "
-					+ " AND zug.idzyosuser = zu.idzyosuser "
-					+ " AND zug.idgroup = zg.id "
-					+ " AND t.idschool = s.idschool "
-					+ " AND fs.idschool = s.idschool "
-					+ " AND fs.idfaculty = f.idfaculty "
-					+ " AND t.idschool IN (SELECT idschool FROM teacher where idzyosuser=:idZyosUser AND state=:state) "
-					+ " AND t.state = :state "
+					+ " AND zug.idZyosUser = zu.idZyosUser "
+					+ " AND zug.idGroup = zg.id "
+					+ " AND t.idSchool = s.idschool "
+					+ " AND fs.idSchool = s.idschool "
+					+ " AND fs.idFaculty = f.idFaculty "
 					+ " AND zu.state = :state "
-					+ " AND s.state = :state "
-					+ " AND fs.state = :state "
 					+ " AND f.state = :state "
 					+ " AND zg.state = :state "
 					+ " AND zug.state = :state "
-					+ " ORDER BY zu.idzyosuser ");
+					+ " AND t.state = :state "
+					+ " AND s.state = :state "
+					+ " AND fs.state = :state "
+					+ " ORDER BY zu.idZyosUser ");
+			//qo = getSession().createQuery(sql.toString());
+			//qo = getSession().createSQLQuery(sql.toString());
+			qo = getSession().createSQLQuery(sql.toString())
+					.addScalar("idZyosUser", StandardBasicTypes.LONG)
+					.addScalar("name", StandardBasicTypes.STRING)
+					.addScalar("lastName", StandardBasicTypes.STRING)
+					.setResultTransformer(Transformers.aliasToBean(ZyosUser.class));
 			
-			qo = getSession().createSQLQuery(sql.toString());
 			qo.setParameter("state", IZyosState.ACTIVE);
 			qo.setParameter("idZyosUser", idZyosUser);
 			qo.setParameter("idZyosGroup", IZyosGroup.TUNJA_TEACHER_PAAI);
@@ -651,9 +663,9 @@ public class ReportStudentDAO extends OracleBaseHibernateDAO {
 			sql.append(" rs.firstIntervention, ");
 			sql.append(" rs.idAdviser, ");
 			sql.append(" rs.idSolicitor, ");
-			sql.append(" rf.name riskFactorName, ");
-			sql.append(" zu.name zyosUserName, ");
-			sql.append(" zu.lastname zyosUserLastName, zu.idZyosUser, zu.documentNumber, s.code, zu.phone, zu.mobilePhone, zu.email as emailStudent, rs.detailReport, rf.idRiskFactorCategory, ");
+			sql.append(" rf.name AS riskFactorName, ");
+			sql.append(" zu.name AS zyosUserName, ");
+			sql.append(" zu.lastName AS zyosUserLastName, zu.idZyosUser, zu.documentNumber, s.code, zu.phone, zu.mobilePhone, zu.email as emailStudent, rs.detailReport, rf.idRiskFactorCategory, ");
 			sql.append(" CASE WHEN (rs.idReportType = :idReportType OR rs.idReportType = :idReportTypeA) and rs.idSolicitor is not null ");
 			sql.append(" THEN array(select (z.name || ' ' || z.lastname, zg.name) from ZyosUser z, ZyosGroup zg where rs.idSolicitor = z.idZyosUser and rs.idZyosGroup = zg.id) ");
 			sql.append(" ELSE array(select (fs.name, fs.phone, fs.mobilePhone, fs.email) from FamilyStudent fs where fs.idStudent = s.idStudent and rs.idRiskFactor = fs.idRiskFactor) ");
@@ -692,27 +704,23 @@ public class ReportStudentDAO extends OracleBaseHibernateDAO {
 				
 			} else if (idZyosGroup.equals(IZyosGroup.TUNJA_TEACHER_COORD_PAAI)) { //TODOS LOS REGISTROS DE ESTUDIANTES DE LA FACULTAD DEL DOCENTE
 				sql.append(" rs.idStudent = s.idStudent "
-						+ " AND s.idStudent IN (SELECT e.idstudent "
-						+ " FROM degree d,school s,teacher t,faculty_school fs,faculty f,facultydegree fd, "
-						+ " studentdegree sd,student e,zyosuser zu "
-						+ " WHERE d.id=fd.iddegree "
-						+ " AND fd.idfaculty = s.idschool "
-						+ " AND t.idzyosuser= :idZyosUser "
-						+ " AND t.idschool = s.idschool "
-						+ " AND fs.idschool = s.idschool "
-						+ " AND fs.idfaculty = f.idfaculty "
-						+ " AND sd.iddegree = d.id "
-						+ " AND sd.idstudent = e.idstudent "
-						+ " AND zu.idzyosuser = e.idzyosuser "
+						+ " AND s.idStudent IN ( SELECT e.idStudent "
+						+ " FROM Degree d,School s,Teacher t,FacultyDegree fd, "
+						+ " StudentDegree sd,Student e,ZyosUser zu "
+						+ " WHERE d.id=fd.idDegree "
+						+ " AND fd.idFaculty = s.idschool "
+						+ " AND t.idZyosUser= :idZyosUser "
+						+ " AND t.idSchool = s.idschool "
+						+ " AND sd.idDegree = d.id "
+						+ " AND sd.idStudent = e.idStudent "
+						+ " AND zu.idZyosUser = e.idZyosUser "
 						+ " AND d.state = :state "
 						+ " AND s.state = :state "
-						+ " AND fs.state = :state "
-						+ " AND f.state = :state "
 						+ " AND fd.state = :state "
 						+ " AND sd.state = :state "
 						+ " AND e.state = :state "
 						+ " AND zu.state = :state "
-						+ " AND fd.idfacultydegree > 1490) "
+						+ " AND fd.idFacultyDegree > 1490) "
 						+ " AND s.idZyosUser = zu.idZyosUser "
 						+ " AND rs.idRiskFactor = rf.idRiskFactor "
 						+ " AND rs.state = 1 "

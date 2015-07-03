@@ -9,13 +9,16 @@
 			rendered="#{!interventionBean.getValidateUserRole(1,20)}">
 
 			<p:outputPanel rendered="#{interventionBean.showStudentList}">
-				<ui:include
-					src="/WEB-INF/includes/intervention/interStudentList.xhtml" />
+				<ui:include	src="/WEB-INF/includes/intervention/interStudentList.xhtml" />
 			</p:outputPanel>
 
-			<!-- <p:outputPanel rendered="#{interventionBean.showStudentSelected}">
-			<ui:include src="/WEB-INF/includes/interventions/interventionStudentList.xhtml" />
-			</p:outputPanel> -->
+			<p:outputPanel rendered="#{interventionBean.showStudentSelected}">
+				<ui:include src="/WEB-INF/includes/intervention/interStudentProcess.xhtml" />
+			</p:outputPanel>
+			
+			<p:outputPanel rendered="#{interventionBean.showProcess}">
+				<ui:include src="/WEB-INF/includes/intervention/interStudentHistory.xhtml" />
+			</p:outputPanel>
 
 		</p:outputPanel>
 		<p:outputPanel

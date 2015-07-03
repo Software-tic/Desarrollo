@@ -36,6 +36,13 @@ public class Stage extends com.zyos.core.common.model.AZyosModel implements
 		this.dateCreation = dateCreation;
 		this.state = state;
 	}
+	
+	public Stage(String name, String description,Long id) {
+		this.name = name;
+		this.description = description;
+		this.id = id;
+		
+	}
 
 	/** full constructor */
 	public Stage(String name, String description, String dateCreation,

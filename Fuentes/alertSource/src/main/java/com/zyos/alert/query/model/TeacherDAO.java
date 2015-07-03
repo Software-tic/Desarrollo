@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+
 import static org.hibernate.criterion.Example.create;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,27 +14,26 @@ import com.zyos.core.connection.OracleBaseHibernateDAO;
 
 /**
  * A data access object (DAO) providing persistence and search support for
- * MdlCourse entities. Transaction control of the save(), update() and delete()
+ * Teacher entities. Transaction control of the save(), update() and delete()
  * operations can directly support Spring container-managed transactions or they
  * can be augmented to handle user-managed Spring transactions. Each of these
  * methods provides additional information for how to configure it for the
  * desired type of transaction control.
  * 
- * @see com.zyos.alert.moodle.model.MdlCourse
+ * @see com.zyos.alert.query.model.Teacher
  * @author MyEclipse Persistence Tools
  */
 public class TeacherDAO extends OracleBaseHibernateDAO {
 	private static final Logger log = LoggerFactory.getLogger(TeacherDAO.class);
 	// property constants
-	public static final String NAME_SCHOOL = "nameSchool";
 	public static final String DATECREATION = "datecreation";
 	public static final String USERCREATION = "usercreation";
 	public static final String DATECHANGE = "datechange";
 	public static final String USERCHANGE = "userchange";
 	public static final String STATE = "state";
 
-	public void save(School transientInstance) {
-		log.debug("saving School instance");
+	public void save(Teacher transientInstance) {
+		log.debug("saving Teacher instance");
 		try {
 			getSession().save(transientInstance);
 			log.debug("save successful");
@@ -42,8 +43,8 @@ public class TeacherDAO extends OracleBaseHibernateDAO {
 		}
 	}
 
-	public void delete(School persistentInstance) {
-		log.debug("deleting School instance");
+	public void delete(Teacher persistentInstance) {
+		log.debug("deleting Teacher instance");
 		try {
 			getSession().delete(persistentInstance);
 			log.debug("delete successful");
@@ -53,11 +54,11 @@ public class TeacherDAO extends OracleBaseHibernateDAO {
 		}
 	}
 
-	public School findById(java.lang.Long id) {
-		log.debug("getting School instance with id: " + id);
+	public Teacher findById(java.lang.Long id) {
+		log.debug("getting Teacher instance with id: " + id);
 		try {
-			School instance = (School) getSession().get(
-					"com.zyos.alert.query.model.School", id);
+			Teacher instance = (Teacher) getSession().get(
+					"com.zyos.alert.query.model.Teacher", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -65,11 +66,11 @@ public class TeacherDAO extends OracleBaseHibernateDAO {
 		}
 	}
 
-	public List<School> findByExample(School instance) {
-		log.debug("finding School instance by example");
+	public List<Teacher> findByExample(Teacher instance) {
+		log.debug("finding Teacher instance by example");
 		try {
-			List<School> results = (List<School>) getSession()
-					.createCriteria("com.zyos.alert.query.model.School")
+			List<Teacher> results = (List<Teacher>) getSession()
+					.createCriteria("com.zyos.alert.query.model.Teacher")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());
@@ -81,10 +82,10 @@ public class TeacherDAO extends OracleBaseHibernateDAO {
 	}
 
 	public List findByProperty(String propertyName, Object value) {
-		log.debug("finding School instance with property: " + propertyName
+		log.debug("finding Teacher instance with property: " + propertyName
 				+ ", value: " + value);
 		try {
-			String queryString = "from School as model where model."
+			String queryString = "from Teacher as model where model."
 					+ propertyName + "= ?";
 			Query queryObject = getSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
@@ -95,34 +96,30 @@ public class TeacherDAO extends OracleBaseHibernateDAO {
 		}
 	}
 
-	public List<School> findByNameSchool(Object nameSchool) {
-		return findByProperty(NAME_SCHOOL, nameSchool);
-	}
-
-	public List<School> findByDatecreation(Object datecreation) {
+	public List<Teacher> findByDatecreation(Object datecreation) {
 		return findByProperty(DATECREATION, datecreation);
 	}
 
-	public List<School> findByUsercreation(Object usercreation) {
+	public List<Teacher> findByUsercreation(Object usercreation) {
 		return findByProperty(USERCREATION, usercreation);
 	}
 
-	public List<School> findByDatechange(Object datechange) {
+	public List<Teacher> findByDatechange(Object datechange) {
 		return findByProperty(DATECHANGE, datechange);
 	}
 
-	public List<School> findByUserchange(Object userchange) {
+	public List<Teacher> findByUserchange(Object userchange) {
 		return findByProperty(USERCHANGE, userchange);
 	}
 
-	public List<School> findByState(Object state) {
+	public List<Teacher> findByState(Object state) {
 		return findByProperty(STATE, state);
 	}
 
 	public List findAll() {
-		log.debug("finding all School instances");
+		log.debug("finding all Teacher instances");
 		try {
-			String queryString = "from School";
+			String queryString = "from Teacher";
 			Query queryObject = getSession().createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {
@@ -131,10 +128,10 @@ public class TeacherDAO extends OracleBaseHibernateDAO {
 		}
 	}
 
-	public School merge(School detachedInstance) {
-		log.debug("merging School instance");
+	public Teacher merge(Teacher detachedInstance) {
+		log.debug("merging Teacher instance");
 		try {
-			School result = (School) getSession().merge(detachedInstance);
+			Teacher result = (Teacher) getSession().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -143,8 +140,8 @@ public class TeacherDAO extends OracleBaseHibernateDAO {
 		}
 	}
 
-	public void attachDirty(School instance) {
-		log.debug("attaching dirty School instance");
+	public void attachDirty(Teacher instance) {
+		log.debug("attaching dirty Teacher instance");
 		try {
 			getSession().saveOrUpdate(instance);
 			log.debug("attach successful");
@@ -154,8 +151,8 @@ public class TeacherDAO extends OracleBaseHibernateDAO {
 		}
 	}
 
-	public void attachClean(School instance) {
-		log.debug("attaching clean School instance");
+	public void attachClean(Teacher instance) {
+		log.debug("attaching clean Teacher instance");
 		try {
 			getSession().buildLockRequest(LockOptions.NONE).lock(instance);
 			log.debug("attach successful");

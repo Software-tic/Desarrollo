@@ -1,7 +1,6 @@
 package com.zyos.alert.studentReport.model;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -23,8 +22,12 @@ import com.zyos.core.common.util.ManageDate;
 public class ReportStudent extends com.zyos.core.common.model.AZyosModel
 		implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	// Fields
-
 	private Long idReportStudent;
 	private Long idReportType;
 	private Long idStatusReportStudent;
@@ -37,6 +40,12 @@ public class ReportStudent extends com.zyos.core.common.model.AZyosModel
 	private Long firstIntervention;
 	private Long idZyosUserAdviserFaculty;
 	private Long idZyosGroup;
+	
+	//SIAT - TUNJA
+	private String dateIntervention;
+	private String agreements;
+	private String timestart;
+	private String timefinish;
 	
 	//Transients
 	
@@ -77,6 +86,27 @@ public class ReportStudent extends com.zyos.core.common.model.AZyosModel
 	public ReportStudent(String dateCreation, Long state) {
 		this.dateCreation = dateCreation;
 		this.state = state;
+	}
+	
+	/** SIAT - TUNJA */
+	public ReportStudent(Long idReportStudent, Long idReportType, Long idStatusReportStudent,
+			Long idStudent, Long idStage, Long idSolicitor, Long idAdviser,
+			String detailReport, Long idRiskFactor, 
+			String agreements, String timestart, String timefinish , String dateIntervention) {
+		this.idReportType = idReportType;
+		this.idStatusReportStudent = idStatusReportStudent;
+		this.idStudent = BigDecimal.valueOf(idStudent);
+		this.idStage = idStage;
+		this.idSolicitor = idSolicitor;
+		this.idAdviser = idAdviser;	
+		this.detailReport = detailReport;
+		this.idRiskFactor = idRiskFactor;
+		this.idReportStudent = idReportStudent;
+		this.agreements = agreements;
+		this.timestart = timestart;
+		this.timefinish = timefinish;
+		this.dateIntervention = dateIntervention;
+		
 	}
 
 	/**@autor jhernandez */
@@ -520,6 +550,40 @@ public class ReportStudent extends com.zyos.core.common.model.AZyosModel
 
 	public void setMobilePhone(String mobilePhone) {
 		this.mobilePhone = mobilePhone;
+	}
+	
+	//SIAT - TUNJA
+
+	public String getAgreements() {
+		return agreements;
+	}
+
+	public void setAgreements(String agreements) {
+		this.agreements = agreements;
+	}
+
+	public String getTimestart() {
+		return timestart;
+	}
+
+	public void setTimestart(String timestart) {
+		this.timestart = timestart;
+	}
+
+	public String getTimefinish() {
+		return timefinish;
+	}
+
+	public void setTimefinish(String timefinish) {
+		this.timefinish = timefinish;
+	}
+
+	public String getDateIntervention() {
+		return dateIntervention;
+	}
+
+	public void setDateIntervention(String dateIntervention) {
+		this.dateIntervention = dateIntervention;
 	}
 	
 	

@@ -250,6 +250,22 @@ public class StageDAO extends OracleBaseHibernateDAO {
 			throw e;
 		}
 	}
+	
+	/** SIAT - TUNJA */
+	public List<Stage> loadStageListTunja() throws Exception {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append(" SELECT new Stage (s.name, s.description,s.id) FROM Stage s ");
+			hql.append(" WHERE s.description LIKE '%Tunja%' ");
+			hql.append(" AND s.state = :state order by id");
+			qo = getSession().createQuery(hql.toString());
+			qo.setParameter("state", IZyosState.ACTIVE);
 
-
+			return qo.list();
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
 }

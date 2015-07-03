@@ -1,0 +1,150 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<p:panel header="Historial del Estudiante"> 
+		<table width="100%" border="0" cellpadding="5" cellspacing="5">
+			<tr>
+				<td style="width:5%;" />
+				<td style="width:5%;" />
+				<td style="width:12%;" />
+				<td style="width:26%;" />
+				<td style="width:4%;" />
+				<td style="width:12%;" />
+				<td style="width:26%;" />
+				<td style="width:5%;" />
+				<td style="width:5%;" />
+			</tr>
+			<tr>
+				<td colspan="2" />
+				<td> <h:outputText value="#{bundle['page.riskStudent.labelStudent']}:" rendered="#{!interventionBean.getValidateUserRole(7,20)}">  </h:outputText> </td>  
+				<td><h:outputText id="txtNameStudentH" rendered="#{!interventionBean.getValidateUserRole(7,20)}"
+						value="#{interventionBean.reportStudentSelected.zyosUserName} #{interventionBean.reportStudentSelected.zyosUserLastName}"
+						style="width:98%;" /></td>
+				<td />
+				<td>#{bundle['page.riskStudent.labelDate']}:</td>
+				<td><h:outputText id="txtDateH" value="Now();" style="width:98%;" /></td>
+			</tr>
+		</table>
+		<p:outputPanel id="processPanelH">
+
+			<p:outputPanel id="historicPanel">
+				<table width="100%" border="0" cellpadding="5" cellspacing="5">
+					<tr>
+						<td width="5%"  />
+						<td width="5%"  />
+						<td width="12%" />
+						<td width="26%" />
+						<td width="4%"  />
+						<td width="12%" />
+						<td width="26%" />
+						<td width="5%"  />
+						<td width="5%"  />
+					</tr>
+					<tr> 
+						<td colspan="9" style="text-align: center"> 
+							<p:commandLink rendered="#{interventionBean.showProcess}" title="Exportar a Excel" ajax="false">
+								<p:graphicImage cache="false" height="27" width="27" value="../css/images/xlsx-report.png" />
+								<p:dataExporter target="observationDataTable" type="xls"
+									postProcessor="#{interventionBean.handleDataExporter}"
+									fileName="reporte_observaciones" />
+							</p:commandLink>
+						</td>
+					</tr>
+					
+					<tr>
+						<td colspan="2" />
+						<td colspan="5">
+							<p:dataTable scrollable="true" id="observationDataTable"
+								paginatorAlwaysVisible="true"  
+								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="15,30,60" paginator="true" rows="15"
+								style="width:100%" rendered="#{interventionBean.showProcess}"
+								sortBy="dateIntervention" sortOrder="descending" emptyMessage="#{bundle['page.riskStudent.labelNoRecordFound']}"
+								value="#{interventionBean.observationList}" var="obs">
+								
+								<f:facet name="header"> #{bundle['page.riskStudent.labelObservationHistorical']} </f:facet>  
+								
+								<p:column width="10%" sortBy="dateIntervention"
+									headerText="#{bundle['page.riskStudent.labelDate']}">
+									<h:outputText value="#{obs.dateIntervention}" /> 	
+								</p:column>
+								<p:column width="6%" sortBy="#{obs.days}"
+									headerText="#{bundle['page.riskStudent.labelProcessDays']}">
+									<h:outputText  value="#{obs.days}" />
+								</p:column>
+								<p:column width="15%" sortBy="#{obs.role}"
+									headerText="#{bundle['page.riskStudent.labelRole']}">
+									 <h:outputText value="#{obs.role}" /> 
+								</p:column>
+								<p:column width="30%" sortBy="#{obs.responsible}"
+									headerText="#{bundle['page.riskStudent.labelResponsible']}">
+									<h:outputText value="#{obs.responsible}"/> 
+								</p:column>
+								<p:column width="40%">
+									<f:facet name="header">
+										#{fn:toLowerCase(bundle['page.ins.labelObservation'])}
+									</f:facet>
+								  	<h:outputText value="#{obs.detailObservation}" />	
+								</p:column>
+							</p:dataTable>
+						</td>
+					</tr>
+				</table>
+			</p:outputPanel>
+		</p:outputPanel>
+
+		<div style="text-align: center;">
+			<p:commandButton id="buttonProcessH" type="button"
+				rendered="#{interventionBean.getUserSession().getDefaultGroup() ne 5 }"
+				value="#{bundle['page.riskStudent.labelGiveProcess']}"
+				styleClass="ui-priority-primary" onclick="validateDataProcess();">
+			</p:commandButton>
+				
+			<p:commandButton action="#{interventionBean.closeProcess}"
+				rendered="false" oncomplete="closeProcess.show();"
+				value="#{bundle['page.riskStudent.labelCloseProcess']}"
+				styleClass="ui-priority-primary">
+			</p:commandButton>
+			<p:commandButton value="#{bundle['page.core.labelCancel']}"
+				action="#{interventionBean.goBack}"
+				styleClass="ui-priority-primary">
+			</p:commandButton>
+		</div>
+
+	</p:panel>
+
+	<p:dialog widgetVar="giveProcessWV" header="Dar trámite" modal="true"
+		resizable="false" draggable="true" showEffect="drop" hideEffect="fade">
+
+		<h:outputText value="¿Desea dar trámite a este estudiante?" style="text-align: center;" />
+		<br />
+		<br />
+		<div style="width: 98%;" align="center">
+			<p:commandButton value="#{bundle['page.riskStudent.labelYes']}" action="#{interventionBean.giveProcessToReportStudent}" update="riskStudentForm"
+				oncomplete="statusDialog.hide();giveProcessWV.hide();" styleClass="ui-priority-primary" onstart="statusDialog.show();"/>
+			<p:commandButton value="#{bundle['page.riskStudent.labelNo']}" onclick="giveProcessWV.hide();" styleClass="ui-priority-primary" type="button"/>
+		</div>
+	</p:dialog>
+
+	<p:dialog widgetVar="closeProcess" header="Cerrar proceso" modal="true"
+		resizable="false" draggable="true" showEffect="drop" hideEffect="fade">
+		<h:outputText style="text-align: center;"
+			value="¿Esta seguro de dar por finalizado el proceso de este estudiante?"/>
+		<br />
+		<br />
+		<div style="width: 98%;" align="center">
+			<p:commandButton value="#{bundle['page.riskStudent.labelYes']}"
+				action="#{interventionBean.closeProcess}"
+				oncomplete="closeProcess.hide();" update="@form"
+				styleClass="ui-priority-primary">
+			</p:commandButton>
+			<p:commandButton value="#{bundle['page.riskStudent.labelNo']}"
+				onclick="closeProcess.hide();" styleClass="ui-priority-primary">
+			</p:commandButton>
+		</div>
+	</p:dialog>
+</f:view>

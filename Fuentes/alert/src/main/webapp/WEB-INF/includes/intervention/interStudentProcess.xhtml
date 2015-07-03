@@ -1,0 +1,344 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<p:panel header="#{bundle['page.riskStudent.labelStudentRegister']}"> 
+		<table width="100%" border="0" cellpadding="5" cellspacing="5">
+			<tr>
+				<td style="width:5%;"  />
+				<td style="width:5%;"  />
+				<td style="width:12%;" />
+				<td style="width:26%;" />
+				<td style="width:4%;"  />
+				<td style="width:12%;" />
+				<td style="width:26%;" />
+				<td style="width:5%;"  />
+				<td style="width:5%;"  />
+			</tr>
+			<tr>
+				<td colspan="2" />
+				<td>
+					<h:outputText value="#{bundle['page.riskStudent.labelStudent']}:" rendered="#{!interventionBean.getValidateUserRole(7,20)}"> 
+					</h:outputText>
+				</td>  
+				<td>
+					<h:outputText id="txtNameStudent"  rendered="#{!interventionBean.getValidateUserRole(7,20)}"
+						value="#{interventionBean.reportStudentSelected.zyosUserName} #{interventionBean.reportStudentSelected.zyosUserLastName}"
+						style="width:98%;" />
+				</td>
+				<td />
+				<td>#{bundle['page.riskStudent.labelDate']}:</td>
+				<td>
+					<h:outputText id="txtDate"
+						value="#{interventionBean.reportStudentSelected.dateCreation}"
+						style="width:98%;" />
+				</td>
+			</tr>
+			<p:outputPanel rendered="#{interventionBean.reportStudentSelected.nameResponsible ne null}">
+				<tr>
+					<td colspan="2" />
+					<td>#{bundle['page.riskStudent.labelReportBy']}:</td>
+					<td>
+						<h:outputText id="txtReportBys"
+							value="#{interventionBean.reportStudentSelected.nameResponsible}"
+							style="width:98%;" />
+					</td>
+					<td />
+					<td>#{bundle['page.riskStudent.labelRole']}:</td>
+					<td>
+						<h:outputText id="txtStartedBys"
+							value="#{riskStudent.idReportType eq 2 ? 'Reporte automatico': (riskStudent.zyosGroupName eq null ? 'Usuario externo' : riskStudent.zyosGroupName)}"
+							style="width:98%;" />
+					</td>
+				</tr>
+			</p:outputPanel>
+			<p:outputPanel rendered="#{interventionBean.reportStudentSelected.nameResponsible eq null}">
+				<tr>
+					<td colspan="2" />
+					<td>#{bundle['page.riskStudent.labelReportBy']}:</td>
+					<td>
+						<h:outputText id="txtReportBy"
+							value="#{interventionBean.reportStudentSelected.nameSolicitor}"
+							style="width:98%;" />
+					</td>
+					<td />
+					<td>#{bundle['page.riskStudent.labelRole']}:</td>
+					<td>
+						<h:outputText id="txtStartedBy"
+							value="#{interventionBean.reportStudentSelected.zyosGroupName}"
+							style="width:98%;" />
+					</td>
+				</tr>
+			</p:outputPanel>
+
+			<p:outputPanel id="responsibleDataPanel"
+				rendered="#{interventionBean.reportStudentSelected.nameResponsible ne null}">
+				<tr>
+					<td />
+					<td colspan="7" align="center"	style="background-color: #F2ECEC;" height="30">
+							<b>#{bundle['page.student.labelResponsibleData']}</b>
+					</td>
+					<td />
+				</tr>
+				<tr>
+					<td><p:spacer height="15" /></td>
+				</tr>
+				<tr>
+					<td colspan="2" />
+					<td>#{bundle['page.riskStudentDetail.labelName']}:</td>
+					<td>
+						<h:outputText id="txtNameResponsible"  
+							value="#{interventionBean.reportStudentSelected.nameResponsible}"
+							style="width:98%;" />
+					</td>
+					<td />
+					<td>Email:</td> 
+					<td>
+						<h:outputText id="txtEmailResponsible"
+							value="#{interventionBean.reportStudentSelected.emailSolicitor}"
+							style="width:98%;" />
+					</td>
+					<td />
+				</tr>
+				<tr>
+					<td colspan="2" />
+					<td>#{bundle['page.user.labelCellPhone']}:</td>
+					<td>
+						<h:outputText id="txtMobileResponsible" style="width:95%;"
+							value="#{interventionBean.reportStudentSelected.mobilePhoneResponsible == 0 ? '':interventionBean.reportStudentSelected.mobilePhoneResponsible }" />
+					</td>
+					<td />
+					<td>#{bundle['page.user.labelPhone']}:</td>
+					<td>
+						<h:outputText id="txtPhoneResponsible"
+							value="#{interventionBean.reportStudentSelected.phoneResponsible == 0 ? '':interventionBean.reportStudentSelected.phoneResponsible}"
+							style="width:95%;" />
+					</td>
+					<td />
+				</tr>
+			</p:outputPanel>
+			
+			<p:outputPanel rendered="#{!interventionBean.getValidateUserRole(9,20)}"> 
+				<tr>
+					<td><p:spacer height="15" /></td>
+				</tr>
+				<tr>
+					<td />
+					<td colspan="7" align="center"
+						style="background-color: #F2ECEC;" height="30">
+						<b> #{bundle['page.riskStudent.labelRiskFactor']}</b>
+					</td>
+					<td />
+				</tr>
+				<tr>
+					<td />
+					<td colspan="7" align="center">
+						<h:outputText value="#{interventionBean.reportStudentSelected.riskFactorName}" />
+					</td>
+					<td />
+					<td />
+					<td />
+				</tr>
+			</p:outputPanel>
+			
+			<p:outputPanel rendered="#{!interventionBean.getValidateUserRole(10,20)}"> 
+				<tr>
+					<td><p:spacer height="15" /></td>
+				</tr>
+				<tr>
+					<td />
+					<td colspan="7" align="center"
+						style="background-color: #F2ECEC;" height="30">
+						<b>#{bundle['page.ins.labelObservation']}</b>
+					</td>
+					<td />
+				</tr>
+				<tr>
+					<td colspan="2" />
+					<td colspan="5"><h:outputText id="txtObservationStudent"
+							value="#{interventionBean.reportStudentSelected.detailReport}"
+							style="width:98%;" />
+					</td>
+					<td />
+				</tr>
+			</p:outputPanel>
+		</table>
+		<p:outputPanel id="processPanel">
+			<table width="100%" border="0" cellpadding="5" cellspacing="5">
+				<tr>
+					<td width="5%"  />
+					<td width="5%"  />
+					<td width="12%" />
+					<td width="26%" />
+					<td width="4%"  />
+					<td width="12%" />
+					<td width="26%" />
+					<td width="5%"  />
+					<td width="5%"  />
+				</tr>
+				<p:outputPanel id="referToOutputPanel" rendered="#{interventionBean.getUserSession().getDefaultGroup() ne 5 }">
+					<tr>
+						<td colspan="2" />
+						<td>
+							<h:outputText value="#{bundle['page.riskStudent.labelReferTo']}:" />
+						</td>
+						<td>
+							<p:selectOneMenu id="stage" style="width:180px" panelStyle="width:160px" panelStyleClass="ui-selectonemenu-panel-warper"
+								value="#{interventionBean.reportStudentSelected.idStage}" >
+								<f:selectItem itemLabel="#{bundle['page.core.selectOne']}"  />
+								<f:selectItems value="#{interventionBean.stageListTunja}"
+									var="stage" itemLabel="#{stage.name}" itemValue="#{stage.id}" />
+								<p:ajax global="false"
+									listener="#{interventionBean.loadResponsibleListByRole()}"
+									update="menuResponsible" />
+							</p:selectOneMenu>
+							<div id="stageDiv" class="LV_invalid" />
+						</td>
+						<td />
+						<td>
+							<h:outputText
+								value="#{bundle['page.riskStudent.labelResponsible']}:" />
+						</td>
+						<td>
+							<p:selectOneMenu id="menuResponsible" style="width:180px" panelStyle="width:160px" panelStyleClass="ui-selectonemenu-panel-warper"
+								value="#{interventionBean.reportStudentSelected.idAdviser}">
+								<f:selectItem itemLabel="#{bundle['page.core.selectOne']}" />
+								<f:selectItems value="#{interventionBean.responsibleList}"
+									var="resp" itemValue="#{resp.idZyosUser}"
+									itemLabel="#{resp.name} #{resp.lastName}" />
+							</p:selectOneMenu>
+							<div id="responsibleDiv" class="LV_invalid" />
+						</td>
+					</tr>
+				</p:outputPanel>
+				<p:outputPanel id="stateOutputPanel" rendered="#{interventionBean.getUserSession().getDefaultGroup() ne 5 }">
+					<tr>
+						<td colspan="2" />
+						<td>
+							<h:outputText value="#{bundle['page.user.labelState']}:" />
+						</td>
+						<td>
+							<p:selectOneMenu id="state" style="width:180px" panelStyle="width:160px" panelStyleClass="ui-selectonemenu-panel-warper"
+								value="#{interventionBean.reportStudentSelected.idStatusReportStudent}">
+								<f:selectItem itemLabel="#{bundle['page.core.selectOne']}" />
+								<f:selectItems
+									value="#{interventionBean.statusReportStudentList}"
+									var="status" itemLabel="#{status.name}"
+									itemValue="#{status.id}" />
+							</p:selectOneMenu>
+							<div id="stateDiv" class="LV_invalid" />
+						</td>
+						<td />
+						<td>
+							<h:outputText value="Fecha Intervención:" />
+						</td>
+						<td>
+							<p:calendar id="dateIntervention"
+								value="#{interventionBean.dateIntervention}" required="true"
+								pattern="yyyy/MM/dd" mindate="2015/01/01" maxdate="Now();" locale="es">
+							</p:calendar>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" />
+						<td>
+							<h:outputText value="Hora de Inicio:" />
+						</td>
+						<td>
+							<p:calendar id="timeS" 
+								value="#{interventionBean.timeStart}" required="true"
+								pattern="HH:mm a" minHour="08" maxHour="18" timeOnly="true">
+							</p:calendar>	
+						</td>
+						<td />
+						<td>
+							<h:outputText value="Hora Final:" />
+						</td>
+						<td>
+							<p:calendar id="timeF" 
+								value="#{interventionBean.timeFinish}" required="true"
+								pattern="HH:mm a" minHour="08" maxHour="18" timeOnly="true">
+							</p:calendar>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" />
+						<td colspan="5">Observaciones: </td>
+					</tr>
+					<tr>
+						<td colspan="2" />
+						<td colspan="5">
+							<p:inputTextarea rows="5" maxlength="999" autoResize="false" id="observationArea"
+								value="#{interventionBean.reportStudentData.detailReport}"
+								style="width:98%" />
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" />
+						<td colspan="5">Resultados y Acuerdos: </td>
+					</tr>
+					<tr>
+						<td colspan="2" />
+						<td colspan="5">
+							<p:inputTextarea rows="5" maxlength="999" autoResize="false" id="AgreementArea"
+								value="#{interventionBean.reportStudentData.agreements}"
+								style="width:98%" />
+						</td>
+					</tr>
+				</p:outputPanel>
+			</table>
+		</p:outputPanel>
+
+
+		<div style="text-align: center;">
+			<p:commandButton id="buttonProcess" type="button"
+				rendered="#{interventionBean.getUserSession().getDefaultGroup() ne 5 }"
+				value="#{bundle['page.riskStudent.labelGiveProcess']}"
+				styleClass="ui-priority-primary" 
+				onclick="validateDataProcess();">
+			</p:commandButton>
+			<p:commandButton value="#{bundle['page.core.labelCancel']}"
+				action="#{interventionBean.goBack}"
+				styleClass="ui-priority-primary">
+			</p:commandButton>
+		</div>
+
+	</p:panel>
+
+	<p:dialog widgetVar="giveProcessWV" header="Dar trámite" modal="true"
+		resizable="false" draggable="true" showEffect="drop" hideEffect="fade">
+
+		<h:outputText value="¿Desea dar trámite a este estudiante?"
+			style="text-align: center;" />
+		<br />
+		<br />
+		<div style="width: 98%;" align="center">
+			<p:commandButton value="#{bundle['page.riskStudent.labelYes']}" action="#{interventionBean.giveProcessToReportStudent}" update="riskStudentForm"
+				oncomplete="statusDialog.hide();giveProcessWV.hide();" styleClass="ui-priority-primary" onstart="statusDialog.show();"/>
+			<p:commandButton value="#{bundle['page.riskStudent.labelNo']}" onclick="giveProcessWV.hide();" styleClass="ui-priority-primary" type="button"/>
+		</div>
+	</p:dialog>
+
+	<p:dialog widgetVar="closeProcess" header="Cerrar proceso" modal="true"
+		resizable="false" draggable="true" showEffect="drop" hideEffect="fade">
+
+		<h:outputText
+			value="¿Esta seguro de dar por finalizado el proceso de este estudiante?"
+			style="text-align: center;" />
+		<br />
+		<br />
+		<div style="width: 98%;" align="center">
+			<p:commandButton value="#{bundle['page.riskStudent.labelYes']}"
+				action="#{interventionBean.closeProcess}"
+				oncomplete="closeProcess.hide();" update="@form"
+				styleClass="ui-priority-primary">
+			</p:commandButton>
+			<p:commandButton value="#{bundle['page.riskStudent.labelNo']}"
+				onclick="closeProcess.hide();" styleClass="ui-priority-primary">
+			</p:commandButton>
+		</div>
+	</p:dialog>
+</f:view>

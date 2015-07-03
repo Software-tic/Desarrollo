@@ -1,5 +1,5 @@
 #MyEclipse Hibernate Properties
-#Mon Jun 22 17:18:20 COT 2015
+#Fri Jun 26 11:14:02 COT 2015
 genBasicCompId=true
 sessionFactoryName=com.zyos.core.connection.HibernateSessionFactory
 profile=
@@ -13,7 +13,7 @@ useJavaTypes=true
 keyGenerator=assigned
 genVersionTag=false
 sessionFactoryId=
-basePersistenceClass=
+basePersistenceClass=com.zyos.core.common.model.AZyosModel
 genAnnotations=true
 reSettingsFile=
 configFile=/alertSource/src/main/java/com/zyos/core/connection/hibernate.cfg.oracle.xml
