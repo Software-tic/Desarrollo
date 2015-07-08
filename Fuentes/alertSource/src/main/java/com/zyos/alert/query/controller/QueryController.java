@@ -68,7 +68,19 @@ public class QueryController extends ZyosController {
 	public List<ZyosUser> getUserPAAIList() throws Exception {
 		ZyosUserDAO dao = new ZyosUserDAO();
 		try {
-			return dao.loadUserPAAIList(1l,"PAAI");
+			return dao.loadUserPAAIList(1l);
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}
+	}
+	
+	public List<Observation> loadSearchObservationList(Long idAdviser, String dateFrom, String dateTo) throws Exception{
+		ObservationDAO dao = new ObservationDAO();
+		try {
+			return dao.loadSearchObservationList(idAdviser, dateFrom, dateTo);
 		} catch (Exception e) {
 			throw e;
 		} finally {

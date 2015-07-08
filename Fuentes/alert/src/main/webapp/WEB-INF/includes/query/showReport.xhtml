@@ -7,85 +7,251 @@
 	<br />
 	<p:panel id="headerList" header="Informe de Intervenciones">
 		<div align="center">
-			<h4>A continuación se presenta un listado de internvenciones realizadas por el docente.</h4>
 			<table width="98%" border="0" cellpadding="1" cellspacing="7">
 				<tr>
-					<td width="6%"></td>
+					<td width="6%"/>
 					<td width="18%" align="left">
 						Fecha :
 					</td>
 					<td width="19%" align="left">
 						#{queryBean.fecha}
 					</td>
-					<td width="9%"></td>
+					<td width="9%"/>
 					<td width="23%" align="left">
 						Identificación :
 					</td>
 					<td width="20%" align="left">
 						#{queryBean.selectedZyosUser.documentNumber}
 					</td>
-					<td width="5%"></td>
+					<td width="6%"/>
 				</tr>
 				<tr>
-					<td></td>
+					<td/>
 					<td align="left">#{bundle['page.user.labelName']}:</td>
 					<td align="left">#{queryBean.selectedZyosUser.name}</td>
-					<td></td>
+					<td/>
 					<td align="left">#{bundle['page.user.labelLastName']}:</td>
 					<td align="left">#{queryBean.selectedZyosUser.lastName}</td>
-					<td></td>
+					<td/>
 				</tr>
 				<tr>
-					<td></td>
+					<td/>
 					<td align="left">#{bundle['page.user.labelCellPhone']}:</td>
 					<td align="left">#{queryBean.selectedZyosUser.mobilePhone}</td>
-					<td></td>
+					<td/>
 					<td align="left">#{bundle['page.user.labelEmail']}:</td>
 					<td align="left">#{queryBean.selectedZyosUser.email}</td>
-					<td></td>
+					<td/>
 				</tr>
 			</table>
+			
+			<table id="tableSearchStudent" width="98%" border="0" cellpadding="1" cellspacing="7">
+				<tr>
+					<td style="width:6%"  />
+					<td style="width:18%">#{bundle['page.riskStudent.labelDateFrom']}</td>
+					<td style="width:19%">
+						<p:calendar value="#{queryBean.dateFrom}"
+							styleClass="riskStudentCal" pattern="yyyy/MM/dd" locale="es">
+						</p:calendar>
+					</td>
+					<td style="width:6%"  />
+					<td style="width:18%">#{bundle['page.riskStudent.labelDateTo']}</td>
+					<td style="width:19%">
+						<p:calendar value="#{queryBean.dateTo}" 
+							styleClass="riskStudentCal" pattern="yyyy/MM/dd" locale="es" />
+					</td>
+					<td style="width:6%"  />
+				</tr>
+			</table>
+			<div style="text-align:center;padding-bottom: 20px;padding-top: 20px;">
+				<p:commandButton value="Buscar"
+					action="#{queryBean.searchReportStudentList}"
+					update="observationForm:observationDataTable"
+					styleClass="ui-priority-primary"
+					onstart="PF('statusDialog').show();"
+					oncomplete="PF('statusDialog').hide();" />
+				<p:spacer width="5" />
+				<p:commandButton value="#{bundle['page.core.labelCleanForm']}"
+					action="#{queryBean.cleanSearch}"
+					onstart="PF('statusDialog').show();"
+					oncomplete="PF('statusDialog').hide();" update="observationForm" />
+			</div>
 		
-		
-			<p:dataTable var="observation" value="#{queryBean.subjectList}"
-				widgetVar="carWV">
-		
-				<f:facet name="header">Intervenciones Realizadas
-					<div align="right">
-						<h:outputText value="Buscar:" />
-							<p:inputText id="globalFilter" onkeyup="PF('carWV').filter()"
-								style="width:150px" />
-					</div>
-				</f:facet>
+			<table width="98%" border="0" cellpadding="1" cellspacing="7">
+			<tr>
+				<td width="5%" />
+				<td align="center">
+					<p:dataTable id="observationDataTable" value="#{queryBean.observationList}"
+						resizableColumns="false" filterDelay="600"
+						emptyMessage="#{bundle['page.core.tableNoFoundRecord']}"
+						var="obs" style="width:100%" widgetVar="userTableWV">
+						
+						<f:facet name="header">Intervenciones realizadas</f:facet>
 
-				<p:column headerText="Id" filterBy="#{observation.idSubject}">
-					<h:outputText value="#{observation.idSubject}" />
-				</p:column>
-
-				<p:column headerText="Intervención" filterBy="#{observation.name}"
-					sortBy="#{observation.name}">
-					<h:outputText value="#{observation.name}" />
-				</p:column>
+						<p:column width="15%" sortBy="#{obs.dateIntervention}" style="text-align: center"
+							headerText="#{bundle['page.riskStudent.labelDate']}">
+							<h:outputText value="#{obs.dateIntervention}" /> 	
+						</p:column>
+					
+						<p:column headerText="Código" width="15%" style="text-align: center"
+							sortBy="#{obs.codeStudent}">
+							<h:outputText value="#{obs.codeStudent}" />
+						</p:column>
+	
+						<p:column headerText="Estudiante" width="30%" style="text-align: center"
+							sortBy="#{obs.lastNameStudent}">
+							<h:outputText value="#{obs.nameStudent} #{obs.lastNameStudent}" />
+						</p:column>
 		
-				<p:column headerText="Descripción" filterBy="#{observation.name}"
-					sortBy="#{observation.name}">
-					<h:outputText value="#{observation.name}" />
-				</p:column>
+						<p:column headerText="Observación" width="40%" style="text-align: center"
+							sortBy="#{obs.detailObservation}">
+							<h:outputText value="#{obs.detailObservation}" />
+						</p:column>
 		
-				<p:column headerText="Tiempo de Atención" filterBy="#{observation.name}"
-					sortBy="#{observation.name}">
-					<h:outputText value="#{observation.name}" />
-				</p:column>
-
-			</p:dataTable>
+						<p:column headerText="Tiempo de Atención" width="15%" style="text-align: center"
+							sortBy="#{obs.timeintervention}">
+							<h:outputText value="#{obs.timeintervention} min(s)" />
+						</p:column>
+						<p:column style="text-align: center;width:15px">
+							<p:commandLink action="#{queryBean.goDetailReport}"
+								disabled="#{queryBean.getValidateUserRole(4,17)}">
+								<p:graphicImage title="Ver Datos de la intervención"
+									value="../css/images/detail.gif" height="20" width="20" />
+								<f:setPropertyActionListener
+									target="#{queryBean.observation}"
+									value="#{obs}" />
+							</p:commandLink>
+						</p:column>
+						<f:facet name="footer">
+    					    #{queryBean.total}
+    					</f:facet>
+					</p:dataTable>
+				</td>
+				<td width="5%" />
+			</tr>
+			</table>
 
 			<p:commandButton value="Volver" id="ajax" action="#{queryBean.goBack}"
 				styleClass="ui-priority-primary" />
-			<p:commandButton value="Imprimir" id="print" onclick="javascript:print()" action="javascript:print()"
-				styleClass="ui-priority-primary" />
-
+			<p:commandButton value="Generar Reporte" action="#{queryBean.generateReportStudentList}" 
+				styleClass="ui-priority-primary"/>
+			
 		</div>
 	</p:panel>
+	
+	<p:dialog id="DataObservationDialog"
+		widgetVar="dataObservationDialogWV" showHeader="false"
+		resizable="false" draggable="false" showEffect="drop"
+		hideEffect="fade" modal="true" dynamic="true">
+
+		<p:panel header="Detalles de la Intervención" style="text-align:left;">
+
+			<table width="100%"	border="0" cellpadding="5" cellspacing="5">
+				<tr>
+					<td style="width: 19%" />
+					<td style="width: 21%" />
+					<td style="width: 4%" />
+					<td style="width: 19%" />
+					<td style="width: 25%" />
+				</tr>
+				<tr>
+					<td>#{bundle['page.riskStudentList.nameStudent']}:</td>
+					<td colspan="4">
+						<p:inputText id="nameStudent"
+							style="width:99%" readonly="true"
+							value="#{queryBean.observation.nameStudent} #{queryBean.observation.lastNameStudent}">
+						</p:inputText>
+					</td>
+				</tr>
+				<tr>
+					<td>Código:</td>
+					<td>
+						<p:inputText style="width:100%" readonly="true"
+							value="#{queryBean.observation.codeStudent}">
+						</p:inputText>
+					</td>
+					<td />
+					<td>Fecha Intervención:</td>
+					<td>
+						<p:inputText style="width:98%" readonly="true"
+							value="#{queryBean.observation.dateIntervention}">
+						</p:inputText>
+					</td>
+				</tr>
+				<tr>
+					<td>Hora Inicio:</td>
+					<td>
+						<p:inputText style="width:100%" readonly="true"
+							value="#{queryBean.observation.timestart}">
+						</p:inputText>
+					</td>
+					<td />
+					<td>Hora de Finalización:</td>
+					<td>
+						<p:inputText style="width:98%" readonly="true" 
+							value="#{queryBean.observation.timefinish}">
+						</p:inputText>
+					</td>
+				</tr>
+				<tr>
+					<td>Observaciones:</td>
+					<td colspan="4">
+						<p:inputTextarea rows="4" cols="50"
+							style="width:99%" readonly="true"
+							value="#{queryBean.observation.detailObservation}">
+						</p:inputTextarea>
+					</td>
+				</tr>
+				<tr>
+					<td>Resultados y Acuerdos:</td>
+					<td colspan="4">
+						<p:inputTextarea rows="4" cols="50"
+							style="width:99%" readonly="true"
+							value="#{queryBean.observation.agreements}">
+						</p:inputTextarea>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="5" style="text-align: center">
+						<p:commandButton value="#{bundle['page.core.labelAcept']}"
+							onclick="dataObservationDialogWV.hide()">
+						</p:commandButton>
+					</td>
+				</tr>
+			</table>
+		</p:panel>
+	</p:dialog>
+	
+	<p:dialog modal="true" widgetVar="downLoadDialogWV" id="downLoadDialog" draggable="false" closable="false" resizable="false">
+		
+		<p:panel header="Archivo Generado Exitosamente" style="text-align:left;">
+
+			<table width="98%" border="0" cellpadding="5" cellspacing="5">
+				<tr>
+					<td colspan="5" style="text-align: center;">
+						<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+        					<p:fileDownload value="#{queryBean.file}" />
+    					</p:commandButton>
+					</td>
+				</tr>
+			</table>
+		</p:panel>
+	</p:dialog>
+	
+	<p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
+    	<h:outputText>Descargando...</h:outputText>
+	</p:dialog>
+	
+	<script type="text/javascript">
+		function start() {
+    		PF('statusDialog').show();
+		}
+ 
+		function stop() {
+    		PF('statusDialog').hide();
+    		PF('downLoadDialogWV').hide();
+		}
+	</script>
 </f:view>
 
 

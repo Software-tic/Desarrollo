@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -119,7 +120,8 @@ public class FacultyDegree extends com.zyos.core.common.model.AZyosModel
 	public void setState(Long state) {
 		this.state = state;
 	}
-
+	
+	@Transient
 	public String getFaculty() {
 		return Faculty;
 	}
@@ -127,7 +129,8 @@ public class FacultyDegree extends com.zyos.core.common.model.AZyosModel
 	public void setFaculty(String faculty) {
 		Faculty = faculty;
 	}
-
+	
+	@Transient
 	public String getDegree() {
 		return Degree;
 	}
@@ -135,7 +138,8 @@ public class FacultyDegree extends com.zyos.core.common.model.AZyosModel
 	public void setDegree(String degree) {
 		Degree = degree;
 	}
-
+	
+	@Transient
 	public String getDegreeDescription() {
 		return DegreeDescription;
 	}

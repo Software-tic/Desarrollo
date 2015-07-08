@@ -504,7 +504,7 @@ public class ZyosUserDAO extends OracleBaseHibernateDAO {
 	}
 	
 	/***SIAT TUNJA*/
-	public List<ZyosUser> loadUserPAAIList(Long idEnterprise,String UserGroup) throws Exception {
+	public List<ZyosUser> loadUserPAAIList(Long idEnterprise) throws Exception {
 		StringBuilder hql = new StringBuilder();
 		Query qo = null;
 		try {
@@ -525,7 +525,7 @@ public class ZyosUserDAO extends OracleBaseHibernateDAO {
 
 			qo.setParameter("idEnterprise", idEnterprise);
 			qo.setParameter("state", IZyosState.ACTIVE);
-			qo.setParameter("name", "%"+UserGroup+"%");
+			qo.setParameter("name", "%Docente%PAAI%");
 			
 			List<ZyosUser> userGroups = qo.list();
 			qo = null;

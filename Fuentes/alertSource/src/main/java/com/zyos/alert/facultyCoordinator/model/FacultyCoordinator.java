@@ -13,6 +13,10 @@ import org.hibernate.annotations.GenericGenerator;
 public class FacultyCoordinator extends com.zyos.core.common.model.AZyosModel
 		implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long idFacultyCoordinator;
 	private Long idZyosUser;
 	private Long idFaculty;

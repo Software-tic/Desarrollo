@@ -8,15 +8,15 @@
 	<p:panel header="#{bundle['page.riskStudent.labelStudentRegister']}"> 
 		<table width="100%" border="0" cellpadding="5" cellspacing="5">
 			<tr>
-				<td style="width:5%;"  />
-				<td style="width:5%;"  />
-				<td style="width:12%;" />
-				<td style="width:26%;" />
-				<td style="width:4%;"  />
-				<td style="width:12%;" />
-				<td style="width:26%;" />
-				<td style="width:5%;"  />
-				<td style="width:5%;"  />
+					<td width="5%"  />
+					<td width="5%"  />
+					<td width="12%" />
+					<td width="26%" />
+					<td width="4%"  />
+					<td width="12%" />
+					<td width="26%" />
+					<td width="5%"  />
+					<td width="5%"  />
 			</tr>
 			<tr>
 				<td colspan="2" />
@@ -139,8 +139,6 @@
 						<h:outputText value="#{interventionBean.reportStudentSelected.riskFactorName}" />
 					</td>
 					<td />
-					<td />
-					<td />
 				</tr>
 			</p:outputPanel>
 			
@@ -169,6 +167,26 @@
 		<p:outputPanel id="processPanel">
 			<table width="100%" border="0" cellpadding="5" cellspacing="5">
 				<tr>
+					<td><p:spacer height="15" /></td>
+				</tr>
+				<tr>
+					<td />
+					<td colspan="7" align="center"
+						style="background-color: #F2ECEC;" height="30">
+						<b>
+							<h:outputText id="txtTitleIntervention1"
+								value="Sesión de Asesoria" style="width:98%;"
+								rendered="#{interventionBean.getUserSession().getDefaultGroup() eq 31 
+								or interventionBean.getUserSession().getDefaultGroup() eq 28}"/>
+							<h:outputText id="txtTitleIntervention2"
+								value="Intervención" style="width:98%;"
+								rendered="#{interventionBean.getUserSession().getDefaultGroup() ne 31 
+								and interventionBean.getUserSession().getDefaultGroup() ne 28}"/>
+						</b>
+					</td>
+					<td />
+				</tr>
+				<tr>
 					<td width="5%"  />
 					<td width="5%"  />
 					<td width="12%" />
@@ -179,7 +197,10 @@
 					<td width="5%"  />
 					<td width="5%"  />
 				</tr>
-				<p:outputPanel id="referToOutputPanel" rendered="#{interventionBean.getUserSession().getDefaultGroup() ne 5 }">
+				<p:outputPanel id="referToOutputPanel" 
+				rendered="#{interventionBean.getUserSession().getDefaultGroup() ne 5 and (interventionBean.getUserSession().getDefaultGroup() eq 24 or 
+				interventionBean.getUserSession().getDefaultGroup() eq 29 or interventionBean.getUserSession().getDefaultGroup() eq 32 or 
+				interventionBean.getUserSession().getDefaultGroup() eq 35 or interventionBean.getUserSession().getDefaultGroup() eq 1) }">
 					<tr>
 						<td colspan="2" />
 						<td>
@@ -276,6 +297,8 @@
 								style="width:98%" />
 						</td>
 					</tr>
+					<p:outputPanel id="ResultOutputPanel" 
+					rendered="#{interventionBean.getUserSession().getDefaultGroup() ne 5 and interventionBean.getUserSession().getDefaultGroup() ne 34 }">
 					<tr>
 						<td colspan="2" />
 						<td colspan="5">Resultados y Acuerdos: </td>
@@ -283,11 +306,30 @@
 					<tr>
 						<td colspan="2" />
 						<td colspan="5">
-							<p:inputTextarea rows="5" maxlength="999" autoResize="false" id="AgreementArea"
+							<p:inputTextarea rows="5" maxlength="999" autoResize="false"
 								value="#{interventionBean.reportStudentData.agreements}"
 								style="width:98%" />
 						</td>
 					</tr>
+					</p:outputPanel>
+					
+					<p:outputPanel id="otherOutputPanel"
+					rendered="#{interventionBean.getUserSession().getDefaultGroup() ne 5 and (interventionBean.getUserSession().getDefaultGroup() eq 24 
+					or interventionBean.getUserSession().getDefaultGroup() eq 32) }">
+					<tr>
+						<td colspan="2" />
+						<td colspan="5">Lugar de encuentro: </td>
+					</tr>
+					<tr>
+						<td colspan="2" />
+						<td colspan="5">
+							<p:inputTextarea rows="5" maxlength="999" autoResize="false"
+								value="#{interventionBean.reportStudentData.agreements}"
+								style="width:98%" />
+						</td>
+					</tr>
+					</p:outputPanel>
+					
 				</p:outputPanel>
 			</table>
 		</p:outputPanel>
@@ -295,14 +337,13 @@
 
 		<div style="text-align: center;">
 			<p:commandButton id="buttonProcess" type="button"
-				rendered="#{interventionBean.getUserSession().getDefaultGroup() ne 5 }"
+				rendered="#{interventionBean.getUserSession().getDefaultGroup() ne 5}"
 				value="#{bundle['page.riskStudent.labelGiveProcess']}"
 				styleClass="ui-priority-primary" 
 				onclick="validateDataProcess();">
 			</p:commandButton>
-			<p:commandButton value="#{bundle['page.core.labelCancel']}"
-				action="#{interventionBean.goBack}"
-				styleClass="ui-priority-primary">
+			<p:commandButton value="#{bundle['page.user.labelButtonComeBack']}"
+				action="#{interventionBean.goBack}" styleClass="ui-priority-primary">
 			</p:commandButton>
 		</div>
 

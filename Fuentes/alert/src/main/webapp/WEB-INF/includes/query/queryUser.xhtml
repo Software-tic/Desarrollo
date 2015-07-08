@@ -11,7 +11,7 @@
 		<br />
 		<p:panel id="headerList" header="Informe de Intervenciones">
 			<div align="center">
-				<h4>A continuación se presenta un listado de usuarios PAAI activos
+				<h4>A continuación se presenta un listado de docentes PAAI activos
 					del sistema</h4>
 				<p:dataTable id="tableUser" value="#{queryBean.userList}"
 					paginatorAlwaysVisible="true" resizableColumns="false"
@@ -31,25 +31,25 @@
 					</f:facet>
 
 					<p:column headerText="#{bundle['page.user.label_document']}"
-						sortBy="#{zyosUser.documentNumber}"
+						sortBy="#{zyosUser.documentNumber}" style="text-align: center"
 						filterBy="#{zyosUser.documentNumber}" filterMatchMode="contains"
 						filterStyle="display:none" width="70">
 						<div align="center">#{zyosUser.documentNumber}</div>
 					</p:column>
 
 					<p:column headerText="#{bundle['page.user.labelUserLogin']}"
-						sortBy="#{zyosUser.zyosLogin.userLogin}"
+						sortBy="#{zyosUser.zyosLogin.userLogin}" style="text-align: center"
 						filterBy="#{zyosUser.zyosLogin.userLogin}"
 						filterMatchMode="contains" filterStyle="display:none" width="110">
 						<div align="center">#{zyosUser.zyosLogin.userLogin}</div>
 					</p:column>
 
 					<p:column headerText="#{bundle['page.user.label_userName']}"
-						sortBy="#{zyosUser.name}" filterBy="#{zyosUser.name}"
+						sortBy="#{zyosUser.name}" filterBy="#{zyosUser.name}" style="text-align: center"
 						filterMatchMode="contains" filterStyle="display:none" width="250">
 						<h:outputText value="#{zyosUser.name} #{zyosUser.lastName}" />
 					</p:column>
-					<p:column headerText="#{bundle['page.user.label_email']}"
+					<p:column headerText="#{bundle['page.user.label_email']}" style="text-align: center"
 						sortBy="#{zyosUser.email}" filterBy="#{zyosUser.email}"
 						filterMatchMode="contains" filterStyle="display:none" width="170">
 							#{zyosUser.email}
@@ -59,10 +59,12 @@
 						<div align="center">
 							<p:commandLink title="Detallar" immediate="true"
 								disabled="#{queryBean.getValidateUserRole(4,17)}"
-								partialSubmit="true" action="#{queryBean.goShowInfo(zyosUser)}">
+								partialSubmit="true" action="#{queryBean.goShowInfo}">
 								<p:graphicImage value="../css/images/detail.gif" height="20"
 									width="20" />
-								<f:setPropertyActionListener target="#{queryBean.selectedZyosUser}" value="#{zyosUser}" />
+								<f:setPropertyActionListener 
+									target="#{queryBean.selectedZyosUser}" 
+									value="#{zyosUser}" />
 							</p:commandLink>
 						</div>
 					</p:column>

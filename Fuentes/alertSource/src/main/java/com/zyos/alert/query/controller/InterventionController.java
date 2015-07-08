@@ -28,6 +28,8 @@ import com.zyos.core.common.controller.ZyosController;
 import com.zyos.core.lo.user.model.ZyosGroup;
 import com.zyos.core.lo.user.model.ZyosUser;
 import com.zyos.core.lo.user.model.ZyosUserDAO;
+import com.zyos.core.lo.user.model.ZyosUserGroupDAO;
+import com.zyos.session.common.User;
 
 public class InterventionController extends ZyosController {
 
@@ -104,10 +106,10 @@ public class InterventionController extends ZyosController {
 	
 	/**SIAT TUNJA
 	 * @throws Exception */
-	public List<ZyosUser> loadDataTeacherByFaculty(Long ZyosUser, Long idZyosGroup) throws Exception{
+	public List<ZyosUser> loadDataTeacherByFaculty(Long ZyosUser, Long idZyosGroup, Long idStudent) throws Exception{
 		ReportStudentDAO dao = new ReportStudentDAO();
 		try {
-			return dao.loadTeacherByFacultyListTunja(ZyosUser,idZyosGroup);
+			return dao.loadTeacherByFacultyListTunja(ZyosUser, idZyosGroup, idStudent);
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -724,5 +726,30 @@ public class InterventionController extends ZyosController {
 			dao = null;
 		}
 	}
-
+	
+	/** SIAT-TUNJA */
+	public List<ReportStudent> loadReportByStudentTunja(Long idStudent) throws Exception{
+		ReportStudentDAO dao = new ReportStudentDAO();
+		try {
+			return dao.loadReportStudentListTunja(idStudent);
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}
+	}
+	
+	/** SIAT-TUNJA */
+	public List<Observation> loadObservationByStudentTunja(Long idStudent, Long idZyosGroup) throws Exception {
+		ObservationDAO dao = new ObservationDAO();
+		try {
+			return dao.loadObservationByStudentTunja(idStudent, idZyosGroup);
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}
+	}
 }

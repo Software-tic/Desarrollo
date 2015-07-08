@@ -42,10 +42,10 @@ public class ReportStudent extends com.zyos.core.common.model.AZyosModel
 	private Long idZyosGroup;
 	
 	//SIAT - TUNJA
-	private String dateIntervention;
-	private String agreements;
-	private String timestart;
-	private String timefinish;
+	private transient String dateIntervention;
+	private transient String agreements;
+	private transient String timestart;
+	private transient String timefinish;
 	
 	//Transients
 	
@@ -553,7 +553,7 @@ public class ReportStudent extends com.zyos.core.common.model.AZyosModel
 	}
 	
 	//SIAT - TUNJA
-
+	@Transient
 	public String getAgreements() {
 		return agreements;
 	}
@@ -561,7 +561,8 @@ public class ReportStudent extends com.zyos.core.common.model.AZyosModel
 	public void setAgreements(String agreements) {
 		this.agreements = agreements;
 	}
-
+	
+	@Transient
 	public String getTimestart() {
 		return timestart;
 	}
@@ -569,7 +570,8 @@ public class ReportStudent extends com.zyos.core.common.model.AZyosModel
 	public void setTimestart(String timestart) {
 		this.timestart = timestart;
 	}
-
+	
+	@Transient
 	public String getTimefinish() {
 		return timefinish;
 	}
@@ -577,7 +579,8 @@ public class ReportStudent extends com.zyos.core.common.model.AZyosModel
 	public void setTimefinish(String timefinish) {
 		this.timefinish = timefinish;
 	}
-
+	
+	@Transient
 	public String getDateIntervention() {
 		return dateIntervention;
 	}

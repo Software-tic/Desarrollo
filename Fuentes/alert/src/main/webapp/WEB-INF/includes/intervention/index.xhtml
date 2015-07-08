@@ -5,18 +5,17 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<h:form id="riskStudentForm">
-		<p:outputPanel id="riskStudentPanel"
-			rendered="#{!interventionBean.getValidateUserRole(1,20)}">
+		<p:outputPanel id="riskStudentPanel" rendered="#{!interventionBean.getValidateUserRole(1,20)}">
 
 			<p:outputPanel rendered="#{interventionBean.showStudentList}">
 				<ui:include	src="/WEB-INF/includes/intervention/interStudentList.xhtml" />
 			</p:outputPanel>
 
-			<p:outputPanel rendered="#{interventionBean.showStudentSelected}">
+			<p:outputPanel layout="block" rendered="#{interventionBean.showStudentSelected}">
 				<ui:include src="/WEB-INF/includes/intervention/interStudentProcess.xhtml" />
 			</p:outputPanel>
 			
-			<p:outputPanel rendered="#{interventionBean.showProcess}">
+			<p:outputPanel layout="block" rendered="#{interventionBean.showReports}">
 				<ui:include src="/WEB-INF/includes/intervention/interStudentHistory.xhtml" />
 			</p:outputPanel>
 

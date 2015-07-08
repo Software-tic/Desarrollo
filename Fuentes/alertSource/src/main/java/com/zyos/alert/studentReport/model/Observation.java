@@ -21,6 +21,10 @@ import com.zyos.core.common.util.ManageDate;
 public class Observation extends com.zyos.core.common.model.AZyosModel
 		implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// Fields
 
 	private Long idObservation;
@@ -36,11 +40,17 @@ public class Observation extends com.zyos.core.common.model.AZyosModel
 	private Long privacy;
 	private String timestart;
 	private String timefinish;
-	//private String timeexecuteintervenction;
 	private String agreements;
 	
 
 	//Transients
+	
+	private transient String timeintervention;
+	private transient Long idStudentUser;
+	private transient String nameStudent;
+	private transient String lastNameStudent;
+	private transient Long idStudent;
+	private transient String codeStudent;
 	
 	private String responsible;
 	private String role;
@@ -58,6 +68,7 @@ public class Observation extends com.zyos.core.common.model.AZyosModel
 		this.state = state;
 	}
 	
+	/** SIAT- TUNJA */
 	public Observation(Long id, String dateIntervention, String role,
 			String responsible, String detailObservation, String timestart, String timefinish) {
 		this.idObservation = id;
@@ -67,9 +78,32 @@ public class Observation extends com.zyos.core.common.model.AZyosModel
 		this.timefinish = timefinish;
 		this.responsible = responsible;
 		this.role = role;
-		double f= Long.parseLong(timefinish);
-		double s= Long.parseLong(timefinish);
-		//this.timeexecuteintervenction=String.valueOf(f-s);
+	}
+	
+	/** SIAT- TUNJA */
+	public Observation(Long id, String dateIntervention, Long idAdviser, Long idStage, 
+			String detailObservation, String timestart, String timefinish, String Agreements,
+			Long idReportStudent, Long idZyosUser, String name, String lastName, Long idStudent, String Code) {
+		this.idObservation = id;
+		this.dateIntervention = dateIntervention;
+		this.idAdviser = idAdviser;
+		this.idStage =  idStage;
+		this.detailObservation = detailObservation;
+		this.timestart = timestart;
+		this.timefinish = timefinish;
+		this.agreements = Agreements;
+		this.idReportStudent = idReportStudent;
+		this.idStudentUser=idZyosUser;
+		this.nameStudent=name;
+		this.lastNameStudent = lastName;
+		this.idStudent = idStudent;
+		this.codeStudent = Code;
+		
+		Date startDate = ManageDate.formatDate(timestart, ManageDate.HH_MM_SS);
+		Date finishDate = ManageDate.formatDate(timefinish, ManageDate.HH_MM_SS);
+		Long days = (finishDate.getTime() - startDate.getTime());
+		days = (days / 1000 / 60) + 1;
+		this.timeintervention = days.toString();
 	}
 
 	/** full constructor */
@@ -267,14 +301,6 @@ public class Observation extends com.zyos.core.common.model.AZyosModel
 		this.timefinish = timefinish;
 	}
 
-	/*public String getTimeexecuteintervenction() {
-		return timeexecuteintervenction;
-	}
-
-	public void setTimeexecuteintervenction(String timeexecuteintervenction) {
-		this.timeexecuteintervenction = timeexecuteintervenction;
-	}*/
-
 	public String getAgreements() {
 		return agreements;
 	}
@@ -282,6 +308,59 @@ public class Observation extends com.zyos.core.common.model.AZyosModel
 	public void setAgreements(String agreements) {
 		this.agreements = agreements;
 	}
+	
+	@Transient
+	public String getTimeintervention() {
+		return timeintervention;
+	}
 
+	public void setTimeintervention(String timeintervention) {
+		this.timeintervention = timeintervention;
+	}
+	
+	@Transient
+	public Long getIdStudentUser() {
+		return idStudentUser;
+	}
+
+	public void setIdStudentUser(Long idStudentUser) {
+		this.idStudentUser = idStudentUser;
+	}
+	
+	@Transient
+	public String getNameStudent() {
+		return nameStudent;
+	}
+
+	public void setNameStudent(String nameStudent) {
+		this.nameStudent = nameStudent;
+	}
+	
+	@Transient
+	public String getLastNameStudent() {
+		return lastNameStudent;
+	}
+
+	public void setLastNameStudent(String lastNameStudent) {
+		this.lastNameStudent = lastNameStudent;
+	}
+	
+	@Transient
+	public Long getIdStudent() {
+		return idStudent;
+	}
+
+	public void setIdStudent(Long idStudent) {
+		this.idStudent = idStudent;
+	}
+	
+	@Transient
+	public String getCodeStudent() {
+		return codeStudent;
+	}
+	
+	public void setCodeStudent(String codeStudent) {
+		this.codeStudent = codeStudent;
+	}
 	
 }

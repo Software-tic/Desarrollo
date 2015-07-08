@@ -269,7 +269,6 @@
 				headerText="#{bundle['page.riskStudent.labelReportBy']}">
 				<h:outputText
 					value="#{riskStudent.idReportType eq 2 ? 'Reporte automatico': riskStudent.zyosGroupName}" />
-				<!--  eq null ? 'Usuario externo': riskStudent.zyosGroupName}" /> -->
 			</p:column>
 			<p:column style="width:90px;"
 				rendered="#{!interventionBean.getValidateUserRole(9,20)}"
@@ -312,7 +311,7 @@
 								title="VER HISTORIA"
 								action="#{interventionBean.goStudentHistory}">
 								<p:graphicImage value="../css/images/historyStudent.png" height="20"
-									width="20" />
+									width="20" />	
 								<f:setPropertyActionListener
 									target="#{interventionBean.reportStudentSelected}"
 									value="#{riskStudent}" />

@@ -2,15 +2,12 @@ package com.zyos.alert.query.controller;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -95,6 +92,11 @@ public class InterventionBean extends ZyosBackingBean {
 	private List<ZyosUser> responsibleList;
 	private List<Observation> observationList;
 	private List<ReportStudent> reportStudentList;
+	
+	private List<ReportStudent> reportList;
+	private BigDecimal idStudent;
+	private String dateReport;
+	
 	private List<ReportStudent> reportStudentListFiltered;
 	private List<RiskFactor> reporStudentRiskFactorList;
 	private List<Degree> degreeList;
@@ -114,7 +116,7 @@ public class InterventionBean extends ZyosBackingBean {
 	private boolean showGraphic, showReport, showRisk, showActiveStudent,
 			showManual, showRiskDegree, showRiskFaculty;
 
-	private boolean showStudentList, showStudentSelected, showProcess;
+	private boolean showStudentList, showStudentSelected, showReports, showObserReport;
 	private int disableData = 0;
 	private StreamedContent errorFile;
 	private StreamedContent errorFileReportStudent;
@@ -133,7 +135,6 @@ public class InterventionBean extends ZyosBackingBean {
 				loadReportStudentList();
 				loadReportSearchList();
 				loadStageList();
-				// validateStagePermission();
 			}
 			showStudentList = true;
 
@@ -146,7 +147,7 @@ public class InterventionBean extends ZyosBackingBean {
 	public void goTeacherAsign() {
 		try {
 
-			teacherListByFaculty = controller.loadDataTeacherByFaculty(getUserSession().getId(),getUserSession().getDefaultGroup());
+			teacherListByFaculty = controller.loadDataTeacherByFaculty(getUserSession().getId(),getUserSession().getDefaultGroup(), reportStudentSelected.getIdStudent().longValue());
 			
 			headerDialog = "Asignar Docente";
 			ZyosBackingBean.update("riskStudentForm:asignTeacherCase");
@@ -159,30 +160,50 @@ public class InterventionBean extends ZyosBackingBean {
 	
 	/**SIAT TUNJA*/
 	public void goStudentHistory() {
-		//loadResponsibleListByRole();
-		//reportStudentData = new ReportStudent();
 		cleanViewRisk();
-		showProcess = true;
+		showReports = true;
+		dateReport = ManageDate.getCurrentDate(ManageDate.YYYY_MM_DD);
+		try {
+			reportList = controller.loadReportByStudentTunja(reportStudentSelected.getIdStudent().longValue());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		ZyosBackingBean.update("riskStudentForm");
+	}
+	
+	public void goObservationsReport() {
+		showObserReport = true;
+		try {
+			observationList = controller.loadObservationByStudentTunja(idStudent.longValue(),getUserSession().getDefaultGroup());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		ZyosBackingBean.update("riskStudentForm");
 	}
 	
 	/**SIAT TUNJA
 	 * @throws Exception */
 	public void asignTeacherCaseStudent() throws Exception{
 		//asignación del docente
-		System.out.println("----"+idTeacherSelected);
+		String detailReport = "Asignación de caso a "+idTeacherSelected;
+		
+		reportStudentSelected.setIdAdviser(idTeacherSelected);  //idAdviser
+		reportStudentSelected.setIdStage(IZyosGroup.TUNJA_TEACHER_PAAI);// idStage
 		
 		Observation observation = new Observation();
 		observation.setDateIntervention(ManageDate.getCurrentDate(ManageDate.YYYY_MM_DD));
-		observation.setDetailObservation(reportStudentData.getDetailReport());
+		observation.setDetailObservation(detailReport);
 		observation.setIdReportStudent(reportStudentSelected.getIdReportStudent());
 		observation.setIdStatusReportStudent(reportStudentSelected.getIdStatusReportStudent());
 		observation.setIdAdviser(getUserSession().getId());
 		observation.setIdStage(getUserSession().getDefaultGroup());
 
-		reportStudentSelected.setDetailReport(reportStudentData.getDetailReport());
+		reportStudentSelected.setDetailReport(detailReport);
 		controller.saveObservation(observation, getUserSession().getDocumentNumber());
 		controller.updateReportStudent(reportStudentSelected, getUserSession().getDocumentNumber());
 		
+		//Envío de Notificación
+		threadMailNotification(reportStudentSelected, reportStudentSelected.getIdAdviser());
 		
 		ZyosBackingBean.update("riskStudentForm:asignTeacherCase");
 		ZyosBackingBean.getRequestContext().execute("asignTeacherCaseWV.hide();");
@@ -748,14 +769,10 @@ public class InterventionBean extends ZyosBackingBean {
 				}
 				break;
 			case 3:
-				String currentDate = ManageDate
-						.getCurrentDate(ManageDate.YYYY_MM_DD);
-				String currentHour = ManageDate
-						.getCurrentHour(ManageDate.HH_MM);
-				Long currentDay = Long.valueOf(getDayOfTheWeek(Calendar
-						.getInstance().getTime()));
-				totalStudent = controller.loadTotalStudent(currentDate,
-						currentHour, currentDay);
+				String currentDate = ManageDate.getCurrentDate(ManageDate.YYYY_MM_DD);
+				String currentHour = ManageDate.getCurrentHour(ManageDate.HH_MM);
+				Long currentDay = Long.valueOf(getDayOfTheWeek(Calendar.getInstance().getTime()));
+				totalStudent = controller.loadTotalStudent(currentDate,	currentHour, currentDay);
 				cleanView();
 				showActiveStudent = true;
 				break;
@@ -1033,8 +1050,7 @@ public class InterventionBean extends ZyosBackingBean {
 						"Reporte eliminado con éxito!");
 
 				reportStudentList.remove(reportStudentSelected);
-				ZyosBackingBean.getRequestContext().execute(
-						"delReportStudentWV.hide();");
+				ZyosBackingBean.getRequestContext().execute("delReportStudentWV.hide();");
 				update("riskStudentForm:reportStudentDataTable");
 
 			}
@@ -1062,9 +1078,7 @@ public class InterventionBean extends ZyosBackingBean {
 	public void loadResponsibleListByRole() {
 		try {
 			if (reportStudentSelected.getIdStage() != null) {
-				responsibleList = controller
-						.loadResponsibleListByRole(reportStudentSelected
-								.getIdStage());
+				responsibleList = controller.loadResponsibleListByRole(reportStudentSelected.getIdStage());
 			}
 		} catch (Exception e) {
 			ErrorNotificacion.handleErrorMailNotification(e, this);
@@ -1097,13 +1111,16 @@ public class InterventionBean extends ZyosBackingBean {
 			observation.setTimestart(ManageDate.formatDate(timeStart,ManageDate.HH_MM_SS));
 			observation.setTimefinish(ManageDate.formatDate(timeFinish,ManageDate.HH_MM_SS));
 			
-			if(getUserSession().getDefaultGroup().equals(28) || getUserSession().getDefaultGroup().equals(31))
+			if(getUserSession().getDefaultGroup().equals(28L) || getUserSession().getDefaultGroup().equals(31L))
 				observation.setPrivacy(1L);
 			else observation.setPrivacy(0L); 
-
+			
 			reportStudentSelected.setDetailReport(reportStudentData.getDetailReport());
 			controller.saveObservation(observation, getUserSession().getDocumentNumber());
 			controller.updateReportStudent(reportStudentSelected,getUserSession().getDocumentNumber());
+			
+			//Envío de Notificación
+			threadMailNotification(reportStudentSelected, reportStudentSelected.getIdAdviser());
 
 			cleanViewRisk();
 			loadReportStudentList();
@@ -1116,6 +1133,39 @@ public class InterventionBean extends ZyosBackingBean {
 			}
 		} catch (Exception e) {
 			ErrorNotificacion.handleErrorMailNotification(e, this);
+		}
+	}
+	
+	/** SIAT-TUNJA */
+	private void threadMailNotification(final ReportStudent rs, Long idZyosUser) throws Exception {
+		try {
+			final ZyosUser zu =controller.loadAdvisorById(idZyosUser);
+			
+			new Thread(new Runnable() {
+				public void run() {
+					try {
+						sendEmailNotification(rs, zu);
+					} catch (Exception e) {
+						ErrorNotificacion.handleErrorMailNotification(e, this);
+					}
+				}
+			}).start();
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	/** SIAT-TUNJA */
+	private void sendEmailNotification(ReportStudent rs,ZyosUser a) throws Exception {
+		try {
+			EmailTemplate t = MailGeneratorFunction.getEmailTemplate(IEmailTemplate.ADVISER_NOTIFICATION, Long.valueOf(1));
+			SMTPEmail e = new SMTPEmail();
+			e.sendProcessEmail(null,t.getSubject(),
+					MailGeneratorFunction.createGenericMessage(
+							t.getBody(),t.getAnalyticsCode(),a.getName() + " " + a.getLastName(),
+							rs.getZyosUserName() + " "	+ rs.getZyosUserLastName()), a.getEmail());
+		} catch (Exception e) {
+			throw e;
 		}
 	}
 
@@ -1204,7 +1254,7 @@ public class InterventionBean extends ZyosBackingBean {
 		}
 	}
 
-	public void goProcess() {
+	/*public void goProcess() {
 		try {
 			showProcess = false;
 		} catch (Exception e) {
@@ -1215,13 +1265,11 @@ public class InterventionBean extends ZyosBackingBean {
 	public void goHistoricalProcess() {
 		try {
 			showProcess = true;
-			observationList = controller
-					.loadObservationByStudent(reportStudentSelected
-							.getIdReportStudent());
+			observationList = controller.loadObservationByStudent(reportStudentSelected.getIdReportStudent());
 		} catch (Exception e) {
 			ErrorNotificacion.handleErrorMailNotification(e, this);
 		}
-	}
+	}*/
 
 	public void closeProcess() {
 		try {
@@ -1236,20 +1284,13 @@ public class InterventionBean extends ZyosBackingBean {
 	private void cleanViewRisk() {
 		showStudentList = false;
 		showStudentSelected = false;
-		showProcess = false;
+		showReports = false;
+		showObserReport = false;
 	}
 
 	public void redirectToReportStudent() {
 		try {
 			redirectURL("portal/registroEstudiante");
-		} catch (Exception e) {
-			ErrorNotificacion.handleErrorMailNotification(e, this);
-		}
-	}
-
-	public void goBack() {
-		try {
-			redirectURL("portal/RegistroIntervenciones");
 		} catch (Exception e) {
 			ErrorNotificacion.handleErrorMailNotification(e, this);
 		}
@@ -1334,14 +1375,6 @@ public class InterventionBean extends ZyosBackingBean {
 
 	public void setShowStudentSelected(boolean showStudentSelected) {
 		this.showStudentSelected = showStudentSelected;
-	}
-
-	public boolean isShowProcess() {
-		return showProcess;
-	}
-
-	public void setShowProcess(boolean showProcess) {
-		this.showProcess = showProcess;
 	}
 
 	public Date getDateFrom() {
@@ -1737,5 +1770,51 @@ public class InterventionBean extends ZyosBackingBean {
 	public void setTimeFinish(Date timeFinish) {
 		this.timeFinish = timeFinish;
 	}
+	
+	public void goBack(){
+		cleanViewRisk();
+		showStudentList=true;
+		ZyosBackingBean.update("riskStudentForm");
+	}
 
+	public boolean isShowObserReport() {
+		return showObserReport;
+	}
+
+	public void setShowObserReport(boolean showObserReport) {
+		this.showObserReport = showObserReport;
+	}
+
+	public boolean isShowReports() {
+		return showReports;
+	}
+
+	public void setShowReports(boolean showReports) {
+		this.showReports = showReports;
+	}
+
+	public List<ReportStudent> getReportList() {
+		return reportList;
+	}
+
+	public void setReportList(List<ReportStudent> reportList) {
+		this.reportList = reportList;
+	}
+
+	public BigDecimal getIdStudent() {
+		return idStudent;
+	}
+
+	public void setIdStudent(BigDecimal idStudent) {
+		this.idStudent = idStudent;
+	}
+
+	public String getDateReport() {
+		return dateReport;
+	}
+
+	public void setDateReport(String dateReport) {
+		this.dateReport = dateReport;
+	}
+	
 }

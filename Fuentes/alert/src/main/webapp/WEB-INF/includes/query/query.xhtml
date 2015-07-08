@@ -3,22 +3,25 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-	<p:outputPanel id="riskStudentPanel"
-		rendered="#{!queryBean.getValidateUserRole(1,17)}">
+	
+	<h:form id="observationForm">
+		<p:outputPanel id="riskStudentPanel"
+			rendered="#{!queryBean.getValidateUserRole(1,17)}">
 		
-		<p:outputPanel id="Report" rendered="#{queryBean.showUserList}">
-			<ui:include src="/WEB-INF/includes/query/queryUser.xhtml" />
-		</p:outputPanel>
+			<p:outputPanel id="Report" rendered="#{queryBean.showUserList}">
+				<ui:include src="/WEB-INF/includes/query/queryUser.xhtml" />
+			</p:outputPanel>
 		
-		<p:outputPanel rendered="#{queryBean.showSubjectByUserList}">
-			<ui:include src="/WEB-INF/includes/query/showReport.xhtml" />
+			<p:outputPanel rendered="#{queryBean.showSubjectByUserList}">
+				<ui:include src="/WEB-INF/includes/query/showReport.xhtml" />
+			</p:outputPanel>
+
 		</p:outputPanel>
+		<p:outputPanel rendered="#{queryBean.getValidateUserRole(1,17)}">
 
-	</p:outputPanel>
-	<p:outputPanel rendered="#{queryBean.getValidateUserRole(1,17)}">
+			<br> </br>
+			<ui:include src="/WEB-INF/includes/content/denied.xhtml" />
 
-		<br> </br>
-		<ui:include src="/WEB-INF/includes/content/denied.xhtml" />
-
-	</p:outputPanel>
+		</p:outputPanel>
+	</h:form>
 </ui:composition>
