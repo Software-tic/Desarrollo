@@ -1,5 +1,6 @@
 package com.zyos.alert.query.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -22,6 +23,7 @@ public class RStudentGradesBean extends ZyosBackingBean {
 	 */
 	private static final long serialVersionUID = 1L;
 	private boolean showStudentList = true;
+	private boolean showFindStudentList;
 	private boolean showReportByStudent;
 	
 	private String FacultyNameList, DocentePAAINameList;
@@ -37,18 +39,30 @@ public class RStudentGradesBean extends ZyosBackingBean {
 
 	public RStudentGradesBean() throws Exception {
 		this.PeriodList=controller.getAcademicPeriodList();
+		showFindStudentList=false;
 	}
 	
 	public void loadStudentList() throws Exception {
-		userList = controller.getStudentList(this.getUserSession().getDefaultEnterprise(),Period);
+		Fecha = ManageDate.getCurrentDate(ManageDate.YYYY_MM_DD);
+		Date FechaNow = new Date(System.currentTimeMillis());
+		AcademicPeriod SelectedPeriod = PeriodList.get(Period.intValue());
+		@SuppressWarnings("deprecation")
+		Date FechaStart = new Date(SelectedPeriod.getStartDate());
+		@SuppressWarnings("deprecation")
+		Date FechaEnd = new Date(SelectedPeriod.getEndDate());
 		
-		/*try {
-			showObservation = false;
-			riskFactorListByCategory = controller.loadRiskFactorListByCategory(idCategory);
-			loadTitleRiskList();
-		} catch (Exception e) {
-			ErrorNotificacion.handleErrorMailNotification(e, this);
-		}*/
+		System.out.println(FechaStart+" - "+FechaNow+" - "+FechaEnd);
+		
+		if((FechaStart.compareTo(FechaNow) >= 0)//(ManageDate.dateComparator(Fecha1, Fecha,"YYYY/MM/DD") <= 0)
+				&& (FechaNow.compareTo(FechaEnd) <= 0) //(ManageDate.dateComparator( Fecha, Fecha2,"YYYY/MM/DD") >= 0)
+				) {
+			//buscar los estudiantes por el corte de las materias
+			userList = controller.getStudentList(this.getUserSession().getDefaultEnterprise(),Period,true);
+		} else {
+			//buscar los estudiantes por las notas finales del periodo
+			userList = controller.getStudentList(this.getUserSession().getDefaultEnterprise(),Period,false);
+		}
+		showFindStudentList=true;
 	}
 
 	public void goShowInfo(Student zu) {
@@ -153,6 +167,14 @@ public class RStudentGradesBean extends ZyosBackingBean {
 
 	public void setPeriod(Long period) {
 		Period = period;
+	}
+
+	public boolean isShowFindStudentList() {
+		return showFindStudentList;
+	}
+
+	public void setShowFindStudentList(boolean showFindStudentList) {
+		this.showFindStudentList = showFindStudentList;
 	}
 
 }

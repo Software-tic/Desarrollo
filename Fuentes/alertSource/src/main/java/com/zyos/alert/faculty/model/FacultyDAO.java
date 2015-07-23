@@ -9,7 +9,6 @@ import org.hibernate.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.zyos.alert.studentReport.model.Degree;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 
@@ -137,7 +136,8 @@ public class FacultyDAO extends OracleBaseHibernateDAO {
 			throw re;
 		}
 	}
-
+	
+	/** SIAT-TUNJA */
 	public List<Faculty> loadFacultyList() {
 		StringBuilder hql = new StringBuilder();
 		Query qo = null;
@@ -148,6 +148,46 @@ public class FacultyDAO extends OracleBaseHibernateDAO {
 			qo = getSession().createQuery(hql.toString());		
 			qo.setParameter("state", IZyosState.ACTIVE);
 			return qo.list();
+			
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	/** SIAT-TUNJA */
+	public void deleteDivision(Long idFaculty) {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append(" UPDATE Faculty SET state=:state WHERE idFaculty = :idFaculty ");
+
+			qo = getSession().createQuery(hql.toString());
+			qo.setParameter("idFaculty", idFaculty);
+			qo.setParameter("state", IZyosState.INACTIVE);
+			qo.executeUpdate();
+			
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	/** SIAT-TUNJA */
+	public void updateDivision(Faculty faculty) {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append(" UPDATE Faculty SET name=:name WHERE idFaculty = :idFaculty ");
+
+			qo = getSession().createQuery(hql.toString());
+			qo.setParameter("idFaculty", faculty.getIdFaculty());
+			qo.setParameter("name", faculty.getName());
+			qo.executeUpdate();
 			
 		} catch (RuntimeException re) {
 			throw re;

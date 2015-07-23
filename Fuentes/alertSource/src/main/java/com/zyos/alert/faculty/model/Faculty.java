@@ -10,6 +10,10 @@ import javax.persistence.Table;
 public class Faculty extends com.zyos.core.common.model.AZyosModel implements
 		java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long idFaculty;
 	private String name;
 

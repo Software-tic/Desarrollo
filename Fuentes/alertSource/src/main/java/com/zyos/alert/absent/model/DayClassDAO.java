@@ -281,7 +281,7 @@ public class DayClassDAO extends OracleBaseHibernateDAO {
 			hql.append("where   ");
 			hql.append("nrs.idStudent = s.idStudentSAC   ");
 			hql.append("and s.idStudent = ss.idStudent ");
-			hql.append("and nrs.idSubject = ss.idSubject   ");
+			hql.append("and cast(nrs.idSubject as long) = ss.idSubject	  ");
 			hql.append("and gs.id = nrs.idDayCalendar ");
 
 			Query qo = getSession().createQuery(hql.toString()).setResultTransformer(Transformers.aliasToBean(DayClass.class)); 

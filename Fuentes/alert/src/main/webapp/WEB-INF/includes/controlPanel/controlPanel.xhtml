@@ -152,6 +152,108 @@
 						</tr>
 					</table>
 				</p:panel>
+				<p:panel rendered="#{!controlPanelBean.getValidateUserRole(13,11)}">
+					<p:panel header="Alertas Académicas" id="controlPanelBaseGrade">
+						<table id="baseGradeTable">
+
+							<tr>
+								<td style="width: 6%" />
+								<td style="width: 18%" />
+								<td style="width: 19%" />
+								<td style="width: 6%" />
+								<td style="width: 18%" />
+								<td style="width: 18%" />
+								<td style="width: 6%" />
+							</tr>
+
+
+							<tr>
+								<td></td>
+								<td colspan="6"><h:outputText
+										value="Aquí podrá establecer la calificación base con el cual se considera que un estudiante 
+							presenta 'Bajo rendimiento'. Esta base generá una alarma automática.">
+									</h:outputText></td>
+							</tr>
+							<tr>
+								<td></td>
+
+							</tr>
+							<tr>
+								<td></td>
+
+							</tr>
+							<tr>
+								<td />
+								<td><h:outputText style="font-weight: bold;"
+										value="Calificación Base: ">
+									</h:outputText></td>
+
+								<td><pe:inputNumber
+										value="#{controlPanelBean.controlPanelBaseGrade.percentageAssistance}"
+										style="width: 100%" maxValue="100" id="gradeControlPanel"
+										decimalPlaces="2">
+									</pe:inputNumber></td>
+								<td />
+								<td><p:commandButton
+										disabled="#{controlPanelBean.getValidateUserRole(2,11)}"
+										value="#{bundle['page.controlPanel.labelButtonUpdate']}"
+										action="#{controlPanelBean.registerBaseGrade}"
+										partialSubmit="true" styleClass="ui-priority-primary">
+									</p:commandButton></td>
+							</tr>
+						</table>
+					</p:panel>
+
+					<p:panel header="Buen Rendimiento" id="controlPanelGoodGrades">
+						<table id="goodGradesTable">
+
+							<tr>
+								<td style="width: 6%" />
+								<td style="width: 18%" />
+								<td style="width: 19%" />
+								<td style="width: 6%" />
+								<td style="width: 18%" />
+								<td style="width: 18%" />
+								<td style="width: 6%" />
+							</tr>
+
+
+							<tr>
+								<td></td>
+								<td colspan="6"><h:outputText
+										value="Aquí podrá establecer la calificación minima con la cual se considera que un estudiante 
+									presenta un 'Buen Rendimiento Académico'.">
+									</h:outputText></td>
+							</tr>
+							<tr>
+								<td/>
+							</tr>
+							<tr>
+								<td/>
+							</tr>
+							<tr>
+								<td />
+								<td><h:outputText style="font-weight: bold;"
+										value="Calificación Base: ">
+									</h:outputText></td>
+
+								<td><pe:inputNumber
+										value="#{controlPanelBean.controlPanelBaseGradeG.percentageAssistance}"
+										style="width: 100%" maxValue="100" id="goodGradeControlPanel"
+										decimalPlaces="2">
+									</pe:inputNumber></td>
+								<td />
+								<td><p:commandButton
+										disabled="#{controlPanelBean.getValidateUserRole(2,11)}"
+										value="#{bundle['page.controlPanel.labelButtonUpdate']}"
+										action="#{controlPanelBean.registerBaseGradeG}"
+										partialSubmit="true" styleClass="ui-priority-primary">
+									</p:commandButton></td>
+							</tr>
+						</table>
+					</p:panel>
+				</p:panel>
+				
 			</p:panel>
 		</h:form>
 	</p:outputPanel>

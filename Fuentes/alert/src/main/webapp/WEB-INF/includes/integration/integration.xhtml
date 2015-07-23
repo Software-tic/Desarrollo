@@ -86,7 +86,7 @@
 
 			<tr>
 				<td align="center"><p:commandButton id="integrationButton" value="#{bundle['page.core.labelAcept']}" styleClass="ui-priority-primary"
-						action="#{integrationBean.migrateListFromSAC}" update=":integrationForm:executionsIntegration" onclick="statusDialog.show();" oncomplete="confirmDialogWV.hide(); statusDialog.hide();" /> <p:spacer width="10" height="10"></p:spacer>
+						action="#{integrationBean.threadIntegration}" update=":integrationForm:executionsIntegration" onclick="statusDialog.show();" oncomplete="confirmDialogWV.hide(); statusDialog.hide();" /> <p:spacer width="10" height="10"></p:spacer>
 						 <p:commandButton partialSubmit="true" onclick="confirmDialogWV.hide()" value="#{bundle['page.core.labelCancel']}" /></td>
 			</tr>
 		</table>

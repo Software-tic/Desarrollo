@@ -573,30 +573,117 @@ public class StudentDAO extends OracleBaseHibernateDAO {
 	}
 	
 	/**SIAT TUNJA*/
-	public List<Student> loadStudentListByEnterprise(Long idE)
+	public List<Student> loadStudentListByEnterprise(Long idE, Long idP, Boolean porCorte, Integer Corte)
 			throws Exception {
 		StringBuilder hql = new StringBuilder();
 		Query qo = null;
 		try {
-			hql.append("SELECT NEW Student("
-					+ "s.id,zu.id, s.code, s.idStudentSAC, zu.name, zu.lastName, zu.documentNumber, d.id, d.name) "
-					+ "FROM Student s,ZyosUser zu, ZyosUserEnterprise zue, Degree d, StudentDegree sd "
-					+ "WHERE s.idZyosUser=zu.id AND d.id = sd.idDegree AND sd.idStudent=s.id"
-					+ " AND zue.idZyosUser=zu.id AND zue.idEnterprise=:enterprise"
-					+ " AND s.state=:state AND zu.state=:state"
-					+ " AND zue.state=:state AND d.state=:state"
-					+ " AND sd.state=:state");
-
+			hql.append(" SELECT NEW Student (st.idStudent, zu.idZyosUser, st.code, st.idStudentSAC, zu.name, zu.lastName, zu.documentNumber, d.id, d.name) "
+					+ " FROM ZyosUser zu, Degree d, Student st, StudentDegree std, ZyosUserEnterprise zue "
+					+ " WHERE d.id = std.idDegree AND "
+					+ " st.idStudent = std.idStudent AND "
+					+ " st.idZyosUser = zu.idZyosUser AND "
+					+ " zue.idZyosUser = zu.idZyosUser AND "
+					+ " zue.idEnterprise = :enterprise AND "
+					+ " d.state = :state AND "
+					+ " st.state = :state AND "
+					+ " std.state = :state AND "
+					+ " zue.state = :state AND " 
+					+ " zu.state = :state AND ");
+			if (!porCorte){
+				hql.append(" st.idStudent IN (SELECT stu.idStudent "
+						+ " FROM StudentSubject ss, GradesPeriodSubject g, AcademicPeriod ap, Student stu "
+						+ " WHERE ss.idAcademicPeriod = ap.id AND "
+						+ " g.studentsubject = ss.idStudentSubject AND "
+						+ " ap.id = :academicPeriod AND "
+						+ " stu.idStudent = ss.idStudent AND "
+						+ " ss.state = :state AND "
+						+ " g.state = :state AND "
+						+ " ap.state = :state AND "
+						+ " stu.state = :state "
+						+ " GROUP BY stu.idStudent "
+						+ " HAVING AVG(cast(g.finalgrade AS float)) >= "
+						+ " (SELECT c.percentageAssistance FROM ControlPanel c WHERE idControlPanel = 5)) ");
+			} else {
+				hql.append(" st.idStudent IN (SELECT stu.idStudent "
+						+ " FROM StudentSubject ss, GradesPeriodSubject g, AcademicPeriod ap, Student stu , Corte c "
+						+ "	WHERE ss.idAcademicPeriod = ap.id AND "
+						+ " g.studentsubject = ss.idStudentSubject AND "
+						+ "	c.academicperiod = ap.id AND "
+						+ " ap.id = :academicPeriod AND "
+						+ " stu.idStudent = ss.idStudent AND "
+						+ " ss.state = :state AND "
+						+ " g.state = :state AND "
+						+ " ap.state = :state AND "
+						+ " stu.state = :state AND "
+						+ " c.state = :state AND "
+						+ " c.idcorte IN (SELECT idcorte FROM Corte WHERE :CurrentTime BETWEEN dateStart AND dateEnd AND state=:state ) "
+						+ " GROUP BY stu.idStudent ");
+				if (Corte == 1) 
+					hql.append(" HAVING AVG(cast(g.firstcorte AS float)) >= (SELECT cp.percentageAssistance FROM ControlPanel cp WHERE cp.idControlPanel = 5 AND state=:state ))");
+				else if (Corte == 2) 
+					hql.append(" HAVING AVG(CAST(g.secondcorte AS float)) >= (SELECT cp.percentageAssistance FROM ControlPanel cp WHERE cp.idControlPanel = 5 AND state=:state ))");
+				else 
+					hql.append(" HAVING AVG(CAST(g.thirdcorte AS float)) >= (SELECT cp.percentageAssistance FROM ControlPanel cp WHERE cp.idControlPanel = 5 AND state=:state ))");
+			}
+			
 			qo = getSession().createQuery(hql.toString());
-
 			qo.setParameter("enterprise", idE);
+			qo.setParameter("academicPeriod", idP);
 			qo.setParameter("state", IZyosState.ACTIVE);
-
+			
+			if (porCorte){
+				qo.setParameter("CurrentTime", ManageDate.getCurrentDate(ManageDate.YYYY_MM_DD));
+			}
 			return qo.list();
 		} catch (Exception e) {
 			throw e;
 		} finally {
 			hql = null;
+			qo = null;
+		}
+	}
+	
+	/**SIAT TUNJA*/
+	public Long loadIdAdviserByStuSubj(Long idStudentSubject) throws Exception {
+		StringBuilder sql = new StringBuilder();
+		Query qo = null;
+		try {
+			sql.append(" SELECT zu.idzyosuser "
+					+ " FROM SchoolDegree sd, School s, Teacher t, ZyosUser zu, ZyosUserGroup zug, Degree d, Student st, tudentDegree std, StudentSubject ss "
+					+ " WHERE "
+					+ " sd.idSchool = s.idschool AND "
+					+ " s.idschool = t.idSchool AND "
+					+ " t.idZyosUser = zu.idzyosuser AND "
+					+ " zu.idzyosuser = zug.idzyosuser AND "
+					+ " d.id = sd.idDegree AND "
+					+ " d.id = std.idDegree AND "
+					+ " st.idstudent = std.idStudent AND "
+					+ " ss.idStudent = st.idstudent AND "
+					+ " zug.idgroup = 24 AND "
+					+ " ss.idStudentSubject = 726 AND "
+					+ " sd.state = :state AND "
+					+ " s.state = :state AND "
+					+ " t.state = :state AND "
+					+ " zu.state = :state AND "
+					+ " zug.state = :state AND "
+					+ " d.state = :state AND "
+					+ " st.state = :state AND "
+					+ " std.state = :state AND "
+					+ " ss.state = :state ");
+
+			qo = getSession().createQuery(sql.toString());
+			qo.setMaxResults(1);
+			qo.setParameter("idStudentSubject", idStudentSubject);
+			qo.setParameter("idGroup", IZyosGroup.TUNJA_TEACHER_COORD_PAAI);
+			qo.setParameter("state", IZyosState.ACTIVE);
+
+			return (Long) qo.uniqueResult();
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			sql = null;
 			qo = null;
 		}
 	}

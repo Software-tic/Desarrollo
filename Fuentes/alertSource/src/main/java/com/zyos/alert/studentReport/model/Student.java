@@ -226,7 +226,7 @@ public class Student extends com.zyos.core.common.model.AZyosModel implements ja
 		this.state = state;
 	}
 
-	@Column(name = "nameResponsible", nullable = false, length = 120)
+	@Column(name = "nameResponsible", length = 120)//nullable = false,
 	public String getNameResponsible() {
 		return this.nameResponsible;
 	}
@@ -235,7 +235,7 @@ public class Student extends com.zyos.core.common.model.AZyosModel implements ja
 		this.nameResponsible = nameResponsible;
 	}
 
-	@Column(name = "phoneResponsible", nullable = false)
+	@Column(name = "phoneResponsible")//, nullable = false)
 	public String getPhoneResponsible() {
 		return this.phoneResponsible;
 	}
@@ -244,7 +244,7 @@ public class Student extends com.zyos.core.common.model.AZyosModel implements ja
 		this.phoneResponsible = phoneResponsible;
 	}
 
-	@Column(name = "mobilePhoneResponsible", nullable = false)
+	@Column(name = "mobilePhoneResponsible") //, nullable = false)
 	public String getMobilePhoneResponsible() {
 		return mobilePhoneResponsible;
 	}

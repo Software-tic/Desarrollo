@@ -2,12 +2,24 @@
 package com.zyos.core.common.list;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.List;
+
+import org.hibernate.Transaction;
 
 import com.zyos.alert.executionsHistorical.model.ExecutionsHistorical;
 import com.zyos.alert.executionsHistorical.model.ExecutionsHistoricalDAO;
+import com.zyos.alert.query.model.CorteDAO;
+import com.zyos.alert.query.model.GradesPeriodSubject;
+import com.zyos.alert.query.model.GradesPeriodSubjectDAO;
+import com.zyos.alert.studentReport.api.IReportType;
+import com.zyos.alert.studentReport.api.IStatusReportStudent;
+import com.zyos.alert.studentReport.controller.StudentReportController;
+import com.zyos.alert.studentReport.model.AcademicPeriod;
 import com.zyos.alert.studentReport.model.Relationship;
 import com.zyos.alert.studentReport.model.RelationshipDAO;
+import com.zyos.alert.studentReport.model.ReportStudent;
+import com.zyos.alert.studentReport.model.ReportStudentDAO;
 import com.zyos.alert.studentReport.model.RiskFactor;
 import com.zyos.alert.studentReport.model.RiskFactorCategory;
 import com.zyos.alert.studentReport.model.RiskFactorDAO;
@@ -15,8 +27,15 @@ import com.zyos.alert.studentReport.model.Stage;
 import com.zyos.alert.studentReport.model.StageDAO;
 import com.zyos.alert.studentReport.model.StatusReportStudent;
 import com.zyos.alert.studentReport.model.StatusReportStudentDAO;
+import com.zyos.alert.studentReport.model.StudentDAO;
 import com.zyos.alert.studentReport.model.Subject;
 import com.zyos.alert.studentReport.model.SubjectDAO;
+import com.zyos.core.common.api.IZyosBoolean;
+import com.zyos.core.common.api.IZyosComplaintState;
+import com.zyos.core.common.api.IZyosEventState;
+import com.zyos.core.common.api.IZyosState;
+import com.zyos.core.common.controller.ErrorNotificacion;
+import com.zyos.core.common.controller.ZyosBackingBean;
 import com.zyos.core.common.controller.ZyosController;
 import com.zyos.core.common.model.AZyosModel;
 import com.zyos.core.common.model.DocumentType;
@@ -355,6 +374,120 @@ public class ControllerList extends ZyosController {
 		} catch (Exception e) {
 			dao.getSession().beginTransaction().rollback();
 			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}
+	}
+	
+	/** SIAT-TUNJA */
+	public int updateStudentGradesTunjaFromSAC(Long idAcademicPeriod) {
+		GradesPeriodSubjectDAO dao = new GradesPeriodSubjectDAO();
+		int i = 0;
+		try {
+			List<GradesPeriodSubject> dl = dao.migrateGradesPeriodSubjectFromSAC();
+			if (dl != null && !dl.isEmpty()) {
+
+				for (GradesPeriodSubject d : dl) {
+					Long aux=dao.selectId();
+					d.setIdgradesPeriodSubject((1+aux));
+					d.initializing("systemFromSAC", true);
+					dao.getSession().update(d);
+
+					if (i % 10 == 0 && i != 0) {
+						dao.getSession().flush();
+						dao.getSession().clear();
+					}
+					i++;
+				}
+				dao.getSession().beginTransaction().commit();
+				return dl.size();
+			}
+		} catch (Exception e) {
+			ErrorNotificacion.handleErrorMailNotification(e, this);
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}
+		return -1;
+	}
+	
+	/** SIAT-TUNJA */
+	public void reportStudent(Long idAcademicPeriod, Integer Corte) throws Exception {
+		GradesPeriodSubjectDAO dao = new GradesPeriodSubjectDAO();
+		try {
+			List<GradesPeriodSubject> list = dao.generateStudentAlertTunja(idAcademicPeriod, Corte);
+			if (list != null && !list.isEmpty()) {
+				for (GradesPeriodSubject d : list) {
+					ReportStudent reportDuplicate = new ReportStudent();
+					reportDuplicate = validateReportDuplicate(d.getIdEstudent(), 7L);
+					if (reportDuplicate == null) {
+						ReportStudent reportStudent = new ReportStudent();
+						
+						Long idAdviser = loadIdAdviser(d.getIdSubject());
+						reportStudent.setIdStudent(BigDecimal.valueOf(d.getIdEstudent()));
+						reportStudent.setIdReportType(IReportType.AUTOMATIC);
+						reportStudent.setIdZyosGroup(29L);
+						reportStudent.setIdStatusReportStudent(IStatusReportStudent.REPORT);
+						reportStudent.setIdStage(2L);
+						reportStudent.setIdSolicitor(1L);
+						reportStudent.setIdZyosUserAdviserFaculty(idAdviser);
+						reportStudent.setDetailReport("Reportado Automaticamente");
+						reportStudent.setIdRiskFactor(7L);
+						StudentReportController controller = new StudentReportController();
+						controller.saveReportStudent(reportStudent,"systemFromSAC");
+						controller.saveRiskFactor(reportStudent,"systemFromSAC");
+						controller.saveReportStudentObservation(reportStudent,"systemFromSAC");
+					}
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	/** SIAT-TUNJA */
+	public Integer loadCurrentCorte() throws Exception {
+		CorteDAO dao = new CorteDAO();
+		try {
+			return dao.loadCurrentCorte();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}
+	}
+	
+	/** SIAT-TUNJA */
+	public ReportStudent validateReportDuplicate(Long idStudent, Long idRiskFactor) throws Exception {
+		ReportStudentDAO dao = new ReportStudentDAO();
+		try {
+			return dao.validateReportDuplicate(idStudent,idRiskFactor);
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}
+	}
+	
+	/** @throws Exception 
+	 * @autor jhernandez
+	 * SIAT-TUNJA **/
+	public Long loadIdAdviser(Long idStudentSubject) throws Exception {
+		StudentDAO dao = new StudentDAO();
+		Transaction tx = dao.getSession().beginTransaction();
+		try {
+
+			return dao.loadIdAdviserByStuSubj(idStudentSubject);
+
+		} catch (Exception e) {
+			tx.rollback();
+			throw e;
+
 		} finally {
 			dao.getSession().close();
 			dao = null;

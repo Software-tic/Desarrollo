@@ -66,8 +66,7 @@ public class ManageProperties {
 			if (bundle == null) {
 				System.out.println("Getting alert general messages");
 				bundle = new Properties();
-				bundle.load(ManageProperties.class
-						.getResourceAsStream("messages.properties"));
+				bundle.load(ManageProperties.class.getResourceAsStream("messages.properties"));
 			}
 		} catch (Exception e) {
 			ErrorNotificacion.handleErrorMailNotification(e, "properties");

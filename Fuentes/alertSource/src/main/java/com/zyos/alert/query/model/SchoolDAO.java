@@ -5,12 +5,16 @@ import java.util.Set;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.transform.Transformers;
 
 import static org.hibernate.criterion.Example.create;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.zyos.alert.faculty.model.Faculty;
+import com.zyos.alert.studentReport.model.Student;
+import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 
 /**
@@ -125,8 +129,9 @@ public class SchoolDAO extends OracleBaseHibernateDAO {
 	public List findAll() {
 		log.debug("finding all School instances");
 		try {
-			String queryString = "from School";
+			String queryString = "from School WHERE state=:state";
 			Query queryObject = getSession().createQuery(queryString);
+			queryObject.setParameter("state", IZyosState.ACTIVE);
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
@@ -167,4 +172,65 @@ public class SchoolDAO extends OracleBaseHibernateDAO {
 			throw re;
 		}
 	}
+	
+	public List<School> loadFacultyByDivision(Long idDivision){
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append(" SELECT NEW School(s.idschool,s.nameSchool) FROM FacultySchool fs, School s "
+					+ " WHERE fs.idSchool= s.idschool "
+					+ " AND fs.idFaculty = :idFaculty "
+					+ " AND fs.state = :state AND s.state = :state ");
+
+			qo = getSession().createQuery(hql.toString());		
+			qo.setParameter("idFaculty", idDivision);
+			qo.setParameter("state", IZyosState.ACTIVE);
+			return qo.list();
+			
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	public void deleteFaculty(Long idSchool){
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append(" UPDATE School SET state=:state WHERE idschool = :idschool ");
+
+			qo = getSession().createQuery(hql.toString());		
+			qo.setParameter("idschool", idSchool);
+			qo.setParameter("state", IZyosState.INACTIVE);
+			qo.executeUpdate();
+			
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	public void updateFaculty(School school){
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append(" UPDATE School SET name=:name WHERE idschool = :idschool ");
+
+			qo = getSession().createQuery(hql.toString());		
+			qo.setParameter("idschool", school.getIdschool());
+			qo.setParameter("name", school.getNameSchool());
+			qo.executeUpdate();
+			
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
 }

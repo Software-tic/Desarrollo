@@ -16,6 +16,9 @@ import com.zyos.alert.integration.model.GroupSubjectSAC;
 import com.zyos.alert.integration.model.SubjectSAC;
 import com.zyos.alert.moodle.model.MdlCourse;
 import com.zyos.alert.moodle.model.MdlCourseDAO;
+import com.zyos.alert.query.controller.EncryptMD5;
+import com.zyos.alert.query.model.GradesPeriodSubject;
+import com.zyos.alert.query.model.GradesPeriodSubjectDAO;
 import com.zyos.alert.sac.model.CambioIdentificacionEstudiante;
 import com.zyos.alert.sac.model.CambioIdentificacionEstudianteDAO;
 import com.zyos.alert.sac.model.CarrerasDAO;
@@ -38,7 +41,6 @@ import com.zyos.alert.studentReport.model.TeacherSubjectDAO;
 import com.zyos.core.common.api.IZyosGroup;
 import com.zyos.core.common.controller.ErrorNotificacion;
 import com.zyos.core.common.controller.ZyosController;
-import com.zyos.core.common.util.security.RSA;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 import com.zyos.core.lo.enterprise.model.ZyosUserEnterprise;
 import com.zyos.core.lo.user.model.ZyosUser;
@@ -79,25 +81,24 @@ public class IntegrationController extends ZyosController {
 
 				dao.loadEmailFromUserSACInfo();
 				dao.getSession().beginTransaction().commit();
-
-				i = 0;
-				List<Student> sList = dao.migrateStudentListFromSAC();
-				if (sList != null && !sList.isEmpty()) {
-					for (Student s : sList) {
-						s.initializing("systemFromSAC", true);
-						dao.getSession().save(s);
-
-						if (i % 10 == 0) {
-							dao.getSession().flush();
-							dao.getSession().clear();
-						}
-						i++;
-					}
-					dao.getSession().beginTransaction().commit();
-				}
-
-				return userList.size();
 			}
+			
+			i = 0;
+			List<Student> sList = dao.migrateStudentListFromSAC();
+			if (sList != null && !sList.isEmpty()) {
+				for (Student s : sList) {
+					s.initializing("systemFromSAC", true);
+					dao.getSession().save(s);
+					if (i % 10 == 0) {
+						dao.getSession().flush();
+						dao.getSession().clear();
+					}
+					i++;
+				}
+				dao.getSession().beginTransaction().commit();
+			}
+
+			return userList.size();
 
 		} catch (Exception e) {
 			ErrorNotificacion.handleErrorMailNotification(e, this);
@@ -122,7 +123,7 @@ public class IntegrationController extends ZyosController {
 				zl.setIdZyosUser(zu.getIdZyosUser());
 				zl.setUserLogin(zu.getDocumentNumber());
 				zl.setPassword("123456");
-				zl.setPasswordMD5(RSA.encrypt(zl.getPassword()));
+				zl.setPasswordMD5(EncryptMD5.encrypt(zl.getPassword()));//RSA.encrypt(zl.getPassword()));
 				zl.setDeadLine("2020/12/12");
 				dao.getSession().save(zl);
 
@@ -342,9 +343,8 @@ public class IntegrationController extends ZyosController {
 	public void saveStudentSubject(List<StudentSubject> sl, int i, Long idAcademicPeriod, StudentSubjectDAO dao) throws Exception {
 		try {
 			i = 0;
-			System.out.println(sl.size());
+			//System.out.println(sl.size());
 			for (StudentSubject d : sl) {
-				System.out.println(i);
 				d.initializing("systemFromSAC", true);
 				d.setIdAcademicPeriod(idAcademicPeriod);
 				dao.getSession().save(d);
@@ -354,6 +354,7 @@ public class IntegrationController extends ZyosController {
 					dao.getSession().clear();
 				}
 				i++;
+				this.createGradesTableStudent(idAcademicPeriod, d.getIdStudentSubject());
 
 				if (i % 8000 == 0 && i != 0) {
 					dao.getSession().beginTransaction().commit();
@@ -550,18 +551,20 @@ public class IntegrationController extends ZyosController {
 			List<String> idList = dao.validateUserExist();
 
 			// create not exist user list
-			List<ZyosUser> listUser = dao.createZyosUser(idList);
-			for (ZyosUser zu : listUser) {
-				zu.initializing("systemFromSAC", true);
-				zu.setIdEnterprise(1l);
-				zu.setLastName(zu.getName());
-				zu.setIdZyosGroup(IZyosGroup.DECAN_FACULTY);
-				dao.getSession().save(zu);
+			if (idList != null && !idList.isEmpty()) {
+				List<ZyosUser> listUser = dao.createZyosUser(idList);
+				for (ZyosUser zu : listUser) {
+					zu.initializing("systemFromSAC", true);
+					zu.setIdEnterprise(1l);
+					zu.setLastName(zu.getName());
+					zu.setIdZyosGroup(IZyosGroup.DECAN_FACULTY);
+					dao.getSession().save(zu);
+				}
+				createLogin(listUser, dao);
+
+				dao.getSession().beginTransaction().commit();
 			}
-			createLogin(listUser, dao);
-
-			dao.getSession().beginTransaction().commit();
-
+			
 			// create realationship
 			List<FacultyCoordinator> fcl = dao.migrateFacultyCoordinatorFromSAC();
 			for (FacultyCoordinator fc : fcl) {
@@ -594,7 +597,7 @@ public class IntegrationController extends ZyosController {
 					d.initializing("systemFromSAC", true);
 					System.out.println(i);
 					dao.getSession().save(d);
-
+					
 					if (i % 10 == 0 && i != 0) {
 						dao.getSession().flush();
 						dao.getSession().clear();
@@ -670,7 +673,53 @@ public class IntegrationController extends ZyosController {
 			dao = null;
 		}
 	}
+	/** SIAT-TUNJA */
+	public void createGradesTableStudent(Long idAcademicPeriod, Long idStudentSubject) {
+		GradesPeriodSubjectDAO dao = new GradesPeriodSubjectDAO();
+		try {
+			Long aux=dao.selectId();
+			GradesPeriodSubject gps = new GradesPeriodSubject((1+aux),idStudentSubject, idAcademicPeriod);
+			gps.initializing("systemFromSAC", true);
+			dao.getSession().save(gps);
+			dao.getSession().beginTransaction().commit();
+		} catch (Exception e) {
+			ErrorNotificacion.handleErrorMailNotification(e, this);
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}
+	}
 
+	/** SIAT-TUNJA */
+	public int migrateNotEstudentCorteTunjaFromSAC(Long idAcademicPeriod) {
+		GradesPeriodSubjectDAO dao = new GradesPeriodSubjectDAO();
+		int i = 0;
+		try {
+			List<GradesPeriodSubject> dl = dao.migrateGradesPeriodSubjectFromSAC();
+			if (dl != null && !dl.isEmpty()) {
 
+				for (GradesPeriodSubject d : dl) {
+					Long aux=dao.selectId();
+					d.setIdgradesPeriodSubject((1+aux));
+					d.initializing("systemFromSAC", true);
+					dao.getSession().save(d);//update(d);
 
+					if (i % 10 == 0 && i != 0) {
+						dao.getSession().flush();
+						dao.getSession().clear();
+					}
+					i++;
+				}
+				dao.getSession().beginTransaction().commit();
+				return dl.size();
+			}
+		} catch (Exception e) {
+			ErrorNotificacion.handleErrorMailNotification(e, this);
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}
+		return -1;
+	}
+	
 }

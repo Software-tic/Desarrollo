@@ -23,6 +23,8 @@ public class ControlPanelBean extends ZyosBackingBean implements Serializable {
 	private ControlPanel controlPanel;
 	private ControlPanel controlPanelRisk;
 	private ControlPanel controlPanelAssistance;
+	private ControlPanel controlPanelBaseGrade;//SIAT-TUNJA
+	private ControlPanel controlPanelBaseGradeG;//SIAT-TUNJA
 	private ControlPanelController controller;
 
 	// private int marginHour;
@@ -34,6 +36,8 @@ public class ControlPanelBean extends ZyosBackingBean implements Serializable {
 			controlPanel = controller.loadCurrentMarginDays();
 			controlPanelRisk = controller.loadCurrentPercentageRisk();
 			controlPanelAssistance = controller.loadCurrentPercentageAssistance();
+			controlPanelBaseGrade = controller.loadCurrentBaseGradeTunja();//SIAT-TUNJA
+			controlPanelBaseGradeG = controller.loadCurrentBaseGoodGradesTunja();//SIAT-TUNJA
 		} catch (Exception e) {
 			ErrorNotificacion.handleErrorMailNotification(e, this);
 		}
@@ -89,6 +93,42 @@ public class ControlPanelBean extends ZyosBackingBean implements Serializable {
 		}
 
 	}
+	
+	/** SIAT-TUNJA */
+	public void registerBaseGrade() {
+		try {
+
+			if (controlPanelBaseGrade.getPercentageAssistance() < 0 && controlPanelBaseGrade.getPercentageAssistance() > 5) {
+				ZyosBackingBean.addWarn("Registrar Nota Base", "Ingrese un número válido mayor a 0 y menor a 5");
+			} else {
+				controller.saveOrUpdatePercentageAssistance(controlPanelBaseGrade, getUserSession().getDocumentNumber());
+				ZyosBackingBean.addInfo("Registrar Nota Base", "Nota base registrada con éxito!");
+				update("controlPanelForm:baseGradeTable");
+			}
+
+		} catch (Exception e) {
+			ErrorNotificacion.handleErrorMailNotification(e, this);
+		}
+
+	}
+	
+	/** SIAT-TUNJA */
+	public void registerBaseGradeG() {
+		try {
+
+			if (controlPanelBaseGradeG.getPercentageAssistance() < 0 && controlPanelBaseGradeG.getPercentageAssistance() > 5) {
+				ZyosBackingBean.addWarn("Registrar Nota Base", "Ingrese un número válido mayor a 0 y menor a 5");
+			} else {
+				controller.saveOrUpdatePercentageAssistance(controlPanelBaseGradeG, getUserSession().getDocumentNumber());
+				ZyosBackingBean.addInfo("Registrar Nota Base", "Nota base registrada con éxito!");
+				update("controlPanelForm:baseGradeTable");
+			}
+
+		} catch (Exception e) {
+			ErrorNotificacion.handleErrorMailNotification(e, this);
+		}
+
+	}
 
 	public ControlPanelController getController() {
 		return controller;
@@ -121,7 +161,22 @@ public class ControlPanelBean extends ZyosBackingBean implements Serializable {
 	public void setControlPanelAssistance(ControlPanel controlPanelAssistance) {
 		this.controlPanelAssistance = controlPanelAssistance;
 	}
+	
+	/** SIAT-TUNJA */
+	public ControlPanel getControlPanelBaseGrade() {
+		return controlPanelBaseGrade;
+	}
 
+	public void setControlPanelBaseGrade(ControlPanel controlPanelBaseGrade) {
+		this.controlPanelBaseGrade = controlPanelBaseGrade;
+	}
 
+	public ControlPanel getControlPanelBaseGradeG() {
+		return controlPanelBaseGradeG;
+	}
+
+	public void setControlPanelBaseGradeG(ControlPanel controlPanelBaseGradeG) {
+		this.controlPanelBaseGradeG = controlPanelBaseGradeG;
+	}
 
 }

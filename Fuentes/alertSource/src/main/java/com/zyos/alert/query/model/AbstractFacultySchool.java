@@ -22,11 +22,6 @@ public abstract class AbstractFacultySchool extends
 	private Long idfacultyschool;
 	private Long idSchool;
 	private Long idFaculty;
-	private String datecreation;
-	private String datechange;
-	private String usercreation;
-	private String userchange;
-	private Long state;
 
 	// Constructors
 
@@ -46,10 +41,10 @@ public abstract class AbstractFacultySchool extends
 		this.idfacultyschool = idfacultyschool;
 		this.idSchool = school;
 		this.idFaculty = faculty;
-		this.datecreation = datecreation;
-		this.datechange = datechange;
-		this.usercreation = usercreation;
-		this.userchange = userchange;
+		this.dateCreation = datecreation;
+		this.dateChange = datechange;
+		this.userCreation = usercreation;
+		this.userChange = userchange;
 		this.state = state;
 	}
 
@@ -64,58 +59,40 @@ public abstract class AbstractFacultySchool extends
 		this.idfacultyschool = idfacultyschool;
 	}
 
-	@JoinColumn(name = "idschool")
-	public Long getSchool() {
-		return this.idSchool;
-	}
-
-	public void setSchool(Long school) {
-		this.idSchool = school;
-	}
-
-	@JoinColumn(name = "idfaculty")
-	public Long getFaculty() {
-		return this.idFaculty;
-	}
-
-	public void setFaculty(Long faculty) {
-		this.idFaculty = faculty;
-	}
-
 	@Column(name = "datecreation", length = 20)
 	public String getDatecreation() {
-		return this.datecreation;
+		return this.dateCreation;
 	}
 
 	public void setDatecreation(String datecreation) {
-		this.datecreation = datecreation;
+		this.dateCreation = datecreation;
 	}
 
 	@Column(name = "datechange", length = 20)
 	public String getDatechange() {
-		return this.datechange;
+		return this.dateChange;
 	}
 
 	public void setDatechange(String datechange) {
-		this.datechange = datechange;
+		this.dateChange = datechange;
 	}
 
 	@Column(name = "usercreation", length = 45)
 	public String getUsercreation() {
-		return this.usercreation;
+		return this.userCreation;
 	}
 
 	public void setUsercreation(String usercreation) {
-		this.usercreation = usercreation;
+		this.userCreation = usercreation;
 	}
 
 	@Column(name = "userchange", length = 45)
 	public String getUserchange() {
-		return this.userchange;
+		return this.userChange;
 	}
 
 	public void setUserchange(String userchange) {
-		this.userchange = userchange;
+		this.userChange = userchange;
 	}
 
 	@Column(name = "state")
@@ -125,6 +102,24 @@ public abstract class AbstractFacultySchool extends
 
 	public void setState(Long state) {
 		this.state = state;
+	}
+	
+	@JoinColumn(name = "idschool")
+	public Long getIdSchool() {
+		return idSchool;
+	}
+
+	public void setIdSchool(Long idSchool) {
+		this.idSchool = idSchool;
+	}
+
+	@JoinColumn(name = "idfaculty")
+	public Long getIdFaculty() {
+		return idFaculty;
+	}
+
+	public void setIdFaculty(Long idFaculty) {
+		this.idFaculty = idFaculty;
 	}
 
 }

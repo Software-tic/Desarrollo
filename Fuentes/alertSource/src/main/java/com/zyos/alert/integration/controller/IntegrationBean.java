@@ -59,7 +59,7 @@ public class IntegrationBean extends ZyosBackingBean {
 				controller.changeDocumentStudent();
 				printMessage("INFO: End changeDocumentStudent database integration ");
 
-				printMessage("INFO: Start loadMoodleDatabaseCourse database integration ");
+				/*printMessage("INFO: Start loadMoodleDatabaseCourse database integration ");
 
 				boolean isMoodleEnable = controller.validateMoodleConnection();
 				if (isMoodleEnable) {
@@ -69,7 +69,7 @@ public class IntegrationBean extends ZyosBackingBean {
 				}
 
 				printMessage("INFO: End loadMoodleDatabaseCourse database integration ");
-
+				*/
 				int studentSize = 0, degreeSize = 0, teacherList = 0, subjectSize = 0, StudentDegreeSize = 0, FacultySize = 0, FacultyDegreeSize = 0, FacultyCoordinatorSize =
 					0, GroupSize = 0, TeacherSubjectSize = 0, StudentSubjectSize = 0, StudentSubject = 0, StudentSubjectDay = 0;
 
@@ -152,14 +152,14 @@ public class IntegrationBean extends ZyosBackingBean {
 				printMessage("INFO: End migrateFacultyCoordinatorFromSAC database integration ");
 
 				// Integra DB is the moodle and SAC connector
-				printMessage("INFO: Start migrateIntegraDatabase database integration ");
+				/*printMessage("INFO: Start migrateIntegraDatabase database integration ");
 				if (isMoodleEnable) {
 					controller.migrateIntegraDatabase();
 				} else {
 					printMessage("ERROR: MySQL Moodle database is not connected ");
 				}
 				printMessage("INFO: End migrateIntegraDatabase database integration ");
-
+				*/
 				// loading academic period
 				printMessage("INFO: Start migrateGroupListFromSAC database integration ");
 				Long idAcademicPeriod = controller.loadCurrentAcademicPeriod();
@@ -201,6 +201,19 @@ public class IntegrationBean extends ZyosBackingBean {
 						break;
 				}
 				printMessage("INFO: End migratetudentSubjectDayClassFromSAC database integration ");
+				
+				//-----Integración SIAT-TUNJA vista notas de estudiante
+				int NotasEstudent=0;
+				printMessage("INFO: Start migrateNotStudentCorteTunjaFromSAC database integration ");
+				while (true) {
+					int s = controller.migrateNotEstudentCorteTunjaFromSAC(idAcademicPeriod);
+					NotasEstudent += s;
+					System.out.println("recording =" + s);
+					if (s <= 0)
+						break;
+				}
+				printMessage("INFO: End migrateNotStudentCorteTunjaFromSAC database integration ");
+				//--------------------------------------------------------
 
 				ExecutionsHistorical eh = new ExecutionsHistorical();
 				eh.initializing("integrationAuto", true);
@@ -262,6 +275,16 @@ public class IntegrationBean extends ZyosBackingBean {
 		this.executionsHistoricalList = executionsHistoricalList;
 	}
 
-
+	public void threadIntegration() {
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+					migrateListFromSAC();
+				} catch (Exception e) {
+					ErrorNotificacion.handleErrorMailNotification(e, this);
+				}
+			}
+		}).start();
+	}
 
 }

@@ -127,9 +127,9 @@
 		<mapping class="com.zyos.alert.sac.model.NotRecordStudentSubjectDay" />
 		<!-- SIAT TUNJA -->
 		<mapping class="com.zyos.alert.query.model.School" />
-		<mapping class="com.zyos.alert.query.model.SchoolCoordinador" />
-		<mapping class="com.zyos.alert.query.model.FacultySchool" />
-		<mapping class="com.zyos.alert.query.model.Teacher" />
+	<mapping class="com.zyos.alert.query.model.Teacher" />
+	<mapping class="com.zyos.alert.query.model.FacultySchool" />
+	<mapping class="com.zyos.alert.query.model.SchoolCoordinador" />
 
 
 	</session-factory>

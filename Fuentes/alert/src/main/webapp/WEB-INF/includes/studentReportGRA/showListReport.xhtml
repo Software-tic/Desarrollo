@@ -21,7 +21,7 @@
 				<br />
 			</div>
 			<p:outputPanel id="opGrid">
-				<p:outputPanel rendered="#{!empty rStudentGradesBean.userList}">
+				<p:outputPanel rendered="#{!empty rStudentGradesBean.userList or rStudentGradesBean.showFindStudentList}">
 					<div align="center">
 						<h4>A continuación se presenta un listado de los estudiantes
 							con buen rendimiento académico del periodo</h4>

@@ -1,0 +1,125 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:defaultCommand target="disableEnter" />
+	<h:inputHidden id="disableEnter" />
+	<br />
+
+	<p:panel id="headerList" header="Administración de Carreras">
+		<div align="center">
+			<h4>Divisiones</h4>
+			<p:dataTable id="facultyTable" value="#{gestionBean.facultyList}"
+				editable="false" paginatorAlwaysVisible="true"
+				resizableColumns="false"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="20,40,60" paginator="true" rows="20"
+				filterDelay="600"
+				emptyMessage="#{bundle['page.core.tableNoFoundRecord']}"
+				var="parameter" style="width:98%;" widgetVar="schoolTableWV">
+
+				<p:column width="5%" headerText="Id" sortBy="#{parameter.idFaculty}"
+					style="text-align:center">
+					<h:outputText value="#{parameter.idFaculty}" />
+				</p:column>
+
+				<p:column width="45%"
+					headerText="#{bundle['page.degree.labelName']}"
+					sortBy="#{parameter.name}" style="text-align:center">
+					<h:outputText value="#{parameter.name}" />
+				</p:column>
+
+				<p:column width="20%" headerText="Acciones">
+					<div align="center">
+						<table border="0">
+							<tr>
+								<td style="border-width: 0px;">
+									<p:commandLink
+										action="#{gestionBean.goFacultys}" title="Ver Facultades">
+										<p:graphicImage value="../css/images/dartramite.png"
+											height="20" width="20" />
+										<f:setPropertyActionListener
+											target="#{gestionBean.facultySelect}" value="#{parameter}" />
+									</p:commandLink>
+								</td>
+								<td style="border-width: 0px;">
+									<p:commandLink
+										disabled="#{gestionBean.getValidateUserRole(3,21)}"
+										title="Asignar Decano de División"
+										action="#{gestionBean.goDecanoDivision}">
+										<p:graphicImage value="../css/images/accept.png" height="20"
+											width="20" />
+										<f:setPropertyActionListener
+											target="#{gestionBean.facultySelect}" value="#{parameter}" />
+									</p:commandLink>
+								</td>
+								<td style="border-width: 0px;">
+									<p:commandLink title="Eliminar"
+										action="#{gestionBean.goDeleteDivision}"
+										disabled="#{gestionBean.getValidateUserRole(5,21)}"
+										partialSubmit="true">
+										<p:graphicImage value="../css/images/delete.gif" height="20"
+											width="20" />
+										<f:setPropertyActionListener
+											target="#{gestionBean.facultySelect}"
+											value="#{parameter}" />
+									</p:commandLink>
+								</td>
+								<td style="border-width: 0px;">
+									<p:commandLink title="Editar"
+										disabled="#{gestionBean.getValidateUserRole(3,21)}"
+										action="#{gestionBean.goEditDiv}">
+										<p:graphicImage value="../css/images/edit.gif" height="20"
+											width="20" />
+										<f:setPropertyActionListener
+											target="#{gestionBean.facultySelect}" value="#{parameter}" />
+									</p:commandLink>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</p:column>
+				<f:facet name="footer">
+					<p:outputPanel>#{fn:length(gestionBean.schoolList)} División(es) habilitada(s)</p:outputPanel>
+				</f:facet>
+			</p:dataTable>
+
+
+			<p align="center">
+				<p:commandButton action="#{gestionBean.goAddParameter}"
+					disabled="#{gestionBean.getValidateUserRole(2,21)}"
+					styleClass="ui-priority-primary" partialSubmit="true"
+					onclick="statusDialog.show();"
+					value="Agregar División" />
+			</p>
+		</div>
+		<p:dialog id="PoPupInfo"
+			header="Editar división" modal="true"
+			resizable="false" draggable="true" showEffect="drop"
+			hideEffect="fade" widgetVar="PoPupInfoWV" width="30%">
+			<p:outputPanel style="text-align:center;" layout="block">
+				<table width="98%" border="0" cellpadding="2" cellspacing="2">
+					<tr>
+						<td style="text-align:left;" width="30%">
+							<h:outputText value="Nombre División"/>
+						</td>
+						<td>
+							#{gestionBean.facultySelect.name}
+							<!-- <p:inputText value="#{gestionBean.facultySelect.name}"/> -->
+						</td>
+					</tr>
+				</table>
+				<br/>
+				<p:commandButton action="#{gestionBean.goEditDivision}"
+					disabled="#{gestionBean.getValidateUserRole(3,21)}"
+					styleClass="ui-priority-primary" partialSubmit="true"
+					value="Aceptar"/>
+				<p:spacer/>
+				<p:commandButton onclick="PoPupInfoWV.hide()"
+					partialSubmit="true" value="Cancelar" />
+			</p:outputPanel>
+		</p:dialog>
+	</p:panel>
+</f:view>

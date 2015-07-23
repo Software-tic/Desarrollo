@@ -10,6 +10,7 @@ import static org.hibernate.criterion.Example.create;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 
 /**
@@ -159,6 +160,25 @@ public class TeacherDAO extends OracleBaseHibernateDAO {
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
 			throw re;
+		}
+	}
+	
+	public void deletePersona(Long idTeacher){
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append(" UPDATE Teacher SET state=:state WHERE idteacher = :idTeacher ");
+
+			qo = getSession().createQuery(hql.toString());		
+			qo.setParameter("idTeacher", idTeacher);
+			qo.setParameter("state", IZyosState.INACTIVE);
+			qo.executeUpdate();
+			
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
 		}
 	}
 }

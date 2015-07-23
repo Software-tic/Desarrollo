@@ -8,7 +8,7 @@ public class Test {
 	public Test() {
 		try {
 			new SMTPEmail().sendProcessEmail(null, "prueba", "test test test",
-					"og@zyos.co");
+					"ogarzon@zyos.co");
 		} catch (Exception e) {
 			ErrorNotificacion.handleErrorMailNotification(e, this);
 		}

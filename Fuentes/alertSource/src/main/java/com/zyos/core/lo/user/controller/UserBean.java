@@ -214,8 +214,7 @@ public class UserBean extends ZyosBackingBean {
 				selectedZyosUser.initializing(getUserDocument(), isNew);
 
 				if (isNew) {
-					selectedZyosUser.setIdEnterprise(getUserSession()
-							.getDefaultEnterprise());
+					selectedZyosUser.setIdEnterprise(getUserSession().getDefaultEnterprise());
 					controller.saveUser(selectedZyosUser, selectedZyosGroup);
 					//userList.add(selectedZyosUser);
 					((List<ZyosUser>)zyosUserModel.getWrappedData()).add(selectedZyosUser);

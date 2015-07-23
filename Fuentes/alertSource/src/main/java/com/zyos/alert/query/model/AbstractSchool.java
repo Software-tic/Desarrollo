@@ -1,13 +1,8 @@
 package com.zyos.alert.query.model;
 
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
 
 /**
  * AbstractSchool entity provides the base persistence definition of the School
@@ -25,11 +20,6 @@ public abstract class AbstractSchool extends
 	private static final long serialVersionUID = 1L;
 	private Long idschool;
 	private String nameSchool;
-	private String datecreation;
-	private String usercreation;
-	private String datechange;
-	private String userchange;
-	private Long state;
 
 	// Constructors
 
@@ -49,10 +39,10 @@ public abstract class AbstractSchool extends
 			String userchange, Long state) {
 		this.idschool = idschool;
 		this.nameSchool = nameSchool;
-		this.datecreation = datecreation;
-		this.usercreation = usercreation;
-		this.datechange = datechange;
-		this.userchange = userchange;
+		this.dateCreation = datecreation;
+		this.userCreation = usercreation;
+		this.dateChange = datechange;
+		this.userChange = userchange;
 		this.state = state;
 	}
 
@@ -78,38 +68,38 @@ public abstract class AbstractSchool extends
 
 	@Column(name = "datecreation", length = 20)
 	public String getDatecreation() {
-		return this.datecreation;
+		return this.dateCreation;
 	}
 
 	public void setDatecreation(String datecreation) {
-		this.datecreation = datecreation;
+		this.dateCreation = datecreation;
 	}
 
 	@Column(name = "usercreation", length = 45)
 	public String getUsercreation() {
-		return this.usercreation;
+		return this.userCreation;
 	}
 
 	public void setUsercreation(String usercreation) {
-		this.usercreation = usercreation;
+		this.userCreation = usercreation;
 	}
 
 	@Column(name = "datechange", length = 20)
 	public String getDatechange() {
-		return this.datechange;
+		return this.dateChange;
 	}
 
 	public void setDatechange(String datechange) {
-		this.datechange = datechange;
+		this.dateChange = datechange;
 	}
 
 	@Column(name = "userchange", length = 45)
 	public String getUserchange() {
-		return this.userchange;
+		return this.userChange;
 	}
 
 	public void setUserchange(String userchange) {
-		this.userchange = userchange;
+		this.userChange = userchange;
 	}
 
 	@Column(name = "state")

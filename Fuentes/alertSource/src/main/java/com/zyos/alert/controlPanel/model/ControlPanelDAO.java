@@ -200,5 +200,46 @@ public class ControlPanelDAO extends OracleBaseHibernateDAO {
 		}
 	}
 	
+	/** SIAT-TUNJA */
+	public ControlPanel loadCurrentBaseGradeTunja() throws Exception {
+		try {
+			StringBuilder hql = new StringBuilder();
+			hql.append(" select new ControlPanel (cp.idControlPanel, cp.marginHour,  cp.percentageRiskFactor, cp.percentageAssistance) ");
+			hql.append(" from ControlPanel cp ");
+			hql.append(" where ");
+			hql.append(" cp.idControlPanel = 4 AND ");
+			hql.append(" cp.state = :state ");
+
+			Query qo = null;
+			qo = getSession().createQuery(hql.toString());
+			qo.setParameter("state", IZyosState.ACTIVE);			
+			hql = null;
+			
+			return (ControlPanel) qo.uniqueResult();
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	/** SIAT-TUNJA */
+	public ControlPanel loadCurrentBaseGoodGradesTunja() throws Exception {
+		try {
+			StringBuilder hql = new StringBuilder();
+			hql.append(" select new ControlPanel (cp.idControlPanel, cp.marginHour, cp.percentageRiskFactor, cp.percentageAssistance) ");
+			hql.append(" from ControlPanel cp ");
+			hql.append(" where ");
+			hql.append(" cp.idControlPanel = 5 AND ");
+			hql.append(" cp.state = :state ");
+
+			Query qo = null;
+			qo = getSession().createQuery(hql.toString());
+			qo.setParameter("state", IZyosState.ACTIVE);			
+			hql = null;
+			
+			return (ControlPanel) qo.uniqueResult();
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 	
 }

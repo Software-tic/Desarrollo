@@ -124,7 +124,7 @@ public class TeacherSubjectDAO extends OracleBaseHibernateDAO {
 			hql.append("(zu.id ||'_'|| m.idSubject ||'_'|| dmg.idGrupo) not in (select idSAC from TeacherSubject where idAcademicPeriod =:idAP and idSAC is not null) ");
 			hql.append("and dmg.idDocente = d.id    ");
 			hql.append("and d.documento = zu.documentNumber  ");
-			hql.append("and dmg.idMateria = m.id ");
+			hql.append("and CAST(dmg.idMateria AS long) = m.id ");
 			hql.append("and dmg.idGrupo = gs.idGroupSubject ");
 
 			Query qo = getSession().createQuery(hql.toString()).setResultTransformer(Transformers.aliasToBean(TeacherSubject.class)); 

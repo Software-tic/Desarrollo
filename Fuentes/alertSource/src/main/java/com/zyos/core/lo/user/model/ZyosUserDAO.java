@@ -1166,5 +1166,74 @@ public class ZyosUserDAO extends OracleBaseHibernateDAO {
 			qo = null;
 		}
 	}
+	
+	public List<ZyosUser> loadTeacherBySchoolTunja(Long idSchool) throws Exception {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append(" SELECT NEW ZyosUser ( zu.idZyosUser, zu.documentNumber, zu.name, zu.lastName, zu.email ) "
+					+ " FROM Teacher t, ZyosUser zu "
+					+ " WHERE t.idZyosUser = zu.idZyosUser AND t.idSchool = :idSchool "
+					+ " AND t.state = :state AND zu.state = :state ");
 
+			qo = getSession().createQuery(hql.toString());		
+			qo.setParameter("idSchool", idSchool);
+			qo.setParameter("state", IZyosState.ACTIVE);
+			return qo.list();
+			
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	public List<ZyosUser> loadDecDivisionBySchoolTunja(Long idFaculty) throws Exception {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append(" SELECT NEW ZyosUser ( zu.idZyosUser, zu.documentNumber, zu.name, zu.lastName, zu.email ) "
+					+ " FROM FacultyCoordinator fc, ZyosUser zu "
+					+ " WHERE fc.idZyosUser = zu.idZyosUser "
+					+ " AND fc.idFaculty = :idFaculty "
+					+ " AND fc.state = :state "
+					+ " AND zu.state = :state ");
+
+			qo = getSession().createQuery(hql.toString());		
+			qo.setParameter("idFaculty", idFaculty);
+			qo.setParameter("state", IZyosState.ACTIVE);
+			return qo.list();
+			
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	public List<ZyosUser> loadDecFacultyBySchoolTunja(Long idSchool) throws Exception {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append(" SELECT NEW ZyosUser ( zu.idZyosUser, zu.documentNumber, zu.name, zu.lastName, zu.email ) "
+					+ " FROM ZyosUser zu, SchoolCoordinador sc "
+					+ " WHERE zu.idZyosUser = sc.idZyosuser "
+					+ " AND zu.state = :state "
+					+ " AND sc.state = :state "
+					+ " AND sc.idSchool = :idSchool ");
+
+			qo = getSession().createQuery(hql.toString());		
+			qo.setParameter("idSchool", idSchool);
+			qo.setParameter("state", IZyosState.ACTIVE);
+			return qo.list();
+			
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
 }

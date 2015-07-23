@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="gestionForm">
+		<p:outputPanel id="gestionPanel" rendered="#{!gestionBean.getValidateUserRole(1,21)}">
+
+			<p:outputPanel rendered="#{gestionBean.showDivisionList}">
+				<ui:include	src="/WEB-INF/includes/facultyGestion/ListDivision.xhtml" />
+			</p:outputPanel>
+
+			<p:outputPanel layout="block" rendered="#{gestionBean.showFacultyList}">
+				<ui:include src="/WEB-INF/includes/facultyGestion/ListFaculty.xhtml" />
+			</p:outputPanel>
+			
+			<p:outputPanel layout="block" rendered="#{gestionBean.showUserList}">
+				<ui:include src="/WEB-INF/includes/facultyGestion/ListUserAsign.xhtml" />
+			</p:outputPanel>
+
+		</p:outputPanel>
+		<p:outputPanel
+			rendered="#{gestionBean.getValidateUserRole(1,21)}">
+
+			<br> </br>
+			<ui:include src="/WEB-INF/includes/content/denied.xhtml" />
+
+		</p:outputPanel>
+	</h:form>
+</ui:composition>

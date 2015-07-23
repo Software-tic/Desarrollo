@@ -135,7 +135,7 @@ public class CarrerasDAO extends OracleBaseHibernateDAO {
 			hql.append("from ");
 			hql.append("Carreras c ");
 			hql.append("where ");
-			hql.append("c.id not in (select id from Degree)) ");
+			hql.append("cast(c.id AS long) not in (select id from Degree)) ");
 			
 			Query qo = getSession().createQuery(hql.toString()).setResultTransformer(Transformers.aliasToBean(DegreeSAC.class)); 
 			return qo.list();

@@ -9,7 +9,6 @@ import javax.faces.bean.ViewScoped;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.zyos.alert.executionsHistorical.model.ExecutionsHistorical;
-import com.zyos.core.common.api.IZyosGroup;
 import com.zyos.core.common.controller.ErrorNotificacion;
 import com.zyos.core.common.controller.ZyosBackingBean;
 

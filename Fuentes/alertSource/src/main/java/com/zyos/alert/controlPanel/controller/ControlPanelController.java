@@ -124,6 +124,30 @@ public class ControlPanelController extends ZyosController{
 		}
 	}
 	
+	/** SIAT-TUNJA */
+	public ControlPanel loadCurrentBaseGradeTunja() throws Exception {
+		ControlPanelDAO dao = new ControlPanelDAO();
+		try {
+			return dao.loadCurrentBaseGradeTunja();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}
+	}
 	
+	/** SIAT-TUNJA */
+	public ControlPanel loadCurrentBaseGoodGradesTunja() throws Exception {
+		ControlPanelDAO dao = new ControlPanelDAO();
+		try {
+			return dao.loadCurrentBaseGoodGradesTunja();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}
+	}
 	
 }

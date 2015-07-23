@@ -134,7 +134,7 @@ public class StudentDegreeDAO extends OracleBaseHibernateDAO {
 			hql.append("select s.idStudent as idStudent, cast(me.idCarrera as long) as idDegree ");
 			hql.append("from CarrerasEstudiantes me, Student s, Degree d ");
 			hql.append("where  ");
-			hql.append("me.idCarrera = d.id and s.code = me.codAlumno and (me.codAlumno) not in   ");
+			hql.append("cast(me.idCarrera as long) = d.id and s.code = me.codAlumno and (me.codAlumno) not in   ");
 			hql.append("( select s.code from  StudentDegree sd, Student s where sd.idStudent = s.idStudent and s.code is not null) ");
 
 			Query qo = getSession().createQuery(hql.toString()).setResultTransformer(Transformers.aliasToBean(StudentDegree.class)); 

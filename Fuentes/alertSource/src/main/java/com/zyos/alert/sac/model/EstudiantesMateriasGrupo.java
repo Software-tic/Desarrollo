@@ -1,5 +1,6 @@
 package com.zyos.alert.sac.model;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;

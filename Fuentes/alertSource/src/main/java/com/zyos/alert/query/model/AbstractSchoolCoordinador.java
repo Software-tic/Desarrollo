@@ -42,8 +42,8 @@ public abstract class AbstractSchoolCoordinador extends
 			Long school, String datecreation, String usercreation,
 			String datechange, String userchange, Long state) {
 		this.idSchoolCoord = idschoolcoord;
-		this.idZyosuser = zyosuser;
-		this.idSchool = school;
+		this.setIdZyosuser(zyosuser);
+		this.setIdSchool(school);
 		this.datecreation = datecreation;
 		this.usercreation = usercreation;
 		this.datechange = datechange;
@@ -60,24 +60,6 @@ public abstract class AbstractSchoolCoordinador extends
 
 	public void setIdschoolcoord(Long idschoolcoord) {
 		this.idSchoolCoord = idschoolcoord;
-	}
-
-	@JoinColumn(name = "idzyosuser")
-	public Long getZyosuser() {
-		return this.idZyosuser;
-	}
-
-	public void setZyosuser(Long zyosuser) {
-		this.idZyosuser = zyosuser;
-	}
-
-	@JoinColumn(name = "idschool")
-	public Long getSchool() {
-		return this.idSchool;
-	}
-
-	public void setSchool(Long school) {
-		this.idSchool = school;
 	}
 
 	@Column(name = "datecreation", length = 20)
@@ -123,6 +105,24 @@ public abstract class AbstractSchoolCoordinador extends
 
 	public void setState(Long state) {
 		this.state = state;
+	}
+	
+	@JoinColumn(name = "idzyosuser")
+	public Long getIdZyosuser() {
+		return idZyosuser;
+	}
+
+	public void setIdZyosuser(Long idZyosuser) {
+		this.idZyosuser = idZyosuser;
+	}
+	
+	@JoinColumn(name = "idschool")
+	public Long getIdSchool() {
+		return idSchool;
+	}
+
+	public void setIdSchool(Long idSchool) {
+		this.idSchool = idSchool;
 	}
 
 }

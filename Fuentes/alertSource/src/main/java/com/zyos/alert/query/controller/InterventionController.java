@@ -28,8 +28,6 @@ import com.zyos.core.common.controller.ZyosController;
 import com.zyos.core.lo.user.model.ZyosGroup;
 import com.zyos.core.lo.user.model.ZyosUser;
 import com.zyos.core.lo.user.model.ZyosUserDAO;
-import com.zyos.core.lo.user.model.ZyosUserGroupDAO;
-import com.zyos.session.common.User;
 
 public class InterventionController extends ZyosController {
 

@@ -6,6 +6,7 @@ import javax.faces.model.SelectItem;
 
 import org.hibernate.Transaction;
 
+import com.zyos.alert.query.controller.EncryptMD5;
 import com.zyos.core.common.api.IZyosGroup;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.common.controller.ZyosController;
@@ -63,11 +64,7 @@ public class UserController extends ZyosController {
 			dao.save(zyosUser);
 
 			zyosUser.getZyosLogin().setIdZyosUser(zyosUser.getIdZyosUser());
-			//String a=(zyosUser.getZyosLogin().getPassword().toString().trim());
-			//a=RSA.encrypt(a);
-			//System.out.println("-"+a+"-");
-			//zyosUser.getZyosLogin().setPasswordMD5((zyosUser.getZyosLogin().getPassword().toString().trim()));
-			zyosUser.getZyosLogin().setPasswordMD5("e10adc3949ba59abbe56e057f20f883e");//cambiar
+			zyosUser.getZyosLogin().setPasswordMD5( EncryptMD5.encrypt(zyosUser.getZyosLogin().getPassword().toString().trim()));//Linea nueva
 			zyosUser.getZyosLogin().setDeadLine("2012/12/12");
 			zyosUser.getZyosLogin().setFirstLogin(0);
 			zyosUser.getZyosLogin().initializing(zyosUser.getUserCreation(), true);
