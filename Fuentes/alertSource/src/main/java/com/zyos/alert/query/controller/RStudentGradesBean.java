@@ -45,17 +45,17 @@ public class RStudentGradesBean extends ZyosBackingBean {
 	public void loadStudentList() throws Exception {
 		Fecha = ManageDate.getCurrentDate(ManageDate.YYYY_MM_DD);
 		Date FechaNow = new Date(System.currentTimeMillis());
-		AcademicPeriod SelectedPeriod = PeriodList.get(Period.intValue());
+		AcademicPeriod SelectedPeriod = controller.searchAcademicPeriod(Period);
 		@SuppressWarnings("deprecation")
 		Date FechaStart = new Date(SelectedPeriod.getStartDate());
 		@SuppressWarnings("deprecation")
 		Date FechaEnd = new Date(SelectedPeriod.getEndDate());
-		
+		System.out.println("ID PERIOD "+Period+"- PeriodList: "+SelectedPeriod.getId());
+		System.out.println(SelectedPeriod.getStartDate()+" - "+Fecha+" - "+SelectedPeriod.getEndDate());
 		System.out.println(FechaStart+" - "+FechaNow+" - "+FechaEnd);
+		System.out.println(FechaStart.compareTo(FechaNow)+" <-> "+FechaNow.compareTo(FechaEnd));
 		
-		if((FechaStart.compareTo(FechaNow) >= 0)//(ManageDate.dateComparator(Fecha1, Fecha,"YYYY/MM/DD") <= 0)
-				&& (FechaNow.compareTo(FechaEnd) <= 0) //(ManageDate.dateComparator( Fecha, Fecha2,"YYYY/MM/DD") >= 0)
-				) {
+		if((FechaStart.compareTo(FechaNow) <= 0) && (FechaNow.compareTo(FechaEnd) <= 0)) {
 			//buscar los estudiantes por el corte de las materias
 			userList = controller.getStudentList(this.getUserSession().getDefaultEnterprise(),Period,true);
 		} else {

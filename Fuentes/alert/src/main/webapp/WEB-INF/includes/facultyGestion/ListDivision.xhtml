@@ -31,11 +31,11 @@
 					<h:outputText value="#{parameter.name}" />
 				</p:column>
 
-				<p:column width="20%" headerText="Acciones">
+				<p:column width="15%" headerText="Acciones">
 					<div align="center">
 						<table border="0">
 							<tr>
-								<td style="border-width: 0px;">
+								<td style="border-width: 0px; text-align: center;">
 									<p:commandLink
 										action="#{gestionBean.goFacultys}" title="Ver Facultades">
 										<p:graphicImage value="../css/images/dartramite.png"
@@ -44,7 +44,7 @@
 											target="#{gestionBean.facultySelect}" value="#{parameter}" />
 									</p:commandLink>
 								</td>
-								<td style="border-width: 0px;">
+								<td style="border-width: 0px; text-align: center;">
 									<p:commandLink
 										disabled="#{gestionBean.getValidateUserRole(3,21)}"
 										title="Asignar Decano de División"
@@ -55,7 +55,7 @@
 											target="#{gestionBean.facultySelect}" value="#{parameter}" />
 									</p:commandLink>
 								</td>
-								<td style="border-width: 0px;">
+								<td style="border-width: 0px; text-align: center;">
 									<p:commandLink title="Eliminar"
 										action="#{gestionBean.goDeleteDivision}"
 										disabled="#{gestionBean.getValidateUserRole(5,21)}"
@@ -67,7 +67,7 @@
 											value="#{parameter}" />
 									</p:commandLink>
 								</td>
-								<td style="border-width: 0px;">
+								<td style="border-width: 0px; text-align: center;">
 									<p:commandLink title="Editar"
 										disabled="#{gestionBean.getValidateUserRole(3,21)}"
 										action="#{gestionBean.goEditDiv}">
@@ -82,13 +82,13 @@
 					</div>
 				</p:column>
 				<f:facet name="footer">
-					<p:outputPanel>#{fn:length(gestionBean.schoolList)} División(es) habilitada(s)</p:outputPanel>
+					<p:outputPanel>#{fn:length(gestionBean.facultyList)} División(es) habilitada(s)</p:outputPanel>
 				</f:facet>
 			</p:dataTable>
 
 
 			<p align="center">
-				<p:commandButton action="#{gestionBean.goAddParameter}"
+				<p:commandButton action="#{gestionBean.goAddFaculty}"
 					disabled="#{gestionBean.getValidateUserRole(2,21)}"
 					styleClass="ui-priority-primary" partialSubmit="true"
 					onclick="statusDialog.show();"

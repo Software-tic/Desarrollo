@@ -34,4 +34,16 @@ public class Teacher extends AbstractTeacher implements java.io.Serializable {
 				datechange, userchange, state);
 	}
 
+	public Teacher(Long idteacher, Long idZyosUser, Long idSchool) {
+		super(idteacher, idZyosUser, idSchool);
+		// TODO Auto-generated constructor stub
+	}
+
+	public Teacher(Long idteacher, Long zyosuser, Long school,
+			String datecreation, String usercreation) {
+		super(idteacher, zyosuser, school, datecreation, usercreation);
+		// TODO Auto-generated constructor stub
+	}
+
+	
 }

@@ -66,6 +66,7 @@ public class BeanList implements Serializable {
 
 	public static ZyosAuth zyosAuth = null;
 	private static Timer updateCalificationMoodle = null;
+	private static Timer updateGradesSAC = null;
 	private static ExecutionsHistorical execution;
 	private static ControllerList controller = new ControllerList();
 	private static MoodleController moodleController = new MoodleController();
@@ -220,6 +221,45 @@ public class BeanList implements Serializable {
 			throw e;
 		}
 	}
+	
+	private static void startUpdateNotasFromSAC() {
+		if (updateGradesSAC == null && HibernateSessionFactory.getOracleSession() != null && HibernateSessionFactory.getOracleSession().isConnected()) {
+			updateGradesSAC = new Timer("USTA_ROBOTGRADESAC");
+
+			Calendar midnigth = GregorianCalendar.getInstance();
+
+			midnigth.set(Calendar.HOUR_OF_DAY, 23);
+			midnigth.set(Calendar.MINUTE, 58);
+			midnigth.set(Calendar.SECOND, 58);
+
+			Long toStart = midnigth.getTimeInMillis() - System.currentTimeMillis();
+
+			updateGradesSAC.schedule(new TimerTask() {
+				
+				private void updateGrades() throws Exception{
+					Long idAcademicPeriod = controller.loadCurrentAcademicPeriod();
+					int Corte =controller.loadCurrentCorte();
+					controller.updateStudentGradesTunjaFromSAC(idAcademicPeriod);
+					controller.reportStudent(idAcademicPeriod, Corte);
+				}
+
+				@Override
+				public void run() {
+					try {
+
+						System.out.println("INFO: Validation Robot SAC Grades...");
+						String day = ManageDate.getDay(ManageDate.getCurrentDate(ManageDate.YYYY_MM_DD));
+						if ((day.equals("07") || day.equals("14") || day.equals("21") || day.equals("28") /*Borrar aqui para adelante*/|| day.equals("30"))) {
+							updateGrades();
+						}
+					} catch (Exception e) {
+						ErrorNotificacion.handleErrorMailNotification(e, this);
+					}
+
+				}
+			}, toStart, 86400000);
+		}
+	}
 
 	public static ControllerEnterpriseList getCEL(ControllerEnterpriseList cel, Long idE) {
 		if (cel == null || (cel != null && !cel.getIdEnterprise().equals(idE)))
@@ -269,6 +309,7 @@ public class BeanList implements Serializable {
 		loadStatusReportStudentList();
 		createControllerEnterpriseList();
 		startUpdateCalificationFromMoodle(); /* robot moodle */
+		startUpdateNotasFromSAC(); /* robot para notas del SAC */
 		// loadStagePermissionList();
 
 
@@ -615,6 +656,14 @@ public class BeanList implements Serializable {
 
 	public static void setPublicKey(Key publicKey) {
 		BeanList.publicKey = publicKey;
+	}
+
+	public static Timer getUpdateGradesSAC() {
+		return updateGradesSAC;
+	}
+
+	public static void setUpdateGradesSAC(Timer updateGradesSAC) {
+		BeanList.updateGradesSAC = updateGradesSAC;
 	}
 
 

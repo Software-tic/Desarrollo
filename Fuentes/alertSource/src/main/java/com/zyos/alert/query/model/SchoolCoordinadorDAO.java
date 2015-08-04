@@ -10,6 +10,8 @@ import static org.hibernate.criterion.Example.create;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.zyos.alert.facultyCoordinator.model.FacultyCoordinator;
+import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 
 /**
@@ -162,6 +164,39 @@ public class SchoolCoordinadorDAO extends OracleBaseHibernateDAO {
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
 			throw re;
+		}
+	}
+	
+	public Long searchIdDFacultad(){
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append("SELECT MAX(idSchoolCoord) FROM SchoolCoordinador");
+			qo = getSession().createQuery(hql.toString());
+			return Long.valueOf(qo.uniqueResult().toString());
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	public SchoolCoordinador FindDFacultad(Long idZyosUser,Long School){
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append("SELECT NEW SchoolCoordinador(sc.idSchoolCoord,sc.idZyosuser,sc.idSchool) FROM SchoolCoordinador sc "
+					+ " WHERE sc.idZyosuser=:idZyosUser AND sc.idSchool=:idSchool ");
+			qo = getSession().createQuery(hql.toString());
+			qo.setParameter("idZyosUser", idZyosUser);
+			qo.setParameter("idSchool", School);
+			return (SchoolCoordinador)qo.uniqueResult();
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
 		}
 	}
 }

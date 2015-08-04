@@ -30,11 +30,11 @@
 					<h:outputText value="#{parameter.nameSchool}" />
 				</p:column>
 
-				<p:column width="20%" headerText="Acciones">
+				<p:column width="15%" headerText="Acciones">
 					<div align="center">
 						<table>
 							<tr>
-								<td style="border-width: 0px;">
+								<td style="border-width: 0px; text-align: center;">
 									<p:commandLink
 										action="#{gestionBean.goTeachers}" title="Ver Docentes">
 										<p:graphicImage value="../css/images/dartramite.png"
@@ -43,7 +43,7 @@
 											target="#{gestionBean.schoolSelect}" value="#{parameter}" />
 									</p:commandLink>
 								</td>
-								<td style="border-width: 0px;">
+								<td style="border-width: 0px; text-align: center;">
 									<p:commandLink
 										disabled="#{gestionBean.getValidateUserRole(3,21)}"
 										title="Asignar Decano de Facultad"
@@ -51,10 +51,10 @@
 										<p:graphicImage value="../css/images/accept.png" height="20"
 											width="20" />
 										<f:setPropertyActionListener
-											target="#{gestionBean.schoolSelect}" value="#{parameter}" />
+											target="#{gestionBean.schoolSelectD}" value="#{parameter}" />
 									</p:commandLink>
 								</td>
-								<td style="border-width: 0px;">
+								<td style="border-width: 0px; text-align: center;">
 									<p:commandLink title="Eliminar"
 										action="#{gestionBean.goDeleteFaculty}"
 										disabled="#{gestionBean.getValidateUserRole(5,21)}"
@@ -66,7 +66,7 @@
 											value="#{parameter}" />
 									</p:commandLink>
 								</td>
-								<td style="border-width: 0px;">
+								<td style="border-width: 0px; text-align: center;">
 									<p:commandLink title="Editar"
 										action="#{gestionBean.goEditFa}"
 										disabled="#{gestionBean.getValidateUserRole(3,21)}"
@@ -83,20 +83,20 @@
 					</div>
 				</p:column>
 				<f:facet name="footer">
-					<p:outputPanel>#{fn:length(gestionBean.facultyList)} Facultad(es) habilitada(s)</p:outputPanel>
+					<p:outputPanel>#{fn:length(gestionBean.schoolList)} Facultad(es) habilitada(s)</p:outputPanel>
 				</f:facet>
 			</p:dataTable>
 
 
 			<p align="center">
-				<p:commandButton action="#{gestionBean.goAddParameter}"
+				<p:commandButton action="#{gestionBean.goAddSchool}"
 					disabled="#{gestionBean.getValidateUserRole(2,21)}"
 					styleClass="ui-priority-primary" partialSubmit="true"
 					onclick="statusDialog.show();"
 					value="Agregar Facultad" />
 					<p:spacer/>
 				<p:commandButton action="#{gestionBean.goBack}"
-					partialSubmit="true" value="Atrás" />
+					partialSubmit="true" value="Atras" />
 			</p>
 		</div>
 		<p:dialog id="PoPupInfo2"

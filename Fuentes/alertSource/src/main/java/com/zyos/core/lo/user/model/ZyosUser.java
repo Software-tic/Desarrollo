@@ -136,8 +136,7 @@ public class ZyosUser extends AZyosModel implements java.io.Serializable {
 		}
 	}
 
-	/* @autor jhernandez */
-
+	/** @autor jhernandez */
 	public ZyosUser(Long idZyosUser, String name, String lastName, String documentNumber,
 			String email, String phone, String mobilePhone, String address,
 			Long idZyosGroup, String nameDegree) {
@@ -171,6 +170,19 @@ public class ZyosUser extends AZyosModel implements java.io.Serializable {
 		this.email = email;
 		this.state = state;
 		zyosLogin = new ZyosLogin();
+	}
+
+	public ZyosUser(Long idZyosUser,String documentNumber, String name, 
+			String lastName, String phone, String mobilePhone, String email, 
+			String secondEmail) {
+		this.idZyosUser = idZyosUser;
+		this.documentNumber = documentNumber;
+		this.name = name;
+		this.lastName = lastName;
+		this.phone = phone;
+		this.mobilePhone = mobilePhone;
+		this.email = email;
+		this.secondEmail = secondEmail;
 	}
 
 	/** {@link loadResponsibleListByRole(Long)} */

@@ -34,5 +34,7 @@ public class SchoolCoordinador extends AbstractSchoolCoordinador implements
 		super(idschoolcoord, zyosuser, school, datecreation, usercreation,
 				datechange, userchange, state);
 	}
-
+	public SchoolCoordinador(Long idSchoolCoord, Long idZyosuser, Long idSchool) {
+		super(idSchoolCoord,  idZyosuser, idSchool);
+	}
 }

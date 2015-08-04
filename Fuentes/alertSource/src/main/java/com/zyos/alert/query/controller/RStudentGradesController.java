@@ -52,5 +52,16 @@ public class RStudentGradesController extends ZyosController {
 			dao = null;
 		}
 	}
-
+	
+	public AcademicPeriod searchAcademicPeriod(Long IdPeriod) throws Exception {
+		AcademicPeriodDAO dao = new AcademicPeriodDAO();
+		try {
+			return dao.findById(IdPeriod);
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}
+	}
 }

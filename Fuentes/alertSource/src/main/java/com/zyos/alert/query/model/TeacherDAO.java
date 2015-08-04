@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.transform.Transformers;
 
 import static org.hibernate.criterion.Example.create;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.zyos.alert.sac.model.CambioIdentificacionEstudiante;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 
@@ -163,17 +165,49 @@ public class TeacherDAO extends OracleBaseHibernateDAO {
 		}
 	}
 	
-	public void deletePersona(Long idTeacher){
+	public int deletePersona(Long idTeacher){
 		StringBuilder hql = new StringBuilder();
 		Query qo = null;
 		try {
-			hql.append(" UPDATE Teacher SET state=:state WHERE idteacher = :idTeacher ");
-
+			hql.append(" UPDATE Teacher SET state=:state WHERE idZyosUser = :idTeacher ");
 			qo = getSession().createQuery(hql.toString());		
 			qo.setParameter("idTeacher", idTeacher);
 			qo.setParameter("state", IZyosState.INACTIVE);
-			qo.executeUpdate();
-			
+			return qo.executeUpdate();
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	public Long searchIdTeacher(){
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append("SELECT MAX(idteacher) FROM Teacher");
+			qo = getSession().createQuery(hql.toString());
+			return Long.valueOf(qo.uniqueResult().toString());
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	public Teacher FindTeacher(Long idZyosUser,Long School){
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append("SELECT New Teacher (t.idteacher,t.idZyosUser,t.idSchool,t.dateCreation,t.userCreation) "
+					+ " FROM Teacher t WHERE t.idZyosUser=:idZyosUser AND t.idSchool=:idSchool ");
+			qo = getSession().createQuery(hql.toString());
+			qo.setParameter("idZyosUser", idZyosUser);
+			qo.setParameter("idSchool", School);
+			qo.setMaxResults(1);
+			return (Teacher) qo.uniqueResult();
 		} catch (RuntimeException re) {
 			throw re;
 		} finally {

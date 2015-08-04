@@ -484,11 +484,13 @@ public class ZyosUserDAO extends OracleBaseHibernateDAO {
 			hql.append(" and zu.documentNumber is not null ");
 			hql.append(" and zu.id = zue.idZyosUser ");
 			hql.append(" and zue.idEnterprise = :idEnterprise ");
+			hql.append(" and zu.idZyosGroup <> :idZyosGroup ");
 
 			qo = getSession().createQuery(hql.toString());
 
 			qo.setParameter("idEnterprise", idEnterprise);
 			qo.setParameter("state", IZyosState.ACTIVE);
+			qo.setParameter("idZyosGroup", IZyosGroup.STUDENT);
 
 			List<ZyosUser> userGroups = qo.list();
 			qo = null;
@@ -706,6 +708,33 @@ public class ZyosUserDAO extends OracleBaseHibernateDAO {
 			hql.append(" zu.name AS name, ");
 			hql.append(" zu.lastName AS lastName, ");
 			hql.append(" zu.email AS email ");
+			hql.append(" FROM ZyosUser zu ");
+			hql.append(" WHERE zu.idZyosUser = :idZyosUser ");
+			hql.append(" AND zu.state = :state ");
+
+			Query qo = null;
+			qo = getSession().createQuery(hql.toString()).setResultTransformer(
+					Transformers.aliasToBean(ZyosUser.class));
+			qo.setParameter("idZyosUser", idZyosUser);
+			qo.setParameter("state", IZyosState.ACTIVE);
+
+			return (ZyosUser) qo.uniqueResult();
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	public ZyosUser findZyosUser(Long idZyosUser) throws Exception {
+		StringBuilder hql = new StringBuilder();
+		try {
+			hql.append(" SELECT zu.idZyosUser AS idZyosUser, ");
+			hql.append(" zu.documentNumber AS documentNumber, ");
+			hql.append(" zu.name AS name, ");
+			hql.append(" zu.lastName AS lastName, ");
+			hql.append(" zu.phone AS phone, ");
+			hql.append(" zu.mobilePhone AS mobilePhone, ");
+			hql.append(" zu.email AS email, ");
+			hql.append(" zu.secondEmail AS secondEmail ");
 			hql.append(" FROM ZyosUser zu ");
 			hql.append(" WHERE zu.idZyosUser = :idZyosUser ");
 			hql.append(" AND zu.state = :state ");
@@ -1228,6 +1257,44 @@ public class ZyosUserDAO extends OracleBaseHibernateDAO {
 			qo.setParameter("idSchool", idSchool);
 			qo.setParameter("state", IZyosState.ACTIVE);
 			return qo.list();
+			
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	public int deleteDecDivisionBySchoolTunja(Long idDecDivision) throws Exception {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append(" UPDATE FacultyCoordinator SET state=:state WHERE idZyosUser = :idDecanoD ");
+
+			qo = getSession().createQuery(hql.toString());		
+			qo.setParameter("idDecanoD", idDecDivision);
+			qo.setParameter("state", IZyosState.INACTIVE);
+			return qo.executeUpdate();
+			
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	public int deleteDecFacultyBySchoolTunja(Long idDecFaculty) throws Exception {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append("  UPDATE SchoolCoordinador SET state=:state WHERE idZyosUser = :idDecanoF ");
+
+			qo = getSession().createQuery(hql.toString());		
+			qo.setParameter("idDecanoF", idDecFaculty);
+			qo.setParameter("state", IZyosState.INACTIVE);
+			return qo.executeUpdate();
 			
 		} catch (RuntimeException re) {
 			throw re;

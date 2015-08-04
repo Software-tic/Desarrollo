@@ -195,7 +195,7 @@ public class SchoolDAO extends OracleBaseHibernateDAO {
 		}
 	}
 	
-	public void deleteFaculty(Long idSchool){
+	public int deleteFaculty(Long idSchool){
 		StringBuilder hql = new StringBuilder();
 		Query qo = null;
 		try {
@@ -204,7 +204,7 @@ public class SchoolDAO extends OracleBaseHibernateDAO {
 			qo = getSession().createQuery(hql.toString());		
 			qo.setParameter("idschool", idSchool);
 			qo.setParameter("state", IZyosState.INACTIVE);
-			qo.executeUpdate();
+			return qo.executeUpdate();
 			
 		} catch (RuntimeException re) {
 			throw re;
@@ -214,7 +214,7 @@ public class SchoolDAO extends OracleBaseHibernateDAO {
 		}
 	}
 	
-	public void updateFaculty(School school){
+	public int updateFaculty(School school){
 		StringBuilder hql = new StringBuilder();
 		Query qo = null;
 		try {
@@ -223,7 +223,42 @@ public class SchoolDAO extends OracleBaseHibernateDAO {
 			qo = getSession().createQuery(hql.toString());		
 			qo.setParameter("idschool", school.getIdschool());
 			qo.setParameter("name", school.getNameSchool());
-			qo.executeUpdate();
+			return qo.executeUpdate();
+			
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	public School findByNameFaculty(School faculty) {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append(" SELECT NEW School(f.idschool,f.name) FROM Faculty f WHERE f.nameSchool=:name ");
+
+			qo = getSession().createQuery(hql.toString());
+			qo.setParameter("name", faculty.getNameSchool());
+			return (School)qo.uniqueResult();
+			
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	public Long findMaxIDFaculty() {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append(" SELECT MAX(f.idschool) FROM School f ");
+
+			qo = getSession().createQuery(hql.toString());
+			return (Long)qo.uniqueResult();
 			
 		} catch (RuntimeException re) {
 			throw re;

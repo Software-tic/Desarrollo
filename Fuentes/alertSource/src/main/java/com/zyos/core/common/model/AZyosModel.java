@@ -39,4 +39,64 @@ public abstract class AZyosModel implements Serializable {
 		}
 	}
 
+	public AZyosModel(String dateCreation, String userCreation) {
+		super();
+		this.dateCreation = dateCreation;
+		this.userCreation = userCreation;
+	}
+
+	public AZyosModel() {
+		super();
+	}
+
+	public AZyosModel(String dateCreation, String userCreation,
+			String dateChange, String userChange, Long state) {
+		super();
+		this.dateCreation = dateCreation;
+		this.userCreation = userCreation;
+		this.dateChange = dateChange;
+		this.userChange = userChange;
+		this.state = state;
+	}
+
+	public String getDateCreation() {
+		return dateCreation;
+	}
+
+	public void setDateCreation(String dateCreation) {
+		this.dateCreation = dateCreation;
+	}
+
+	public String getUserCreation() {
+		return userCreation;
+	}
+
+	public void setUserCreation(String userCreation) {
+		this.userCreation = userCreation;
+	}
+
+	public String getDateChange() {
+		return dateChange;
+	}
+
+	public void setDateChange(String dateChange) {
+		this.dateChange = dateChange;
+	}
+
+	public String getUserChange() {
+		return userChange;
+	}
+
+	public void setUserChange(String userChange) {
+		this.userChange = userChange;
+	}
+
+	public Long getState() {
+		return state;
+	}
+
+	public void setState(Long state) {
+		this.state = state;
+	}
+
 }

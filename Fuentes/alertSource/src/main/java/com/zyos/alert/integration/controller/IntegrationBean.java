@@ -203,7 +203,7 @@ public class IntegrationBean extends ZyosBackingBean {
 				printMessage("INFO: End migratetudentSubjectDayClassFromSAC database integration ");
 				
 				//-----Integración SIAT-TUNJA vista notas de estudiante
-				int NotasEstudent=0;
+				/*int NotasEstudent=0;
 				printMessage("INFO: Start migrateNotStudentCorteTunjaFromSAC database integration ");
 				while (true) {
 					int s = controller.migrateNotEstudentCorteTunjaFromSAC(idAcademicPeriod);
@@ -212,7 +212,7 @@ public class IntegrationBean extends ZyosBackingBean {
 					if (s <= 0)
 						break;
 				}
-				printMessage("INFO: End migrateNotStudentCorteTunjaFromSAC database integration ");
+				printMessage("INFO: End migrateNotStudentCorteTunjaFromSAC database integration ");*/
 				//--------------------------------------------------------
 
 				ExecutionsHistorical eh = new ExecutionsHistorical();

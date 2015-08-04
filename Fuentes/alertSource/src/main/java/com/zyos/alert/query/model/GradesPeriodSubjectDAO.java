@@ -203,20 +203,24 @@ public class GradesPeriodSubjectDAO extends OracleBaseHibernateDAO {
 	}
 	
 	/** SIAT-TUNJA */
-	public List<GradesPeriodSubject> migrateGradesPeriodSubjectFromSAC() {
+	public List<GradesPeriodSubject> migrateGradesPeriodSubjectFromSAC(Long idAcademicPeriod) {
 		try {
 			StringBuilder hql = new StringBuilder();
-			hql.append(" SELECT np.id.idEstudiante, np.id.idMateria, np.perCorte, np.sdoCorte, np.terCorte, np.NFinal, ap.id, sb.idStudentSubject "
-					+ " FROM  AcademicPeriod ap, NotasPeriodo np, StudentSubject sb, GradesPeriodSubject gps "
-					+ " WHERE np.id.idEstudiante = sb.idStudent AND "
-					+ " ap.id = sb.idAcademicPeriod AND "
-					+ " ap.name = np.id.periodo AND "
-					+ " sb.idStudentSubject = gps.studentsubject AND "
-					+ " (np.id.idEstudiante || '_' ||  np.id.idMateria || '_' || ap.id) IN (SELECT (ss.idStudent || '_' || ss.idSubject || '_'|| ss.idAcademicPeriod) FROM StudentSubject ss) "
-					+ " AND ap = :currentDate");
+			hql.append(" SELECT gps.idgradesPeriodSubject, np.perCorte, np.sdoCorte, np.terCorte, np.NFinal, sb.idStudentSubject "
+					+ " FROM notas_periodo np, AcademicPeriod ap, StudentSubject sb, GradesPeriodSubject gps " 
+					+ " WHERE ap.id = :idPeriod " 
+					+ " AND np.periodo = ap.name "
+					+ " AND sb.idSubject = np.idMateria " 
+					+ " AND sb.idStudent = np.idEstudiante "
+					+ " AND sb.idAcademicPeriod = ap.id "
+					+ " AND sb.idStudentSubject = gps.studentsubject "
+					+ " AND ap.state = :state "
+					+ " AND gps.state = :state " 
+					+ " AND sb.state = :state ");
 			
 			Query qo = getSession().createQuery(hql.toString());
-			qo.setParameter("currentDate", ManageDate.getCurrentDate(ManageDate.YYYY_MM_DD));
+			qo.setParameter("state", IZyosState.ACTIVE);
+			qo.setParameter("idPeriod",idAcademicPeriod);
 			qo.setResultTransformer(Transformers.aliasToBean(GradesPeriodSubject.class));
 			
 			return qo.list();

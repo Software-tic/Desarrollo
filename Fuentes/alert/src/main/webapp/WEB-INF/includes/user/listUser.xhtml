@@ -45,8 +45,8 @@
 							</div>
 						</p:column>
 
-						<p:column headerText="#{bundle['page.user.label_userName']}" sortBy="#{zyosUser.name}"
-							filterBy="#{zyosUser.name}" filterMatchMode="contains" filterStyle="display:none" width="250">
+						<p:column headerText="#{bundle['page.user.label_userName']}" sortBy="#{zyosUser.name} #{zyosUser.lastName}"
+							filterBy="#{zyosUser.name} #{zyosUser.lastName}" filterMatchMode="contains" filterStyle="display:none" width="250">
 							<h:outputText value="#{zyosUser.name} #{zyosUser.lastName}"/>
 						</p:column>
 

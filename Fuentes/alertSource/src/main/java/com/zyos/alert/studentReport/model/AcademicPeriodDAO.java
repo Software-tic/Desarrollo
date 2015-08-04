@@ -50,10 +50,10 @@ public class AcademicPeriodDAO extends OracleBaseHibernateDAO {
 	}
 
 	public AcademicPeriod findById(java.lang.Long id) {
-		log.debug("getting Academicperiod instance with id: " + id);
+		log.debug("getting AcademicPeriod instance with id: " + id);
 		try {
 			AcademicPeriod instance = (AcademicPeriod) getSession().get(
-					"com.zyos.alert.studentReport.model.Academicperiod", id);
+					"com.zyos.alert.studentReport.model.AcademicPeriod", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);

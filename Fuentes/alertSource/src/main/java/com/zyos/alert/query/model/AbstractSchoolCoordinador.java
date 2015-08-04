@@ -20,11 +20,6 @@ public abstract class AbstractSchoolCoordinador extends
 	private Long idSchoolCoord;
 	private Long idZyosuser;
 	private Long idSchool;
-	private String datecreation;
-	private String usercreation;
-	private String datechange;
-	private String userchange;
-	private Long state;
 
 	// Constructors
 
@@ -34,68 +29,65 @@ public abstract class AbstractSchoolCoordinador extends
 
 	/** minimal constructor */
 	public AbstractSchoolCoordinador(Long idschoolcoord) {
-		this.idSchoolCoord = idschoolcoord;
+		this.setIdSchoolCoord(idschoolcoord);
+	}
+
+	public AbstractSchoolCoordinador(Long idSchoolCoord, Long idZyosuser,
+			Long idSchool) {
+		this.setIdSchoolCoord(idSchoolCoord);
+		this.idZyosuser = idZyosuser;
+		this.idSchool = idSchool;
 	}
 
 	/** full constructor */
 	public AbstractSchoolCoordinador(Long idschoolcoord, Long zyosuser,
 			Long school, String datecreation, String usercreation,
 			String datechange, String userchange, Long state) {
-		this.idSchoolCoord = idschoolcoord;
+		this.setIdSchoolCoord(idschoolcoord);
 		this.setIdZyosuser(zyosuser);
 		this.setIdSchool(school);
-		this.datecreation = datecreation;
-		this.usercreation = usercreation;
-		this.datechange = datechange;
-		this.userchange = userchange;
+		this.dateCreation = datecreation;
+		this.userCreation = usercreation;
+		this.dateChange = datechange;
+		this.userChange = userchange;
 		this.state = state;
 	}
 
 	// Property accessors
-	@Id
-	@Column(name = "idschoolcoord", unique = true, nullable = false)
-	public Long getIdschoolcoord() {
-		return this.idSchoolCoord;
-	}
-
-	public void setIdschoolcoord(Long idschoolcoord) {
-		this.idSchoolCoord = idschoolcoord;
-	}
-
 	@Column(name = "datecreation", length = 20)
 	public String getDatecreation() {
-		return this.datecreation;
+		return this.dateCreation;
 	}
 
 	public void setDatecreation(String datecreation) {
-		this.datecreation = datecreation;
+		this.dateCreation = datecreation;
 	}
 
 	@Column(name = "usercreation", length = 45)
 	public String getUsercreation() {
-		return this.usercreation;
+		return this.userCreation;
 	}
 
 	public void setUsercreation(String usercreation) {
-		this.usercreation = usercreation;
+		this.userCreation = usercreation;
 	}
 
 	@Column(name = "datechange", length = 20)
 	public String getDatechange() {
-		return this.datechange;
+		return this.dateChange;
 	}
 
 	public void setDatechange(String datechange) {
-		this.datechange = datechange;
+		this.dateChange = datechange;
 	}
 
 	@Column(name = "userchange", length = 45)
 	public String getUserchange() {
-		return this.userchange;
+		return this.userChange;
 	}
 
 	public void setUserchange(String userchange) {
-		this.userchange = userchange;
+		this.userChange = userchange;
 	}
 
 	@Column(name = "state")
@@ -123,6 +115,16 @@ public abstract class AbstractSchoolCoordinador extends
 
 	public void setIdSchool(Long idSchool) {
 		this.idSchool = idSchool;
+	}
+	
+	@Id
+	@Column(name = "idschoolcoord", unique = true, nullable = false)
+	public Long getIdSchoolCoord() {
+		return idSchoolCoord;
+	}
+
+	public void setIdSchoolCoord(Long idSchoolCoord) {
+		this.idSchoolCoord = idSchoolCoord;
 	}
 
 }

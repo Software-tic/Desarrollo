@@ -18,6 +18,10 @@
 			<p:outputPanel layout="block" rendered="#{gestionBean.showUserList}">
 				<ui:include src="/WEB-INF/includes/facultyGestion/ListUserAsign.xhtml" />
 			</p:outputPanel>
+			
+			<p:outputPanel layout="block" rendered="#{gestionBean.showAdd}">
+				<ui:include src="/WEB-INF/includes/facultyGestion/Add.xhtml" />
+			</p:outputPanel>
 
 		</p:outputPanel>
 		<p:outputPanel

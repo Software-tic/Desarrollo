@@ -385,7 +385,7 @@ public class ControllerList extends ZyosController {
 		GradesPeriodSubjectDAO dao = new GradesPeriodSubjectDAO();
 		int i = 0;
 		try {
-			List<GradesPeriodSubject> dl = dao.migrateGradesPeriodSubjectFromSAC();
+			List<GradesPeriodSubject> dl = dao.migrateGradesPeriodSubjectFromSAC(idAcademicPeriod);
 			if (dl != null && !dl.isEmpty()) {
 
 				for (GradesPeriodSubject d : dl) {

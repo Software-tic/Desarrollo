@@ -38,14 +38,25 @@ public abstract class AbstractTeacher extends
 	public AbstractTeacher(Long idteacher, Long zyosuser, Long school,
 			String datecreation, String usercreation, String datechange,
 			String userchange, Long state) {
+		super(datecreation, usercreation, datechange, userchange, state);
 		this.idteacher = idteacher;
 		this.idZyosUser = zyosuser;
 		this.idSchool = school;
-		this.dateCreation = datecreation;
-		this.userCreation = usercreation;
-		this.dateChange = datechange;
-		this.userChange = userchange;
-		this.state = state;
+	}
+	
+	public AbstractTeacher(Long idteacher, Long zyosuser, Long school,
+			String datecreation, String usercreation) {
+		super(datecreation, usercreation);
+		this.idteacher = idteacher;
+		this.idZyosUser = zyosuser;
+		this.idSchool = school;
+	}
+
+	public AbstractTeacher(Long idteacher, Long idZyosUser, Long idSchool) {
+		super();
+		this.idteacher = idteacher;
+		this.idZyosUser = idZyosUser;
+		this.idSchool = idSchool;
 	}
 
 	// Property accessors
@@ -57,51 +68,6 @@ public abstract class AbstractTeacher extends
 
 	public void setIdteacher(Long idteacher) {
 		this.idteacher = idteacher;
-	}
-
-	@Column(name = "datecreation", length = 20)
-	public String getDatecreation() {
-		return this.dateCreation;
-	}
-
-	public void setDatecreation(String datecreation) {
-		this.dateCreation = datecreation;
-	}
-
-	@Column(name = "usercreation", length = 45)
-	public String getUsercreation() {
-		return this.userCreation;
-	}
-
-	public void setUsercreation(String usercreation) {
-		this.userCreation = usercreation;
-	}
-
-	@Column(name = "datechange", length = 20)
-	public String getDatechange() {
-		return this.dateChange;
-	}
-
-	public void setDatechange(String datechange) {
-		this.dateChange = datechange;
-	}
-
-	@Column(name = "userchange", length = 45)
-	public String getUserchange() {
-		return this.userChange;
-	}
-
-	public void setUserchange(String userchange) {
-		this.userChange = userchange;
-	}
-
-	@Column(name = "state")
-	public Long getState() {
-		return this.state;
-	}
-
-	public void setState(Long state) {
-		this.state = state;
 	}
 	
 	@JoinColumn(name = "idzyosuser")
@@ -120,6 +86,71 @@ public abstract class AbstractTeacher extends
 
 	public void setIdSchool(Long idSchool) {
 		this.idSchool = idSchool;
+	}
+
+	@Column(name = "datecreation", length = 20)
+	@Override
+	public String getDateCreation() {
+		// TODO Auto-generated method stub
+		return super.getDateCreation();
+	}
+
+	@Override
+	public void setDateCreation(String dateCreation) {
+		// TODO Auto-generated method stub
+		super.setDateCreation(dateCreation);
+	}
+
+	@Column(name = "usercreation", length = 45)
+	@Override
+	public String getUserCreation() {
+		// TODO Auto-generated method stub
+		return super.getUserCreation();
+	}
+
+	@Override
+	public void setUserCreation(String userCreation) {
+		// TODO Auto-generated method stub
+		super.setUserCreation(userCreation);
+	}
+
+	@Column(name = "datechange", length = 20)
+	@Override
+	public String getDateChange() {
+		// TODO Auto-generated method stub
+		return super.getDateChange();
+	}
+
+	@Override
+	public void setDateChange(String dateChange) {
+		// TODO Auto-generated method stub
+		super.setDateChange(dateChange);
+	}
+
+	@Column(name = "userchange", length = 45)
+	@Override
+	public String getUserChange() {
+		// TODO Auto-generated method stub
+		return super.getUserChange();
+	}
+
+	@Override
+	public void setUserChange(String userChange) {
+		// TODO Auto-generated method stub
+		super.setUserChange(userChange);
+	}
+
+	@Column(name = "state")
+	@Override
+	public Long getState() {
+		// TODO Auto-generated method stub
+		return super.getState();
+	}
+
+	@Override
+	public void setState(Long state) {
+		// TODO Auto-generated method stub
+		super.setState(state);
 	}
 
 }

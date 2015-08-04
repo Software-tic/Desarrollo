@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.zyos.alert.moodle.model.MdlCourse;
+import com.zyos.alert.query.model.SchoolCoordinador;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 import com.zyos.core.lo.user.model.ZyosUser;
@@ -205,4 +206,37 @@ public class FacultyCoordinatorDAO extends OracleBaseHibernateDAO {
 		}
 	}
 	
+	
+	public Long searchIdDDivision(){
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append("SELECT MAX(idFacultyCoordinator) FROM FacultyCoordinator");
+			qo = getSession().createQuery(hql.toString());
+			return Long.valueOf(qo.uniqueResult().toString());
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	public FacultyCoordinator findDDivision(Long idZyosUser,Long Faculty){
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append("SELECT NEW FacultyCoordinator(idFacultyCoordinator, idZyosUser,idFaculty) FROM FacultyCoordinator "
+					+ " WHERE idZyosUser=:idZyosUser AND idFaculty=:idFaculty ");
+			qo = getSession().createQuery(hql.toString());
+			qo.setParameter("idZyosUser", idZyosUser);
+			qo.setParameter("idFaculty", Faculty);
+			return (FacultyCoordinator)qo.uniqueResult();
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
 }

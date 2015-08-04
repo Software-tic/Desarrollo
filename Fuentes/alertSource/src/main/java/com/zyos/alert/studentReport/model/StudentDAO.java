@@ -573,6 +573,7 @@ public class StudentDAO extends OracleBaseHibernateDAO {
 	}
 	
 	/**SIAT TUNJA*/
+	@SuppressWarnings("unchecked")
 	public List<Student> loadStudentListByEnterprise(Long idE, Long idP, Boolean porCorte, Integer Corte)
 			throws Exception {
 		StringBuilder hql = new StringBuilder();
@@ -603,28 +604,28 @@ public class StudentDAO extends OracleBaseHibernateDAO {
 						+ " stu.state = :state "
 						+ " GROUP BY stu.idStudent "
 						+ " HAVING AVG(cast(g.finalgrade AS float)) >= "
-						+ " (SELECT c.percentageAssistance FROM ControlPanel c WHERE idControlPanel = 5)) ");
+						+ " (SELECT c.percentageAssistance FROM ControlPanel c WHERE c.idControlPanel = 5)) ");
 			} else {
 				hql.append(" st.idStudent IN (SELECT stu.idStudent "
 						+ " FROM StudentSubject ss, GradesPeriodSubject g, AcademicPeriod ap, Student stu , Corte c "
-						+ "	WHERE ss.idAcademicPeriod = ap.id AND "
+						+ " WHERE ss.idAcademicPeriod = ap.id AND "
 						+ " g.studentsubject = ss.idStudentSubject AND "
-						+ "	c.academicperiod = ap.id AND "
-						+ " ap.id = :academicPeriod AND "
+						+ " c.idAcademicPeriod = ap.id AND "
 						+ " stu.idStudent = ss.idStudent AND "
+						+ " ap.id = :academicPeriod AND "
 						+ " ss.state = :state AND "
 						+ " g.state = :state AND "
 						+ " ap.state = :state AND "
 						+ " stu.state = :state AND "
 						+ " c.state = :state AND "
-						+ " c.idcorte IN (SELECT idcorte FROM Corte WHERE :CurrentTime BETWEEN dateStart AND dateEnd AND state=:state ) "
+						+ " c.idcorte IN (SELECT cte.idcorte FROM Corte cte WHERE :CurrentTime BETWEEN cte.dateStart AND cte.dateEnd AND cte.state=:state ) "
 						+ " GROUP BY stu.idStudent ");
 				if (Corte == 1) 
-					hql.append(" HAVING AVG(cast(g.firstcorte AS float)) >= (SELECT cp.percentageAssistance FROM ControlPanel cp WHERE cp.idControlPanel = 5 AND state=:state ))");
+					hql.append(" HAVING AVG(cast(g.firstcorte AS float)) >= (SELECT cp.percentageAssistance FROM ControlPanel cp WHERE cp.idControlPanel = 5 AND cp.state=:state ))");
 				else if (Corte == 2) 
-					hql.append(" HAVING AVG(CAST(g.secondcorte AS float)) >= (SELECT cp.percentageAssistance FROM ControlPanel cp WHERE cp.idControlPanel = 5 AND state=:state ))");
+					hql.append(" HAVING AVG(CAST(g.secondcorte AS float)) >= (SELECT cp.percentageAssistance FROM ControlPanel cp WHERE cp.idControlPanel = 5 AND cp.state=:state ))");
 				else 
-					hql.append(" HAVING AVG(CAST(g.thirdcorte AS float)) >= (SELECT cp.percentageAssistance FROM ControlPanel cp WHERE cp.idControlPanel = 5 AND state=:state ))");
+					hql.append(" HAVING AVG(CAST(g.thirdcorte AS float)) >= (SELECT cp.percentageAssistance FROM ControlPanel cp WHERE cp.idControlPanel = 5 AND cp.state=:state ))");
 			}
 			
 			qo = getSession().createQuery(hql.toString());

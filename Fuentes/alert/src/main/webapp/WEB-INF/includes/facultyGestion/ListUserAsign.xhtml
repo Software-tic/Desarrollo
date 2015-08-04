@@ -8,7 +8,7 @@
 	<h:inputHidden id="disableEnterU" />
 	<br />
 
-	<p:panel id="headerListU" header="Administración de Carreras">
+	<p:panel id="headerListU" header="Administración de Profesores">
 		<div align="center">
 			<h4>#{gestionBean.headerText}</h4>
 			<p:dataTable id="userTable" value="#{gestionBean.zyosUserList}"
@@ -42,31 +42,11 @@
 					<h:outputText value="#{parameter.email}" />
 				</p:column>
 
-				<p:column width="20%" headerText="Acciones">
+				<p:column width="10%" headerText="Acciones">
 					<div align="center">
 						<table>
 							<tr>
-								<td style="border-width: 0px;">
-									<p:commandLink
-										action="#{gestionBean.goTeachers}" title="Ver Docentes">
-										<p:graphicImage value="../css/images/dartramite.png"
-											height="20" width="20" />
-										<f:setPropertyActionListener
-											target="#{gestionBean.zyosUserSelect}" value="#{parameter}" />
-									</p:commandLink>
-								</td>
-								<td style="border-width: 0px;">
-									<p:commandLink
-										disabled="#{gestionBean.getValidateUserRole(3,21)}"
-										title="Asignar Decano de División"
-										action="#{gestionBean.goTeacherAsign}">
-										<p:graphicImage value="../css/images/accept.png" height="20"
-											width="20" />
-										<f:setPropertyActionListener
-											target="#{gestionBean.zyosUserSelect}" value="#{parameter}" />
-									</p:commandLink>
-								</td>
-								<td style="border-width: 0px;">
+								<td style="border-width: 0px; text-align: center;">
 									<p:commandLink title="Eliminar"
 										action="#{gestionBean.goDeletePersona}"
 										disabled="#{gestionBean.getValidateUserRole(5,21)}"
@@ -78,9 +58,9 @@
 											value="#{parameter}" />
 									</p:commandLink>
 								</td>
-								<td style="border-width: 0px;">
+								<td style="border-width: 0px; text-align: center;">
 									<p:commandLink
-										action="#{gestionBean.goDetailParameter}"
+										action="#{gestionBean.goDetailUser}"
 										disabled="#{gestionBean.getValidateUserRole(4,21)}"
 										title="DETALLAR">
 										<p:graphicImage value="../css/images/detail.gif" height="20"
@@ -98,13 +78,14 @@
 
 
 			<p align="center">
-				<p:commandButton action="#{gestionBean.goAddParameter}"
+				<p:commandButton action="#{gestionBean.goAddPerson}"
 					disabled="#{gestionBean.getValidateUserRole(2,21)}"
-					styleClass="ui-priority-primary" partialSubmit="true"
 					onclick="statusDialog.show();"
-					value="Agregar Persona" />
+					styleClass="ui-priority-primary" partialSubmit="true"
+					update="gestionForm:dlg2" value="Agregar Persona" />
 				<p:spacer/>
 				<p:commandButton action="#{gestionBean.goBack}"
+					onclick="statusDialog.show();"
 					partialSubmit="true" value="Atrás" />
 			</p>
 		</div>
@@ -115,6 +96,125 @@
 			<p:outputPanel style="text-align:center;" layout="block">
 
 			</p:outputPanel>
+		</p:dialog>
+		<p:dialog header="#{gestionBean.headerTextDialog}" widgetVar="dlg2WV" id="dlg2" modal="true" width="60%" resizable="false" draggable="false">
+    		<p:dataTable value="#{gestionBean.zyosUserListFind}"
+				editable="false" paginatorAlwaysVisible="true"
+				resizableColumns="false" id="userTableAdd"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="20,40,60" paginator="true" rows="10"
+				filterDelay="600"
+				emptyMessage="#{bundle['page.core.tableNoFoundRecord']}"
+				var="parameter" style="width:98%;" widgetVar="userTable">
+				
+				<f:facet name="header">
+					Usuarios activos
+					<div align="right">
+						<h:outputText value="Buscar:" />
+						<p:inputText id="globalFilter" onkeyup="userTable.filter()" style="width:100px" />
+					</div>
+				</f:facet>
+				
+				<p:column headerText="#{bundle['page.degree.labelName']}"
+					sortBy="#{parameter.name} #{parameter.lastName}" filterBy="#{parameter.name} #{parameter.lastName}" 
+					style="text-align:center" filterStyle="display:none">
+					<h:outputText value="#{parameter.name} #{parameter.lastName}" />
+				</p:column>
+				<p:column width="10%" style="text-align:center">
+					<p:commandLink
+						disabled="#{gestionBean.getValidateUserRole(3,21)}"
+						title="#{gestionBean.headerTextDialog}"
+						action="#{gestionBean.AddPerson}">
+						<p:graphicImage value="../css/images/accept.png" height="20" width="20" />
+						<f:setPropertyActionListener
+							target="#{gestionBean.ZUSelectToAdd}" value="#{parameter}" />
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</p:dialog>
+		
+		<p:dialog id="PoPupInfoUser" header="Detalle Persona"
+			resizable="false" draggable="false" showEffect="drop"
+			hideEffect="fade" modal="true" width="800" height="300px"
+			dynamic="true" showHeader="false" widgetVar="PoPupInfoUserWV">
+			<p:panel id="detailDialogPanel" header="Detalle Persona"
+				style="text-align:left;">
+
+				<table width="100%" border="0" cellpadding="5" cellspacing="5">
+					<tr>
+						<td style="width: 19%" />
+						<td style="width: 21%" />
+						<td style="width: 4%" />
+						<td style="width: 19%" />
+						<td style="width: 25%" />
+					</tr>
+					<tr>
+						<td colspan="5" align="center"
+							style="background-color:#002549;color: yellow; border-radius:5px 5px 5px 5px;"
+							height="15"><b>Detalle Persona</b>
+						</td>
+					</tr>
+					<tr>
+						<td>* #{bundle['page.riskStudentList.nameStudent']}:</td>
+						<td colspan="5">
+							<p:inputText
+								style="width:99%"
+								disabled="true"
+								value="#{gestionBean.zyosUserSelect.name} #{gestionBean.zyosUserSelect.lastName}">
+							</p:inputText>
+						</td>
+					</tr>
+					<tr>
+						<td>* #{bundle['page.insReportFamily.labelDocument']}:</td>
+						<td>
+							<p:inputText style="width:100%" disabled="true"
+								value="#{gestionBean.zyosUserSelect.documentNumber}">
+							</p:inputText>
+						</td>
+						<td />
+						<td>* #{bundle['page.riskStudentList.labelEmail']}:</td>
+						<td>
+							<p:inputText style="width:98%" disabled="true"
+								value="#{gestionBean.zyosUserSelect.email}">
+							</p:inputText>
+						</td>
+					</tr>
+					<tr>
+						<td>* #{bundle['page.riskStudentList.labelPhone']}:</td>
+						<td>
+							<p:inputText style="width:100%" disabled="true"
+								value="#{gestionBean.zyosUserSelect.phone}">
+							</p:inputText>
+						</td>
+						<td />
+						<td>* #{bundle['page.riskStudentList.labelseconEmail']}:</td>
+						<td>
+							<p:inputText style="width:98%" disabled="true"
+								value="#{gestionBean.zyosUserSelect.secondEmail}">
+							</p:inputText>
+						</td>
+					</tr>
+					<tr>
+						<td>* #{bundle['page.riskStudentList.labelmobilePhone']}:</td>
+						<td>
+							<p:inputText style="width:100%" disabled="true"
+								value="#{gestionBean.zyosUserSelect.mobilePhone}">
+							</p:inputText>
+						</td>
+						<td />
+						<td />
+						<td />
+					</tr>
+					<tr>
+						<td colspan="5" style="text-align: center">
+							<p:commandButton
+								value="#{bundle['page.core.labelAcept']}"
+								styleClass="ui-priority-primary"
+								onclick="PoPupInfoUserWV.hide()"/>
+						</td>
+					</tr>
+				</table>
+			</p:panel>
 		</p:dialog>
 	</p:panel>
 </f:view>

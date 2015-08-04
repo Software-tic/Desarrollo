@@ -691,18 +691,18 @@ public class IntegrationController extends ZyosController {
 	}
 
 	/** SIAT-TUNJA */
-	public int migrateNotEstudentCorteTunjaFromSAC(Long idAcademicPeriod) {
+	/*public int migrateNotEstudentCorteTunjaFromSAC(Long idAcademicPeriod) {
 		GradesPeriodSubjectDAO dao = new GradesPeriodSubjectDAO();
 		int i = 0;
 		try {
 			List<GradesPeriodSubject> dl = dao.migrateGradesPeriodSubjectFromSAC();
 			if (dl != null && !dl.isEmpty()) {
-
+				Long aux=dao.selectId();
 				for (GradesPeriodSubject d : dl) {
-					Long aux=dao.selectId();
-					d.setIdgradesPeriodSubject((1+aux));
+					aux++;
+					d.setIdgradesPeriodSubject((aux));
 					d.initializing("systemFromSAC", true);
-					dao.getSession().save(d);//update(d);
+					dao.getSession().save(d);
 
 					if (i % 10 == 0 && i != 0) {
 						dao.getSession().flush();
@@ -720,6 +720,6 @@ public class IntegrationController extends ZyosController {
 			dao = null;
 		}
 		return -1;
-	}
+	}*/
 	
 }

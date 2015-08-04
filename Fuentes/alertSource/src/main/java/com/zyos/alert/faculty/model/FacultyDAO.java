@@ -60,6 +60,18 @@ public class FacultyDAO extends OracleBaseHibernateDAO {
 			throw re;
 		}
 	}
+	
+	public Faculty findFacultyById(java.lang.Long id) {
+		log.debug("getting Faculty instance with id: " + id);
+		try {
+			Faculty instance = (Faculty) getSession().get(
+					"com.zyos.alert.faculty.model.Faculty", id);
+			return instance;
+		} catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		}
+	}
 
 	public List<Faculty> findByExample(Faculty instance) {
 		log.debug("finding FamilyStudent instance by example");
@@ -158,16 +170,25 @@ public class FacultyDAO extends OracleBaseHibernateDAO {
 	}
 	
 	/** SIAT-TUNJA */
-	public void deleteDivision(Long idFaculty) {
+	public int deleteDivision(Long idFaculty) {
 		StringBuilder hql = new StringBuilder();
 		Query qo = null;
 		try {
-			hql.append(" UPDATE Faculty SET state=:state WHERE idFaculty = :idFaculty ");
+			hql.append(" UPDATE Faculty SET state=:state "
+					+ " WHERE idFaculty = :idFaculty AND idFaculty NOT IN"
+					+ " (SELECT f.idFaculty "
+					+ " FROM Faculty f, FacultySchool fs, School s "
+					+ " WHERE f.idFaculty = fs.idFaculty AND "
+					+ " s.idschool = fs.idSchool "
+					+ " GROUP BY f.idFaculty) "
+					+ " AND idFaculty NOT IN "
+					+ " (SELECT fc.idFaculty FROM FacultyCoordinator fc "
+					+ " GROUP BY fc.idFaculty) ");
 
 			qo = getSession().createQuery(hql.toString());
-			qo.setParameter("idFaculty", idFaculty);
-			qo.setParameter("state", IZyosState.INACTIVE);
-			qo.executeUpdate();
+			qo.setParameter("idFaculty", idFaculty );
+			qo.setParameter("state", IZyosState.INACTIVE );
+			return qo.executeUpdate();
 			
 		} catch (RuntimeException re) {
 			throw re;
@@ -178,7 +199,7 @@ public class FacultyDAO extends OracleBaseHibernateDAO {
 	}
 	
 	/** SIAT-TUNJA */
-	public void updateDivision(Faculty faculty) {
+	public int updateDivision(Faculty faculty) {
 		StringBuilder hql = new StringBuilder();
 		Query qo = null;
 		try {
@@ -187,7 +208,60 @@ public class FacultyDAO extends OracleBaseHibernateDAO {
 			qo = getSession().createQuery(hql.toString());
 			qo.setParameter("idFaculty", faculty.getIdFaculty());
 			qo.setParameter("name", faculty.getName());
-			qo.executeUpdate();
+			return qo.executeUpdate();
+			
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	public Faculty findByNameDivision(Faculty faculty) {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append(" SELECT NEW Faculty(f.idFaculty,f.name) FROM Faculty f WHERE f.name=:name ");
+
+			qo = getSession().createQuery(hql.toString());
+			qo.setParameter("name", faculty.getName());
+			return (Faculty)qo.uniqueResult();
+			
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	public List<Faculty> findAllDivision() {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append(" SELECT NEW Faculty(f.idFaculty,f.name) FROM Faculty f WHERE f.state=:state ");
+
+			qo = getSession().createQuery(hql.toString());
+			qo.setParameter("state", IZyosState.ACTIVE);
+			return qo.list();
+			
+		} catch (RuntimeException re) {
+			throw re;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
+	
+	public Long findMaxIdDivision() {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			hql.append(" SELECT MAX(f.idFaculty) FROM Faculty f ");
+
+			qo = getSession().createQuery(hql.toString());
+			return (Long)qo.uniqueResult();
 			
 		} catch (RuntimeException re) {
 			throw re;

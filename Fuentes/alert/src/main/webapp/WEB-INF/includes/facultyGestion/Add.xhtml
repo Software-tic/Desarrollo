@@ -1,0 +1,55 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<p:panel>
+		<table width="100%" border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td width="3%"/>
+				<td height="23">#{bundle['page.user.label_asterisk']}</td>
+			</tr>
+			<tr>
+				<td width="3%"/>
+				<td>
+					<p:panel id="ParameterData" header="#{gestionBean.headerAdd}">
+						<p:outputPanel id="parameterDataPanel">
+							<div align="center">
+							<table width="90%" border="0" cellpadding="5" cellspacing="5">
+								<tr>
+									<td width="6%"/>
+									<td>Nombre *</td>
+									<td align="left">
+										<p:inputText rendered="#{gestionBean.schoolAdd}"
+											style="width: 80%;"
+											value="#{gestionBean.schoolSelect.nameSchool}">
+										</p:inputText>
+										
+										<p:inputText rendered="#{gestionBean.facultyAdd}"
+											style="width: 80%;"
+											value="#{gestionBean.facultySelect.name}">
+										</p:inputText>
+									</td>
+									<td width="6%"/>
+								</tr>
+							</table>
+							</div>
+						</p:outputPanel>
+					</p:panel>
+				</td>
+			</tr>
+		</table>
+		<div align="center">
+			<p:commandButton id="addButtonD" action="#{gestionBean.AddParameter}"
+				styleClass="ui-priority-primary" partialSubmit="true"
+				onclick="statusDialog.show();"
+				value="Crear #{gestionBean.headerAdd}"/>
+			<p:spacer/>
+			<p:commandButton action="#{gestionBean.goBack}"
+				onclick="statusDialog.show();"
+				partialSubmit="true" value="Atrás" />
+		</div>
+	</p:panel>
+</f:view>
