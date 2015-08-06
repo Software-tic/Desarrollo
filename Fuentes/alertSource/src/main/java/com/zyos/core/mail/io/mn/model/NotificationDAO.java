@@ -1,6 +1,5 @@
 package com.zyos.core.mail.io.mn.model;
 
-import org.hibernate.LockMode;
 import org.hibernate.Query;
 
 import com.zyos.core.connection.OracleBaseHibernateDAO;

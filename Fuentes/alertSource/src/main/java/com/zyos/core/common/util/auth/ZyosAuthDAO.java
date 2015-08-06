@@ -1,11 +1,8 @@
 package com.zyos.core.common.util.auth;
 
-import java.util.List;
-
 import org.hibernate.Query;
 
 import com.zyos.core.connection.OracleBaseHibernateDAO;
-import com.zyos.core.lo.user.model.Profession;
 
 /**
  * A data access object (DAO) providing persistence and search support for

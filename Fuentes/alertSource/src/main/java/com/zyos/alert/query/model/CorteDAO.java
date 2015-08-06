@@ -73,7 +73,7 @@ public class CorteDAO extends OracleBaseHibernateDAO {
 	public List<Corte> findByExample(Corte instance) {
 		log.debug("finding Corte instance by example");
 		try {
-			List<Corte> results = (List<Corte>) getSession()
+			List<Corte> results = getSession()
 					.createCriteria("com.zyos.alert.query.model.Corte")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -24,7 +23,6 @@ import com.zyos.core.common.model.ColumnModel;
 import com.zyos.core.common.model.RowModel;
 import com.zyos.core.common.util.ZyosFieldValidator;
 import com.zyos.core.common.util.excel.ZyosExcel;
-import com.zyos.core.common.util.resource.ManageProperties;
 import com.zyos.core.mail.io.mn.api.IEmailTemplateType;
 import com.zyos.core.mail.io.mn.aws.SMTPEmail;
 import com.zyos.core.mail.io.mn.model.EmailTemplate;
@@ -204,7 +202,7 @@ public class EmailBean extends ZyosBackingBean {
 				Iterator<Row> ri = readExcelFile.getSheetAt(0).rowIterator();
 				ri.next();// jump head
 				while (ri != null && ri.hasNext()) {
-					Row r = (Row) ri.next();
+					Row r = ri.next();
 					Iterator<Cell> ci2 = r.cellIterator();
 					int j = 0;
 					RowModel vl = new RowModel();
@@ -232,7 +230,7 @@ public class EmailBean extends ZyosBackingBean {
 	 * @return
 	 */
 	private String getValueCell(Iterator<Cell> iterator) {
-		Cell c = (Cell) iterator.next();
+		Cell c = iterator.next();
 		int ct = c.getCellType();
 		String value = null;
 		double v;

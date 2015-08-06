@@ -140,7 +140,7 @@ public class BeanList implements Serializable {
 				updateCalificationMoodle = new Timer("ZYOS_ROBOTMOODLE");
 
 
-				Calendar midnigth = GregorianCalendar.getInstance();
+				Calendar midnigth = Calendar.getInstance();
 
 				midnigth.set(Calendar.HOUR_OF_DAY, 23);
 				midnigth.set(Calendar.MINUTE, 58);
@@ -226,7 +226,7 @@ public class BeanList implements Serializable {
 		if (updateGradesSAC == null && HibernateSessionFactory.getOracleSession() != null && HibernateSessionFactory.getOracleSession().isConnected()) {
 			updateGradesSAC = new Timer("USTA_ROBOTGRADESAC");
 
-			Calendar midnigth = GregorianCalendar.getInstance();
+			Calendar midnigth = Calendar.getInstance();
 
 			midnigth.set(Calendar.HOUR_OF_DAY, 23);
 			midnigth.set(Calendar.MINUTE, 58);
@@ -249,7 +249,7 @@ public class BeanList implements Serializable {
 
 						System.out.println("INFO: Validation Robot SAC Grades...");
 						String day = ManageDate.getDay(ManageDate.getCurrentDate(ManageDate.YYYY_MM_DD));
-						if ((day.equals("07") || day.equals("14") || day.equals("21") || day.equals("28") /*Borrar aqui para adelante*/|| day.equals("30"))) {
+						if ((day.equals("07") || day.equals("14") || day.equals("21") || day.equals("28"))) {
 							updateGrades();
 						}
 					} catch (Exception e) {

@@ -257,10 +257,11 @@
 							<h:outputText value="Fecha Intervención:" />
 						</td>
 						<td>
-							<p:calendar id="dateIntervention"
-								value="#{interventionBean.dateIntervention}" required="true"
+							<p:calendar id="dateIntervention" 
+								value="#{interventionBean.dateIntervention}"
 								pattern="yyyy/MM/dd" mindate="2015/01/01" maxdate="Now();" locale="es">
 							</p:calendar>
+							<div id="fechaDiv" class="LV_invalid"/>
 						</td>
 					</tr>
 					<tr>
@@ -270,9 +271,11 @@
 						</td>
 						<td>
 							<p:calendar id="timeS" 
-								value="#{interventionBean.timeStart}" required="true"
-								pattern="HH:mm a" minHour="08" maxHour="18" timeOnly="true">
-							</p:calendar>	
+								value="#{interventionBean.timeStart}" 
+								pattern="HH:mm" minHour="08" maxHour="18" timeOnly="true">
+								<p:ajax event="blur" listener="#{interventionBean.timeSChangeListener}" update="timeF" />
+							</p:calendar>
+							<div id="timeSDiv" class="LV_invalid"/>
 						</td>
 						<td />
 						<td>
@@ -280,9 +283,10 @@
 						</td>
 						<td>
 							<p:calendar id="timeF" 
-								value="#{interventionBean.timeFinish}" required="true"
-								pattern="HH:mm a" minHour="08" maxHour="18" timeOnly="true">
+								value="#{interventionBean.timeFinish}"
+								pattern="HH:mm" minHour="08" maxHour="18" timeOnly="true">
 							</p:calendar>
+							<div id="timeFDiv" class="LV_invalid"/>
 						</td>
 					</tr>
 					<tr>
@@ -342,8 +346,8 @@
 				styleClass="ui-priority-primary" 
 				onclick="validateDataProcess();">
 			</p:commandButton>
-			<p:commandButton value="#{bundle['page.user.labelButtonComeBack']}"
-				action="#{interventionBean.goBack}" styleClass="ui-priority-primary">
+			<p:commandButton value="#{bundle['page.user.labelButtonComeBack']}" immediate="true"
+				action="#{interventionBean.goBack}" partialSubmit="true" styleClass="ui-priority-primary">
 			</p:commandButton>
 		</div>
 
@@ -382,4 +386,33 @@
 			</p:commandButton>
 		</div>
 	</p:dialog>
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		
+		$(PrimeFaces.escapeClientId("riskStudentForm:buttonProcess")).click(function (){
+			var date = $(PrimeFaces.escapeClientId("riskStudentForm:dateIntervention_input")).val();
+			var timeS = $(PrimeFaces.escapeClientId("riskStudentForm:timeS_input")).val();
+			var timeF = $(PrimeFaces.escapeClientId("riskStudentForm:timeF_input")).val();
+			$("#fechaDiv").empty();
+			$("#timeSDiv").empty();
+			$("#timeFDiv").empty();
+			if (date == "") {
+				$("#fechaDiv").text('*Campo obligatorio');
+			}
+			if (timeS == "") {
+				$("#timeSDiv").text('*Campo obligatorio');
+			}
+			if (timeF == "") {
+				$("#timeFDiv").text('*Campo obligatorio');
+			} else {
+				var r=(timeF.replace(":", "."))-(timeS.replace(":", "."));
+				if (!(r>0)) {
+					$("#timeFDiv").text('*Hora Final debe ser mayor a Inicio');
+				}
+			}
+			
+		});
+		
+	});
+</script>
 </f:view>

@@ -59,7 +59,7 @@ public class ReportTypeDAO extends OracleBaseHibernateDAO  {
     public List<ReportType> findByExample(ReportType instance) {
         log.debug("finding Reporttype instance by example");
         try {
-            List<ReportType> results = (List<ReportType>) getSession()
+            List<ReportType> results = getSession()
                     .createCriteria("com.zyos.alert.studentReport.model.Reporttype")
                     .add( create(instance) )
             .list();

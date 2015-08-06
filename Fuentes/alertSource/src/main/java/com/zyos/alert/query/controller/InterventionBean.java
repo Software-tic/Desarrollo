@@ -9,8 +9,13 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
+import javax.faces.validator.ValidatorException;
 
 import org.apache.poi.ss.usermodel.BorderFormatting;
 import org.apache.poi.ss.usermodel.Cell;
@@ -146,7 +151,6 @@ public class InterventionBean extends ZyosBackingBean {
 	/**SIAT TUNJA*/
 	public void goTeacherAsign() {
 		try {
-
 			teacherListByFaculty = controller.loadDataTeacherByFaculty(getUserSession().getId(),getUserSession().getDefaultGroup(), reportStudentSelected.getIdStudent().longValue());
 			
 			headerDialog = "Asignar Docente";
@@ -196,6 +200,7 @@ public class InterventionBean extends ZyosBackingBean {
 		observation.setIdReportStudent(reportStudentSelected.getIdReportStudent());
 		observation.setIdStatusReportStudent(reportStudentSelected.getIdStatusReportStudent());
 		observation.setIdAdviser(getUserSession().getId());
+		observation.setPrivacy(0L);
 		observation.setIdStage(getUserSession().getDefaultGroup());
 
 		reportStudentSelected.setDetailReport(detailReport);
@@ -1142,6 +1147,7 @@ public class InterventionBean extends ZyosBackingBean {
 			final ZyosUser zu =controller.loadAdvisorById(idZyosUser);
 			
 			new Thread(new Runnable() {
+				@Override
 				public void run() {
 					try {
 						sendEmailNotification(rs, zu);
@@ -1176,6 +1182,7 @@ public class InterventionBean extends ZyosBackingBean {
 			final ZyosUser adviser = this.controller.loadAdvisorById(rs.getIdAdviser());
 
 			new Thread(new Runnable() {
+				@Override
 				public void run() {
 					try {
 						sendEmailAdviserNotification(rs, adviser);
@@ -1215,6 +1222,7 @@ public class InterventionBean extends ZyosBackingBean {
 		try {
 			final ReportStudent rs = this.reportStudentSelected;
 			new Thread(new Runnable() {
+				@Override
 				public void run() {
 					try {
 						sendEmailToFamilyStudent(rs);
@@ -1301,6 +1309,10 @@ public class InterventionBean extends ZyosBackingBean {
 		reportStudentData = new ReportStudent();
 		cleanViewRisk();
 		showStudentSelected = true;
+	}
+	
+	public void timeSChangeListener(){
+		timeFinish = timeStart;
 	}
 
 	public Student getStudentDataSelected() {

@@ -10,8 +10,6 @@ import com.zyos.alert.faculty.model.Faculty;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.common.model.AParameter;
 import com.zyos.core.common.model.ZyosParameterDAO;
-import com.zyos.core.lo.user.model.ZyosUser;
-import com.zyos.core.lo.user.model.ZyosUserDAO;
 
 public class AParameterController extends ZyosController {
 

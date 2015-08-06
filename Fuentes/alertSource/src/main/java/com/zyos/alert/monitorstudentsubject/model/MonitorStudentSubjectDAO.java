@@ -2,23 +2,16 @@ package com.zyos.alert.monitorstudentsubject.model;
 
 import static org.hibernate.criterion.Example.create;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.faces.model.SelectItem;
 
 import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
-import org.hibernate.type.LongType;
 import org.hibernate.type.StandardBasicTypes;
-import org.hibernate.type.StringType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.zyos.alert.studentReport.model.Student;
 import com.zyos.alert.studentReport.model.Subject;
-import com.zyos.core.common.api.IZyosGroup;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.common.util.ManageDate;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
@@ -73,8 +66,8 @@ public class MonitorStudentSubjectDAO extends OracleBaseHibernateDAO {
 		log.debug("finding MonitorStudentSubject instance by example");
 		try {
 			List<MonitorStudentSubject> results =
-				(List<MonitorStudentSubject>) getSession().createCriteria("com.zyos.alert.absent.model.MonitorStudentSubject").add(create(instance))
-					.list();
+				getSession().createCriteria("com.zyos.alert.absent.model.MonitorStudentSubject").add(create(instance))
+				.list();
 			log.debug("find by example successful, result size: " + results.size());
 			return results;
 		} catch (RuntimeException re) {

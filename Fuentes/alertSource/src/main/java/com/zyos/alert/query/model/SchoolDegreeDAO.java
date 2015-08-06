@@ -4,9 +4,7 @@ import java.util.List;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
-
-import static org.hibernate.criterion.Example.create;
-
+import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,12 +65,12 @@ public class SchoolDegreeDAO extends OracleBaseHibernateDAO {
 		}
 	}
 
-	public List<SchoolDegree> findByExample(SchoolDegree instance) {
+	public List findByExample(SchoolDegree instance) {
 		log.debug("finding SchoolDegree instance by example");
 		try {
-			List<SchoolDegree> results = (List<SchoolDegree>) getSession()
+			List results = getSession()
 					.createCriteria("com.zyos.alert.query.model.SchoolDegree")
-					.add(create(instance)).list();
+					.add(Example.create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());
 			return results;
@@ -97,23 +95,23 @@ public class SchoolDegreeDAO extends OracleBaseHibernateDAO {
 		}
 	}
 
-	public List<SchoolDegree> findByDatecreation(Object datecreation) {
+	public List findByDatecreation(Object datecreation) {
 		return findByProperty(DATECREATION, datecreation);
 	}
 
-	public List<SchoolDegree> findByUsercreation(Object usercreation) {
+	public List findByUsercreation(Object usercreation) {
 		return findByProperty(USERCREATION, usercreation);
 	}
 
-	public List<SchoolDegree> findByDatechange(Object datechange) {
+	public List findByDatechange(Object datechange) {
 		return findByProperty(DATECHANGE, datechange);
 	}
 
-	public List<SchoolDegree> findByUserchange(Object userchange) {
+	public List findByUserchange(Object userchange) {
 		return findByProperty(USERCHANGE, userchange);
 	}
 
-	public List<SchoolDegree> findByState(Object state) {
+	public List findByState(Object state) {
 		return findByProperty(STATE, state);
 	}
 

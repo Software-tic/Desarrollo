@@ -1,13 +1,9 @@
 package com.zyos.alert.controlPanel.controller;
 
-import java.util.List;
-
 import org.hibernate.Transaction;
 
 import com.zyos.alert.controlPanel.model.ControlPanel;
 import com.zyos.alert.controlPanel.model.ControlPanelDAO;
-import com.zyos.alert.studentReport.model.Subject;
-import com.zyos.alert.studentReport.model.SubjectDAO;
 import com.zyos.core.common.controller.ZyosController;
 
 public class ControlPanelController extends ZyosController{

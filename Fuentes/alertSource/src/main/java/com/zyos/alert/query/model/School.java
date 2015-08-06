@@ -1,6 +1,5 @@
 package com.zyos.alert.query.model;
 
-import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 

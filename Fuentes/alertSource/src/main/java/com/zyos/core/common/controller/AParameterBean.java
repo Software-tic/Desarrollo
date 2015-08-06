@@ -13,7 +13,6 @@ import com.zyos.alert.faculty.model.Faculty;
 import com.zyos.core.common.model.AParameter;
 import com.zyos.core.common.model.AParameterModel;
 import com.zyos.core.common.model.ZyosParameter;
-import com.zyos.core.lo.user.model.ZyosUser;
 
 @ManagedBean(name = "aParameterBean")
 @ViewScoped

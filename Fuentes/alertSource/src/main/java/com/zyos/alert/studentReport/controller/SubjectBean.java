@@ -613,6 +613,7 @@ public class SubjectBean extends ZyosBackingBean implements Serializable {
 		this.showMain = showMain;
 	}
 
+	@Override
 	public List<Subject> getSubjectList() {
 		return subjectList;
 	}

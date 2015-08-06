@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.zyos.alert.faculty.model.Faculty;
-import com.zyos.alert.integration.model.DegreeSAC;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 
 /**

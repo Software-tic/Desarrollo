@@ -3,9 +3,8 @@ package com.zyos.alert.studentReport.model;
 import com.zyos.core.common.api.IZyosGroup;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
-import com.zyos.core.lo.user.model.ZyosUser;
-import com.zyos.session.common.User;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.hibernate.LockMode;
@@ -68,7 +67,7 @@ public class ObservationDAO extends OracleBaseHibernateDAO {
 	public List<Observation> findByExample(Observation instance) {
 		log.debug("finding Observation instance by example");
 		try {
-			List<Observation> results = (List<Observation>) getSession()
+			List<Observation> results = getSession()
 					.createCriteria(
 							"com.zyos.alert.studentReport.model.Observation")
 					.add(create(instance)).list();
@@ -178,20 +177,11 @@ public class ObservationDAO extends OracleBaseHibernateDAO {
 		StringBuilder hql = new StringBuilder();
 		Query qo = null;
 		try {
-			hql.append(" SELECT NEW Observation(");
-			hql.append(" o.idObservation, ");
-			hql.append(" o.dateIntervention, ");
-			hql.append(" s.name, ");
-			hql.append(" zu.name || ' ' || ");
-			hql.append(" zu.lastName, ");
-			hql.append(" o.detailObservation) ");
-			hql.append(" FROM ");
-			hql.append(" Observation o, ");
-			hql.append(" ZyosUser zu, ");
-			hql.append(" ZyosGroup s ");
-			
+			hql.append(" SELECT NEW Observation(o.idObservation, o.dateIntervention, s.name, zu.name || ' ' || zu.lastName, o.detailObservation) ");
+			hql.append(" FROM ReportStudent rs, Observation o, ZyosUser zu, ZyosGroup s ");
 			hql.append(" WHERE ");
-			hql.append(" o.idReportStudent = :idStudent ");
+			hql.append(" rs.idStudent = :idStudent ");
+			hql.append(" AND o.idReportStudent = rs.idReportStudent ");
 			hql.append(" AND o.idAdviser = zu.idZyosUser ");
 			hql.append(" AND zu.idZyosGroup = s.id ");
 			hql.append(" AND zu.state =:state ");
@@ -207,7 +197,7 @@ public class ObservationDAO extends OracleBaseHibernateDAO {
 			hql.append(" ORDER BY o.idObservation ");
 			
 			qo = getSession().createQuery(hql.toString());
-			qo.setParameter("idStudent", idStudent);
+			qo.setParameter("idStudent", BigDecimal.valueOf(idStudent));
 			qo.setParameter("privacy", privacy);
 			qo.setParameter("state", IZyosState.ACTIVE);
 		

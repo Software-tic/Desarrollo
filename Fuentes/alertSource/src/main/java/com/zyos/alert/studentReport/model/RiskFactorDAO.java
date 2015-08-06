@@ -1,16 +1,11 @@
 package com.zyos.alert.studentReport.model;
 
-import com.zyos.alert.calification.model.CalificationitemDAO;
-import com.zyos.alert.calification.model.Evaluation;
-import com.zyos.core.common.api.IZyosGroup;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 
-import java.util.Collection;
 import java.util.List;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
-import org.hibernate.Transaction;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
 
@@ -70,7 +65,7 @@ public class RiskFactorDAO extends OracleBaseHibernateDAO {
 	public List<RiskFactor> findByExample(RiskFactor instance) {
 		log.debug("finding Riskfactor instance by example");
 		try {
-			List<RiskFactor> results = (List<RiskFactor>) getSession()
+			List<RiskFactor> results = getSession()
 					.createCriteria(
 							"com.zyos.alert.studentReport.model.Riskfactor")
 					.add(create(instance)).list();

@@ -50,10 +50,6 @@ public class RStudentGradesBean extends ZyosBackingBean {
 		Date FechaStart = new Date(SelectedPeriod.getStartDate());
 		@SuppressWarnings("deprecation")
 		Date FechaEnd = new Date(SelectedPeriod.getEndDate());
-		System.out.println("ID PERIOD "+Period+"- PeriodList: "+SelectedPeriod.getId());
-		System.out.println(SelectedPeriod.getStartDate()+" - "+Fecha+" - "+SelectedPeriod.getEndDate());
-		System.out.println(FechaStart+" - "+FechaNow+" - "+FechaEnd);
-		System.out.println(FechaStart.compareTo(FechaNow)+" <-> "+FechaNow.compareTo(FechaEnd));
 		
 		if((FechaStart.compareTo(FechaNow) <= 0) && (FechaNow.compareTo(FechaEnd) <= 0)) {
 			//buscar los estudiantes por el corte de las materias

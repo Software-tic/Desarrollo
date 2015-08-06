@@ -1,14 +1,5 @@
 package com.zyos.core.login.model;
 
-import static org.hibernate.criterion.Example.create;
-
-import java.util.List;
-
-import org.hibernate.LockMode;
-import org.hibernate.Query;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 
 /**

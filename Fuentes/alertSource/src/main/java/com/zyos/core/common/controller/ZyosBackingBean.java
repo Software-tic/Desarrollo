@@ -25,7 +25,6 @@ import com.zyos.alert.studentReport.model.Stage;
 import com.zyos.alert.studentReport.model.StatusReportStudent;
 import com.zyos.alert.studentReport.model.Subject;
 import com.zyos.core.common.list.BeanList;
-import com.zyos.core.common.model.AParameter;
 import com.zyos.core.common.model.AZyosModel;
 import com.zyos.core.common.model.DocumentType;
 import com.zyos.core.common.model.ZyosParameter;

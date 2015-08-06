@@ -16,11 +16,13 @@ import com.zyos.session.common.User;
  */
 public class SessionHandler implements HttpSessionListener {
 
+	@Override
 	public void sessionCreated(HttpSessionEvent sc) {
 		System.out.println("INFO: " + ManageDate.getCurrentTimestamp()
 				+ " Starting session with id " + sc.getSession().getId());
 	}
 
+	@Override
 	public void sessionDestroyed(HttpSessionEvent sd) {
 		try {
 			Object u = sd.getSession().getAttribute("user");

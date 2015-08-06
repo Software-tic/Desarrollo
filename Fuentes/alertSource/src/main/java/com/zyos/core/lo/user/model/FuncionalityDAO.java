@@ -1,14 +1,10 @@
 package com.zyos.core.lo.user.model;
 
-import static org.hibernate.criterion.Example.create;
-
 import java.util.List;
 
-import org.hibernate.LockMode;
 import org.hibernate.Query;
 
 import com.zyos.core.connection.OracleBaseHibernateDAO;
-import com.zyos.core.mail.io.mn.model.EmailTemplateType;
 
 /**
  * A data access object (DAO) providing persistence and search support for

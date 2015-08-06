@@ -67,7 +67,7 @@ public class FamilyStudentDAO extends OracleBaseHibernateDAO {
 	public List<FamilyStudent> findByExample(FamilyStudent instance) {
 		log.debug("finding FamilyStudent instance by example");
 		try {
-			List<FamilyStudent> results = (List<FamilyStudent>) getSession()
+			List<FamilyStudent> results = getSession()
 					.createCriteria("com.zyos.alert.absent.model.familyStudent")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "

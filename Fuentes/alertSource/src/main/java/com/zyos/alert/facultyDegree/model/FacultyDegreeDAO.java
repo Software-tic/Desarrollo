@@ -7,7 +7,6 @@ import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.zyos.alert.studentReport.model.Degree;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.common.util.ManageDate;
 import com.zyos.core.connection.OracleBaseHibernateDAO;

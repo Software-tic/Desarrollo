@@ -5,12 +5,9 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
-import org.hibernate.type.StringType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.zyos.alert.absent.model.DayClass;
-import com.zyos.alert.integration.model.DegreeSAC;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.common.util.ManageDate;
 import com.zyos.core.connection.OracleBaseHibernateDAO;

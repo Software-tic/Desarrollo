@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.zyos.alert.integration.model.DegreeSAC;
-import com.zyos.alert.studentReport.model.Degree;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 
 /**
@@ -64,7 +63,7 @@ public class CarrerasDAO extends OracleBaseHibernateDAO {
 	public List<Carreras> findByExample(Carreras instance) {
 		log.debug("finding Carreras instance by example");
 		try {
-			List<Carreras> results = (List<Carreras>) getSession()
+			List<Carreras> results = getSession()
 					.createCriteria("com.zyos.alert.studentReport.model.Carreras")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "

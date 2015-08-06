@@ -1,13 +1,7 @@
 package com.zyos.alert.studentReport.controller;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.faces.application.FacesMessage;
-
 import com.zyos.alert.studentReport.api.IReportType;
-import com.zyos.alert.studentReport.api.IStage;
 import com.zyos.alert.studentReport.api.IStatusReportStudent;
 import com.zyos.alert.studentReport.model.ReportStudent;
 import com.zyos.alert.studentReport.model.Student;

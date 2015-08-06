@@ -5,13 +5,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.zyos.alert.studentReport.api.IReportType;
-import com.zyos.alert.studentReport.api.IStage;
 import com.zyos.alert.studentReport.api.IStatusReportStudent;
 import com.zyos.alert.studentReport.model.ReportStudent;
 import com.zyos.alert.studentReport.model.RiskFactor;
@@ -158,10 +156,12 @@ public class AutoReportBean extends ZyosBackingBean implements Serializable {
 		this.reportStudent = reportStudent;
 	}
 
+	@Override
 	public User getUserSession() {
 		return userSession;
 	}
 
+	@Override
 	public void setUserSession(User userSession) {
 		this.userSession = userSession;
 	}

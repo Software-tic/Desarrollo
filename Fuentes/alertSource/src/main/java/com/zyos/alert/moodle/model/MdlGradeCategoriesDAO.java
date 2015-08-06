@@ -66,7 +66,7 @@ public class MdlGradeCategoriesDAO extends MySQLBaseHibernateDAO {
 	public List<MdlGradeGrades> findByExample(MdlGradeGrades instance) {
 		log.debug("finding MdlGradeGrades instance by example");
 		try {
-			List<MdlGradeGrades> results = (List<MdlGradeGrades>) getSession()
+			List<MdlGradeGrades> results = getSession()
 					.createCriteria(
 							"com.zyos.alert.moodle.model.MdlGradeGrades")
 					.add(create(instance)).list();

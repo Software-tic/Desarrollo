@@ -11,9 +11,7 @@ import static org.hibernate.criterion.Example.create;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.zyos.alert.facultyCoordinator.model.FacultyCoordinator;
 import com.zyos.core.common.api.IZyosState;
-import com.zyos.core.common.util.ManageDate;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 
 /**
@@ -77,7 +75,7 @@ public class GradesPeriodSubjectDAO extends OracleBaseHibernateDAO {
 	public List<GradesPeriodSubject> findByExample(GradesPeriodSubject instance) {
 		log.debug("finding GradesPeriodSubject instance by example");
 		try {
-			List<GradesPeriodSubject> results = (List<GradesPeriodSubject>) getSession()
+			List<GradesPeriodSubject> results = getSession()
 					.createCriteria(
 							"com.zyos.alert.query.model.GradesPeriodSubject")
 					.add(create(instance)).list();

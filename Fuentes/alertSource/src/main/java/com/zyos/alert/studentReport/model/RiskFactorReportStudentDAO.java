@@ -1,6 +1,5 @@
 package com.zyos.alert.studentReport.model;
 
-import com.zyos.alert.calification.model.CalificationItem;
 import com.zyos.alert.faculty.model.Faculty;
 import com.zyos.core.common.api.IRiskFactorCategory;
 import com.zyos.core.common.api.IZyosState;
@@ -13,7 +12,6 @@ import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.DoubleType;
-import org.hibernate.type.LongType;
 import org.hibernate.type.StandardBasicTypes;
 import org.hibernate.type.StringType;
 
@@ -72,8 +70,8 @@ public class RiskFactorReportStudentDAO extends OracleBaseHibernateDAO {
 		log.debug("finding Riskfactorreportstudent instance by example");
 		try {
 			List<RiskFactorReportStudent> results =
-				(List<RiskFactorReportStudent>) getSession().createCriteria("com.zyos.alert.studentReport.model.Riskfactorreportstudent")
-					.add(create(instance)).list();
+				getSession().createCriteria("com.zyos.alert.studentReport.model.Riskfactorreportstudent")
+				.add(create(instance)).list();
 			log.debug("find by example successful, result size: " + results.size());
 			return results;
 		} catch (RuntimeException re) {

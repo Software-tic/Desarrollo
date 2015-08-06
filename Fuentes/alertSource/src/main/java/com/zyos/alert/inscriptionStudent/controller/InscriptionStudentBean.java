@@ -4,12 +4,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
-import com.zyos.alert.absent.model.DayClass;
 import com.zyos.alert.studentReport.api.IReportType;
 import com.zyos.alert.studentReport.api.IStatusReportStudent;
 import com.zyos.alert.studentReport.controller.ReportStudentController;

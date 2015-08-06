@@ -13,8 +13,6 @@ import org.primefaces.model.TreeNode;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.zyos.alert.studentReport.model.Stage;
-import com.zyos.core.common.api.IGiveProcessPermission;
-import com.zyos.core.common.api.IZyosGroup;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.common.controller.ErrorNotificacion;
 import com.zyos.core.common.controller.ZyosBackingBean;

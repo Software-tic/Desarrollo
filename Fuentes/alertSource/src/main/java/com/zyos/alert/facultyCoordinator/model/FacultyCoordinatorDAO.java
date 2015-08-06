@@ -10,8 +10,6 @@ import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.zyos.alert.moodle.model.MdlCourse;
-import com.zyos.alert.query.model.SchoolCoordinador;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 import com.zyos.core.lo.user.model.ZyosUser;
@@ -68,7 +66,7 @@ public class FacultyCoordinatorDAO extends OracleBaseHibernateDAO {
 	public List<FacultyCoordinator> findByExample(FacultyCoordinator instance) {
 		log.debug("finding FamilyStudent instance by example");
 		try {
-			List<FacultyCoordinator> results = (List<FacultyCoordinator>) getSession()
+			List<FacultyCoordinator> results = getSession()
 					.createCriteria("com.zyos.alert.absent.model.facultyCoordinator")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "

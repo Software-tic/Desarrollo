@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
-
 import org.apache.poi.ss.usermodel.BorderFormatting;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -26,7 +24,6 @@ import com.zyos.alert.studentReport.api.IRiskFactor;
 import com.zyos.alert.studentReport.api.IStatusReportStudent;
 import com.zyos.alert.studentReport.model.ReportStudent;
 import com.zyos.alert.studentReport.model.Student;
-import com.zyos.alert.studentReport.model.StudentDegree;
 import com.zyos.alert.studentReport.model.Subject;
 import com.zyos.core.common.controller.ErrorNotificacion;
 import com.zyos.core.common.controller.ZyosBackingBean;

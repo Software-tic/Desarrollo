@@ -72,7 +72,7 @@ public class ZyosLoginDAO extends OracleBaseHibernateDAO {
 			qo.setMaxResults(1);
 
 			RSA rsa = new RSA();
-			String dpass = rsa.decrypt(_password);
+			String dpass = RSA.decrypt(_password);
 
 			Object o = qo.uniqueResult();
 			boolean auth_ldap_enable = false;
@@ -129,7 +129,7 @@ public class ZyosLoginDAO extends OracleBaseHibernateDAO {
 
 			User u = null;
 			if (!userList.isEmpty()) {
-				u = (User) userList.get(0);
+				u = userList.get(0);
 				if (userList.size() > 1) {
 					u.setSelectEnterprise(true);
 					for (int i = 1; i < userList.size(); i++) {

@@ -70,7 +70,7 @@ public class CalificationDAO extends OracleBaseHibernateDAO {
 	public List<Calification> findByExample(Calification instance) {
 		log.debug("finding Calification instance by example");
 		try {
-			List<Calification> results = (List<Calification>) getSession()
+			List<Calification> results = getSession()
 					.createCriteria(
 							"com.zyos.alert.calification.model.Calification")
 					.add(create(instance)).list();

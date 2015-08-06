@@ -102,7 +102,7 @@ public class HibernateSessionFactory {
 	 * @throws HibernateException
 	 */
 	public static Session getOracleSession() throws HibernateException {
-		Session session = (Session) OracleThreadLocal.get();
+		Session session = OracleThreadLocal.get();
 		
 		if (session == null || !session.isOpen()) {
 			if (OracleSessionFactory == null) {
@@ -115,7 +115,7 @@ public class HibernateSessionFactory {
 	}
 
 	public static Session getMySQLSession() throws HibernateException {
-		Session session = (Session) MySQLThreadLocal.get();
+		Session session = MySQLThreadLocal.get();
 		
 		if (session == null || !session.isOpen()) {
 			if (MySQLSessionFactory == null) {
@@ -172,7 +172,7 @@ public class HibernateSessionFactory {
 	 * @throws HibernateException
 	 */
 	public static void closeOracleSession() throws HibernateException {
-		Session session = (Session) OracleThreadLocal.get();
+		Session session = OracleThreadLocal.get();
 		OracleThreadLocal.set(null);
 
 		if (session != null) {
@@ -181,7 +181,7 @@ public class HibernateSessionFactory {
 	}
 	
 	public static void closeMySQLSession() throws HibernateException {
-		Session session = (Session) MySQLThreadLocal.get();
+		Session session = MySQLThreadLocal.get();
 		MySQLThreadLocal.set(null);
 
 		if (session != null) {

@@ -1,12 +1,8 @@
 package com.zyos.alert.sac.model;
 
-import org.hibernate.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.zyos.alert.facultyCoordinator.model.FacultyCoordinator;
-import com.zyos.alert.query.model.Teacher;
-import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 
 /**

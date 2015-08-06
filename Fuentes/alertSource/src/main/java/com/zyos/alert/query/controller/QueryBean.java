@@ -3,20 +3,12 @@ package com.zyos.alert.query.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
@@ -28,9 +20,7 @@ import org.primefaces.model.StreamedContent;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.zyos.alert.faculty.model.Faculty;
-import com.zyos.alert.studentReport.api.IReportType;
 import com.zyos.alert.studentReport.model.Observation;
-import com.zyos.alert.studentReport.model.ReportStudent;
 import com.zyos.core.common.controller.ErrorNotificacion;
 import com.zyos.core.common.controller.ZyosBackingBean;
 import com.zyos.core.common.util.ManageDate;

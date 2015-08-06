@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.zyos.alert.calification.model.Calification;
-import com.zyos.alert.calification.model.CalificationItem;
 import com.zyos.core.connection.MySQLBaseHibernateDAO;
 
 /**
@@ -66,7 +65,7 @@ public class MdlGradeGradesDAO extends MySQLBaseHibernateDAO {
 	public List<MdlGradeGrades> findByExample(MdlGradeGrades instance) {
 		log.debug("finding MdlGradeGrades instance by example");
 		try {
-			List<MdlGradeGrades> results = (List<MdlGradeGrades>) getSession()
+			List<MdlGradeGrades> results = getSession()
 					.createCriteria(
 							"com.zyos.alert.moodle.model.MdlGradeGrades")
 					.add(create(instance)).list();

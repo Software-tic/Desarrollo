@@ -988,6 +988,7 @@ public class ReportStudentBean extends ZyosBackingBean {
 			final ZyosUser adviser = this.controller.loadAdvisorById(rs.getIdAdviser());
 
 			new Thread(new Runnable() {
+				@Override
 				public void run() {
 					try {
 						sendEmailAdviserNotification(rs, adviser);
@@ -1021,6 +1022,7 @@ public class ReportStudentBean extends ZyosBackingBean {
 		try {
 			final ReportStudent rs = this.reportStudentSelected;
 			new Thread(new Runnable() {
+				@Override
 				public void run() {
 					try {
 						sendEmailToFamilyStudent(rs);

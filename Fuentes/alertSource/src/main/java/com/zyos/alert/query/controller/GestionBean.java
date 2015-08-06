@@ -5,11 +5,12 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.context.RequestContext;
+
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.zyos.alert.faculty.model.Faculty;
 import com.zyos.alert.query.model.School;
 import com.zyos.core.common.controller.ZyosBackingBean;
-import com.zyos.core.lo.user.controller.UserBean;
 import com.zyos.core.lo.user.model.ZyosUser;
 
 @ManagedBean
@@ -106,6 +107,12 @@ public class GestionBean extends ZyosBackingBean {
 		ZyosBackingBean.update("gestionForm");
 	}
 	
+	public void goBackFacultad(){
+		clearViews();
+		showFacultyList = true;
+		ZyosBackingBean.update("gestionForm");
+	}
+	
 	public void goDeleteDivision() throws Exception{
 		Faculty aux = controller.loadFacultyById(facultySelect.getIdFaculty());
 		if (aux != null){
@@ -159,7 +166,6 @@ public class GestionBean extends ZyosBackingBean {
 		}
 	}
 	
-	@SuppressWarnings("static-access")
 	public void goAddPerson() throws Exception{
 		 if(Teacher) {
 			 headerTextDialog = "Agregar Profesor";
@@ -171,8 +177,10 @@ public class GestionBean extends ZyosBackingBean {
 			headerTextDialog = "Agregar Decano de División";
 		}
 		zyosUserListFind = controller.LoadZyosUserTunja();
-		ZyosBackingBean.getRequestContext().getCurrentInstance().update("gestionForm:userTableAdd");
-		ZyosBackingBean.getRequestContext().getCurrentInstance().update("gestionForm:globalFilter");
+		ZyosBackingBean.getRequestContext();
+		RequestContext.getCurrentInstance().update("gestionForm:userTableAdd");
+		ZyosBackingBean.getRequestContext();
+		RequestContext.getCurrentInstance().update("gestionForm:globalFilter");
 		ZyosBackingBean.update("gestionForm:dlg2");
 		ZyosBackingBean.getRequestContext().execute("dlg2WV.show();");
 	}
@@ -197,7 +205,8 @@ public class GestionBean extends ZyosBackingBean {
 			addInfo( "Crear Persona","Se creó correctamente al usuario" );
 		}
 		ZyosBackingBean.getRequestContext().execute("dlg2WV.hide();");
-		ZyosBackingBean.getRequestContext().getCurrentInstance().reset("gestionForm:dlg2");
+		ZyosBackingBean.getRequestContext();
+		RequestContext.getCurrentInstance().reset("gestionForm:dlg2");
 		//ZyosBackingBean.getRequestContext().getCurrentInstance().update("gestionForm:userTableAdd");
 		//ZyosBackingBean.getRequestContext().getCurrentInstance().update("gestionForm:globalFilter");
 		ZyosBackingBean.update("gestionForm");

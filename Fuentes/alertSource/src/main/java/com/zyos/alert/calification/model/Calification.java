@@ -101,47 +101,57 @@ public class Calification extends com.zyos.core.common.model.AZyosModel
 		this.idMoodleItem = idMoodleItem;
 	}
 
+	@Override
 	@Column(name = "dateCreation", nullable = false, length = 20)
 	public String getDateCreation() {
 		return this.dateCreation;
 	}
 
+	@Override
 	public void setDateCreation(String dateCreation) {
 		this.dateCreation = dateCreation;
 	}
 
+	@Override
 	@Column(name = "userCreation", length = 45)
 	public String getUserCreation() {
 		return this.userCreation;
 	}
 
+	@Override
 	public void setUserCreation(String userCreation) {
 		this.userCreation = userCreation;
 	}
 
+	@Override
 	@Column(name = "dateChange", length = 20)
 	public String getDateChange() {
 		return this.dateChange;
 	}
 
+	@Override
 	public void setDateChange(String dateChange) {
 		this.dateChange = dateChange;
 	}
 
+	@Override
 	@Column(name = "userChange", length = 45)
 	public String getUserChange() {
 		return this.userChange;
 	}
 
+	@Override
 	public void setUserChange(String userChange) {
 		this.userChange = userChange;
 	}
 
+	@Override
 	@Column(name = "state", nullable = false)
 	public Long getState() {
 		return this.state;
 	}
 
+	@Override
 	public void setState(Long state) {
 		this.state = state;
 	}

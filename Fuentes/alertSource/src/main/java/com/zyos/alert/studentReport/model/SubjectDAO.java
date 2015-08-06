@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import com.zyos.alert.integration.model.SubjectSAC;
 import com.zyos.core.common.api.IZyosGroup;
 import com.zyos.core.common.api.IZyosState;
-import com.zyos.core.connection.HibernateSessionFactory;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 
 /**
@@ -66,7 +65,7 @@ public class SubjectDAO extends OracleBaseHibernateDAO {
 		log.debug("finding Subject instance by example");
 		try {
 			List<Subject> results =
-				(List<Subject>) getSession().createCriteria("com.zyos.alert.studentReport.model.Subject").add(create(instance)).list();
+				getSession().createCriteria("com.zyos.alert.studentReport.model.Subject").add(create(instance)).list();
 			log.debug("find by example successful, result size: " + results.size());
 			return results;
 		} catch (RuntimeException re) {

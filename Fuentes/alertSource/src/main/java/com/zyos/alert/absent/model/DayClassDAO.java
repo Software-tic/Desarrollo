@@ -1,8 +1,5 @@
 package com.zyos.alert.absent.model;
 
-import com.zyos.alert.studentReport.model.Student;
-import com.zyos.alert.studentReport.model.StudentSubject;
-import com.zyos.alert.studentReport.model.Subject;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 
@@ -70,7 +67,7 @@ public class DayClassDAO extends OracleBaseHibernateDAO {
 	public List<DayClass> findByExample(DayClass instance) {
 		log.debug("finding Dayclass instance by example");
 		try {
-			List<DayClass> results = (List<DayClass>) getSession()
+			List<DayClass> results = getSession()
 					.createCriteria("com.zyos.alert.absent.model.Dayclass")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "

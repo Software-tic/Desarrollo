@@ -63,7 +63,7 @@ public class ExecutionHistoricalTypeDAO extends OracleBaseHibernateDAO {
 	public List<ExecutionsHistorical> findByExample(ExecutionsHistorical instance) {
 		log.debug("finding ExecutionsHistorical instance by example");
 		try {
-			List<ExecutionsHistorical> results = (List<ExecutionsHistorical>) getSession()
+			List<ExecutionsHistorical> results = getSession()
 					.createCriteria("com.zyos.alert.absent.model.executionsHistorical")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "

@@ -2,10 +2,7 @@ package com.zyos.alert.query.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -183,11 +180,13 @@ public class GradesPeriodSubject extends com.zyos.core.common.model.AZyosModel
 		this.userChange = userchange;
 	}
 
+	@Override
 	@Column(name = "state", nullable = false)
 	public Long getState() {
 		return this.state;
 	}
 
+	@Override
 	public void setState(Long state) {
 		this.state = state;
 	}

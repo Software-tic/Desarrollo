@@ -70,7 +70,7 @@ public class FacultySchoolDAO extends OracleBaseHibernateDAO {
 	public List<FacultySchool> findByExample(FacultySchool instance) {
 		log.debug("finding FacultySchool instance by example");
 		try {
-			List<FacultySchool> results = (List<FacultySchool>) getSession()
+			List<FacultySchool> results = getSession()
 					.createCriteria("com.zyos.alert.query.model.FacultySchool")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "

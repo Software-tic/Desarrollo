@@ -19,6 +19,7 @@ import com.zyos.core.common.util.ManageDate;
  */
 public class OracleBaseHibernateDAO implements IOracleBaseHibernateDAO {
 
+	@Override
 	public Session getSession() {
 		return HibernateSessionFactory.getOracleSession();
 	}

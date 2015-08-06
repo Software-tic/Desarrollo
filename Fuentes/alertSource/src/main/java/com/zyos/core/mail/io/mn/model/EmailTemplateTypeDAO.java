@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
-import com.zyos.core.lo.user.model.ZyosGroup;
 
 /**
  * A data access object (DAO) providing persistence and search support for

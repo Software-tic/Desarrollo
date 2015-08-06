@@ -3,8 +3,6 @@ package com.zyos.alert.studentReport.model;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.common.util.ManageDate;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
-import com.zyos.core.lo.user.model.ZyosUser;
-
 import java.util.List;
 
 import org.hibernate.LockMode;
@@ -66,7 +64,7 @@ public class DegreeDAO extends OracleBaseHibernateDAO {
 	public List<Degree> findByExample(Degree instance) {
 		log.debug("finding Degree instance by example");
 		try {
-			List<Degree> results = (List<Degree>) getSession()
+			List<Degree> results = getSession()
 					.createCriteria("com.zyos.alert.studentReport.model.Degree")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "

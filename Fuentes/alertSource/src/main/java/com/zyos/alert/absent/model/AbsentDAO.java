@@ -64,7 +64,7 @@ public class AbsentDAO extends OracleBaseHibernateDAO {
 	public List<Absent> findByExample(Absent instance) {
 		log.debug("finding Absent instance by example");
 		try {
-			List<Absent> results = (List<Absent>) getSession()
+			List<Absent> results = getSession()
 					.createCriteria("com.zyos.alert.absent.model.Absent")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "

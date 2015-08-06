@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.hibernate.Transaction;
 
-import com.zyos.alert.absent.model.Absent;
-import com.zyos.alert.absent.model.AbsentDAO;
 import com.zyos.alert.faculty.model.Faculty;
 import com.zyos.alert.studentReport.model.Degree;
 import com.zyos.alert.studentReport.model.DegreeDAO;

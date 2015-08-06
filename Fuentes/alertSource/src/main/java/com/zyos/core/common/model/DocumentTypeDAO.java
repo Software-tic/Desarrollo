@@ -2,8 +2,6 @@ package com.zyos.core.common.model;
 
 import java.util.List;
 
-import javax.faces.model.SelectItem;
-
 import org.hibernate.Query;
 
 import com.zyos.core.common.api.IZyosState;

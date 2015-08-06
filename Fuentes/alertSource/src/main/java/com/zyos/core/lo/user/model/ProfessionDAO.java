@@ -6,7 +6,6 @@ import javax.faces.model.SelectItem;
 
 import org.hibernate.Query;
 
-import com.zyos.alert.studentReport.model.StatusReportStudent;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 
 /**

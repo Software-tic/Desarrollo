@@ -63,7 +63,7 @@ public class CarrerasEstudiantesDAO extends OracleBaseHibernateDAO {
 	public List<Carreras> findByExample(Carreras instance) {
 		log.debug("finding CarrerasEstudiantes instance by example");
 		try {
-			List<Carreras> results = (List<Carreras>) getSession()
+			List<Carreras> results = getSession()
 					.createCriteria(
 							"com.zyos.alert.studentReport.model.CarrerasEstudiantes")
 					.add(create(instance)).list();

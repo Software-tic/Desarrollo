@@ -1,19 +1,14 @@
 package com.zyos.core.lo.user.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.zyos.alert.studentReport.model.Stage;
-import com.zyos.core.common.api.IZyosGroup;
 import com.zyos.core.common.controller.ErrorNotificacion;
 import com.zyos.core.common.controller.ZyosBackingBean;
 import com.zyos.core.lo.user.model.ZyosGroup;
 import com.zyos.core.lo.user.model.ZyosGroupModel;
-import com.zyos.core.lo.user.model.ZyosUser;
 
 @ManagedBean
 @ViewScoped

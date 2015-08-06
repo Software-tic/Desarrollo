@@ -63,7 +63,7 @@ public class MdlRoleAssignmentsDAO extends MySQLBaseHibernateDAO {
 	public List<MdlRoleAssignments> findByExample(MdlRoleAssignments instance) {
 		log.debug("finding MdlRoleAssignments instance by example");
 		try {
-			List<MdlRoleAssignments> results = (List<MdlRoleAssignments>) getSession()
+			List<MdlRoleAssignments> results = getSession()
 					.createCriteria(
 							"com.zyos.alert.moodle.model.MdlRoleAssignments")
 					.add(create(instance)).list();

@@ -145,8 +145,8 @@
 	<mapping class="com.zyos.alert.query.model.FacultySchool" />
 	<mapping class="com.zyos.alert.query.model.SchoolCoordinador" />
 	<mapping class="com.zyos.alert.query.model.GradesPeriodSubject" />
-	<mapping class="com.zyos.alert.query.model.SchoolDegree" />
 	<mapping class="com.zyos.alert.query.model.Corte" />
+	<mapping resource="com/zyos/alert/query/model/SchoolDegree.hbm.xml" />
 
 </session-factory>
 

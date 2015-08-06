@@ -3,13 +3,11 @@ package com.zyos.alert.characterization.model;
 import java.util.List;
 
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.zyos.alert.studentReport.model.ReportStudent;
-import com.zyos.alert.studentReport.model.TeacherSubject;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 
 /**

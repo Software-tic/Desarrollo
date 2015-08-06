@@ -18,7 +18,6 @@ import com.zyos.core.common.api.IZyosGroup;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.common.util.ManageDate;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
-import com.zyos.core.lo.user.model.ZyosUser;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -71,7 +70,7 @@ public class StudentDAO extends OracleBaseHibernateDAO {
 	public List<Student> findByExample(Student instance) {
 		log.debug("finding Student instance by example");
 		try {
-			List<Student> results = (List<Student>) getSession()
+			List<Student> results = getSession()
 					.createCriteria(
 							"com.zyos.alert.studentReport.model.Student")
 					.add(create(instance)).list();

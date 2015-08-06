@@ -18,6 +18,7 @@ public class NotificationCreationUser extends Thread {
 		this.email = email;
 	}
 
+	@Override
 	public void run() {
 		// ResourceBundle properties = ResourceBundle
 		// .getBundle("com.zyos.pring.resources.manageCreationUser");

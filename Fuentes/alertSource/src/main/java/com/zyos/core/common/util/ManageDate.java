@@ -290,8 +290,8 @@ public class ManageDate {
 			SimpleDateFormat sdf = new SimpleDateFormat(format);
 			sdf.setTimeZone(TimeZone.getTimeZone("GMT-5:00"));
 			sdf.setLenient(false);
-			Date firstDate = (Date) sdf.parse(_firstDate);
-			Date endDate = (Date) sdf.parse(_endDate);
+			Date firstDate = sdf.parse(_firstDate);
+			Date endDate = sdf.parse(_endDate);
 			return firstDate.compareTo(endDate);
 		} catch (Exception e) {
 			ErrorNotificacion.handleErrorMailNotification(e, "system");

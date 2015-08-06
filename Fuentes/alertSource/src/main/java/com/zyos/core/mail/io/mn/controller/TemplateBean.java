@@ -1,6 +1,5 @@
 package com.zyos.core.mail.io.mn.controller;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 

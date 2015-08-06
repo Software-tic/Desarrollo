@@ -1,10 +1,8 @@
 package com.zyos.alert.studentReport.model;
 
 import com.zyos.core.common.api.IZyosState;
-import com.zyos.core.common.util.ManageDate;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 import java.util.List;
-import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
 
@@ -64,7 +62,7 @@ public class StudentSubjectDAO extends OracleBaseHibernateDAO {
 	public List<StudentSubject> findByExample(StudentSubject instance) {
 		log.debug("finding Studentsubject instance by example");
 		try {
-			List<StudentSubject> results = (List<StudentSubject>) getSession()
+			List<StudentSubject> results = getSession()
 					.createCriteria(
 							"com.zyos.alert.studentReport.model.Studentsubject")
 					.add(create(instance)).list();

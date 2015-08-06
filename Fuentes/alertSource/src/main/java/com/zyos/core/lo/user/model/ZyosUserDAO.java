@@ -8,7 +8,6 @@ import javax.faces.model.SelectItem;
 import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
 
-import com.zyos.alert.calification.model.Evaluation;
 import com.zyos.alert.studentReport.model.Student;
 import com.zyos.alert.studentReport.model.Subject;
 import com.zyos.core.common.api.IZyosGroup;
@@ -689,7 +688,7 @@ public class ZyosUserDAO extends OracleBaseHibernateDAO {
 
 			qo.setParameter("documentNumber", documentNumber);
 
-			Object object = (Object) qo.uniqueResult();
+			Object object = qo.uniqueResult();
 
 			return Long.valueOf(object.toString());
 		} catch (Exception e) {

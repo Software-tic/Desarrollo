@@ -6,14 +6,11 @@ import java.util.List;
 
 import org.hibernate.LockMode;
 import org.hibernate.Query;
-import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.zyos.core.common.api.IZyosGroup;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
-import com.zyos.core.lo.user.model.ZyosUser;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -67,7 +64,7 @@ public class EvaluationDAO extends OracleBaseHibernateDAO {
 	public List<Evaluation> findByExample(Evaluation instance) {
 		log.debug("finding Evaluation instance by example");
 		try {
-			List<Evaluation> results = (List<Evaluation>) getSession()
+			List<Evaluation> results = getSession()
 					.createCriteria(
 							"com.zyos.alert.calification.model.Evaluation")
 					.add(create(instance)).list();

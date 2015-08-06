@@ -61,7 +61,7 @@ public class StatusReportStudentDAO extends OracleBaseHibernateDAO {
 	public List<StatusReportStudent> findByExample(StatusReportStudent instance) {
 		log.debug("finding Statusreportstudent instance by example");
 		try {
-			List<StatusReportStudent> results = (List<StatusReportStudent>) getSession()
+			List<StatusReportStudent> results = getSession()
 					.createCriteria(
 							"com.zyos.alert.studentReport.model.Statusreportstudent")
 					.add(create(instance)).list();

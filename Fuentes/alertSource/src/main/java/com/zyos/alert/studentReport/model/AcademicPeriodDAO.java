@@ -1,13 +1,9 @@
 package com.zyos.alert.studentReport.model;
 
-import com.zyos.alert.integration.model.GroupSubjectSAC;
 import com.zyos.core.common.util.ManageDate;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 import java.util.List;
-import org.hibernate.LockMode;
 import org.hibernate.Query;
-import org.hibernate.transform.Transformers;
-
 import static org.hibernate.criterion.Example.create;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +60,7 @@ public class AcademicPeriodDAO extends OracleBaseHibernateDAO {
 	public List<AcademicPeriod> findByExample(AcademicPeriod instance) {
 		log.debug("finding AcademicPeriod instance by example");
 		try {
-			List<AcademicPeriod> results = (List<AcademicPeriod>) getSession()
+			List<AcademicPeriod> results = getSession()
 					.createCriteria(
 							"com.zyos.alert.studentReport.model.Academicperiod")
 					.add(create(instance)).list();

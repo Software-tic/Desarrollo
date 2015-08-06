@@ -85,6 +85,7 @@ public class ZyosMailNotification extends Thread {
 	/**
 	 * Thread method run
 	 */
+	@Override
 	public synchronized void run() {
 		try {
 			if (properties == null) {

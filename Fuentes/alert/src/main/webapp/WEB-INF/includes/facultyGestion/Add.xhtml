@@ -23,12 +23,12 @@
 									<td>Nombre *</td>
 									<td align="left">
 										<p:inputText rendered="#{gestionBean.schoolAdd}"
-											style="width: 80%;"
+											style="width: 80%;" required="true"
 											value="#{gestionBean.schoolSelect.nameSchool}">
 										</p:inputText>
 										
 										<p:inputText rendered="#{gestionBean.facultyAdd}"
-											style="width: 80%;"
+											style="width: 80%;" required="true"
 											value="#{gestionBean.facultySelect.name}">
 										</p:inputText>
 									</td>
@@ -48,7 +48,7 @@
 				value="Crear #{gestionBean.headerAdd}"/>
 			<p:spacer/>
 			<p:commandButton action="#{gestionBean.goBack}"
-				onclick="statusDialog.show();"
+				onclick="statusDialog.show();" immediate="true"
 				partialSubmit="true" value="Atrás" />
 		</div>
 	</p:panel>

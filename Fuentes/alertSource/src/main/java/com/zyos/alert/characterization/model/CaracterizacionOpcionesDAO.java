@@ -63,7 +63,7 @@ public class CaracterizacionOpcionesDAO extends OracleBaseHibernateDAO {
 	public List<Caracterizacion> findByExample(Caracterizacion instance) {
 		log.debug("finding Caracterizacion instance by example");
 		try {
-			List<Caracterizacion> results = (List<Caracterizacion>) getSession()
+			List<Caracterizacion> results = getSession()
 					.createCriteria(
 							"com.zyos.alert.studentReport.model.Caracterizacion")
 					.add(create(instance)).list();

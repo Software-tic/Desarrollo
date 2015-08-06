@@ -1,10 +1,7 @@
 package com.zyos.alert.query.model;
 
 import javax.persistence.Column;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
 /**
@@ -103,11 +100,13 @@ public abstract class AbstractCorte extends
 		this.dateEnd = dateEnd;
 	}
 
+	@Override
 	@Column(name = "state")
 	public Long getState() {
 		return this.state;
 	}
 
+	@Override
 	public void setState(Long state) {
 		this.state = state;
 	}

@@ -55,7 +55,7 @@ public class GroupSubjectDAO extends OracleBaseHibernateDAO {
 	public List<GroupSubject> findByExample(GroupSubject instance) {
 		log.debug("finding GroupSubject instance by example");
 		try {
-			List<GroupSubject> results = (List<GroupSubject>) getSession()
+			List<GroupSubject> results = getSession()
 					.createCriteria(
 							"com.zyos.alert.studentReport.model.GroupSubject")
 					.add(create(instance)).list();

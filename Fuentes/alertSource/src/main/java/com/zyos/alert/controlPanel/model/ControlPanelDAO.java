@@ -2,10 +2,7 @@ package com.zyos.alert.controlPanel.model;
 
 import static org.hibernate.criterion.Example.create;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.faces.model.SelectItem;
 
 import org.hibernate.LockMode;
 import org.hibernate.Query;
@@ -67,7 +64,7 @@ public class ControlPanelDAO extends OracleBaseHibernateDAO {
 	public List<ControlPanel> findByExample(ControlPanel instance) {
 		log.debug("finding ControlPanel instance by example");
 		try {
-			List<ControlPanel> results = (List<ControlPanel>) getSession()
+			List<ControlPanel> results = getSession()
 					.createCriteria("com.zyos.alert.absent.model.controlPanel")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "

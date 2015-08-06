@@ -1,19 +1,12 @@
 package com.zyos.alert.studentReport.model;
 
-import com.zyos.alert.calification.model.Evaluation;
 import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.common.util.ManageDate;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
-import com.zyos.core.lo.enterprise.model.Enterprise;
-
 import java.util.List;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
-import org.hibernate.type.LongType;
-import org.hibernate.type.StandardBasicTypes;
-import org.hibernate.type.StringType;
-
 import static org.hibernate.criterion.Example.create;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,7 +60,7 @@ public class StageDAO extends OracleBaseHibernateDAO {
 	public List<Stage> findByExample(Stage instance) {
 		log.debug("finding Stage instance by example");
 		try {
-			List<Stage> results = (List<Stage>) getSession().createCriteria("com.zyos.alert.studentReport.model.Stage").add(create(instance)).list();
+			List<Stage> results = getSession().createCriteria("com.zyos.alert.studentReport.model.Stage").add(create(instance)).list();
 			log.debug("find by example successful, result size: " + results.size());
 			return results;
 		} catch (RuntimeException re) {

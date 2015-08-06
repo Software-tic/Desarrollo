@@ -4,11 +4,8 @@ import com.zyos.core.connection.OracleBaseHibernateDAO;
 
 import java.util.List;
 
-import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
-
-import static org.hibernate.criterion.Example.create;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

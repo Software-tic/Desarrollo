@@ -19,6 +19,7 @@ import com.zyos.core.common.util.ManageDate;
  */
 public class MySQLBaseHibernateDAO implements IMySQLBaseHibernateDAO {
 
+	@Override
 	public Session getSession() {
 		return HibernateSessionFactory.getMySQLSession();
 	}

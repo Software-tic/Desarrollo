@@ -69,7 +69,7 @@ public class NotasPeriodoDAO extends OracleBaseHibernateDAO {
 	public List<NotasPeriodo> findByExample(NotasPeriodo instance) {
 		log.debug("finding NotasPeriodo instance by example");
 		try {
-			List<NotasPeriodo> results = (List<NotasPeriodo>) getSession()
+			List<NotasPeriodo> results = getSession()
 					.createCriteria("com.zyos.alert.sac.model.NotasPeriodo")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "

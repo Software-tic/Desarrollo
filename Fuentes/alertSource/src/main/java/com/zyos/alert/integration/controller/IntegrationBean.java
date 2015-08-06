@@ -277,6 +277,7 @@ public class IntegrationBean extends ZyosBackingBean {
 
 	public void threadIntegration() {
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					migrateListFromSAC();

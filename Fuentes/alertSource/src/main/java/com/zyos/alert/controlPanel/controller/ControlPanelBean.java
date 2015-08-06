@@ -2,14 +2,12 @@ package com.zyos.alert.controlPanel.controller;
 
 import java.io.Serializable;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
 import com.zyos.alert.controlPanel.model.ControlPanel;
-import com.zyos.core.common.api.IZyosGroup;
 import com.zyos.core.common.controller.ErrorNotificacion;
 import com.zyos.core.common.controller.ZyosBackingBean;
 

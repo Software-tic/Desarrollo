@@ -102,11 +102,13 @@ public abstract class AbstractSchool extends
 		this.userChange = userchange;
 	}
 
+	@Override
 	@Column(name = "state")
 	public Long getState() {
 		return this.state;
 	}
 
+	@Override
 	public void setState(Long state) {
 		this.state = state;
 	}

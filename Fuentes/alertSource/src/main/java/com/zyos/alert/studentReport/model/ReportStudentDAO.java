@@ -75,7 +75,7 @@ public class ReportStudentDAO extends OracleBaseHibernateDAO {
 	public List<ReportStudent> findByExample(ReportStudent instance) {
 		log.debug("finding Reportstudent instance by example");
 		try {
-			List<ReportStudent> results = (List<ReportStudent>) getSession()
+			List<ReportStudent> results = getSession()
 					.createCriteria(
 							"com.zyos.alert.studentReport.model.Reportstudent")
 					.add(create(instance)).list();
@@ -1953,11 +1953,11 @@ public class ReportStudentDAO extends OracleBaseHibernateDAO {
 					
 			if (idGroup.equals(IZyosGroup.ADMINISTRATOR)) {
 				sql.append(" AND t.idSchool IN (SELECT sl.idschool "
-						+ " FROM Student s, StudentDegree sd, Degree d, SchoolDegree fd, School sl "
+						+ " FROM Student s, StudentDegree sd, Degree d, School_Degree fd, School sl "
 						+ " WHERE sd.idStudent = s.idStudent "
 						+ " AND sd.idDegree = d.id "
-						+ " AND d.id = fd.idDegree "
-						+ " AND fd.idSchool = sl.idschool "
+						+ " AND d.id = fd.id_Degree "
+						+ " AND fd.id_School = sl.idschool "
 						+ " AND s.idStudent=:idStudent "
 						+ " AND sl.state = :state "
 						+ " AND s.state = :state "
@@ -1969,6 +1969,7 @@ public class ReportStudentDAO extends OracleBaseHibernateDAO {
 			}
 			sql.append(" AND zu.idZyosUser <> :idZyosUser "
 					+ " AND zg.id = :idZyosGroup "
+					//+ " AND zg.id IN (SELECT id FROM ZyosGroup zg WHERE name LIKE '%PAAI%') "
 					+ " AND zug.idZyosUser = zu.idZyosUser "
 					+ " AND zug.idGroup = zg.id "
 					+ " AND t.idSchool = s.idschool "

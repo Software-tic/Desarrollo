@@ -1,15 +1,9 @@
 package com.zyos.alert.sac.model;
 
-import java.util.List;
-
-import org.hibernate.Query;
-import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.zyos.alert.studentReport.model.Degree;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
-import com.zyos.core.lo.user.model.ZyosUser;
 
 /**
  * A data access object (DAO) providing persistence and search support for

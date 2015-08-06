@@ -12,7 +12,6 @@ import com.zyos.alert.query.model.SchoolCoordinadorDAO;
 import com.zyos.alert.query.model.SchoolDAO;
 import com.zyos.alert.query.model.Teacher;
 import com.zyos.alert.query.model.TeacherDAO;
-import com.zyos.alert.sac.model.DecanoFacultadDAO;
 import com.zyos.core.common.controller.ZyosController;
 import com.zyos.core.lo.user.model.ZyosUser;
 import com.zyos.core.lo.user.model.ZyosUserDAO;

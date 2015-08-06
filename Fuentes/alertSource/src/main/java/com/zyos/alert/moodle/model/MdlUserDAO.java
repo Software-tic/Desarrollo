@@ -62,7 +62,7 @@ public class MdlUserDAO extends MySQLBaseHibernateDAO {
 	public List<MdlUser> findByExample(MdlUser instance) {
 		log.debug("finding MdlUser instance by example");
 		try {
-			List<MdlUser> results = (List<MdlUser>) getSession()
+			List<MdlUser> results = getSession()
 					.createCriteria("com.zyos.alert.moodle.model.MdlUser")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "

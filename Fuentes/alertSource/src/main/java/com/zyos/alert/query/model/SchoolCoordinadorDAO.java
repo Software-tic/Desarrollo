@@ -10,8 +10,6 @@ import static org.hibernate.criterion.Example.create;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.zyos.alert.facultyCoordinator.model.FacultyCoordinator;
-import com.zyos.core.common.api.IZyosState;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 
 /**
@@ -72,7 +70,7 @@ public class SchoolCoordinadorDAO extends OracleBaseHibernateDAO {
 	public List<SchoolCoordinador> findByExample(SchoolCoordinador instance) {
 		log.debug("finding SchoolCoordinador instance by example");
 		try {
-			List<SchoolCoordinador> results = (List<SchoolCoordinador>) getSession()
+			List<SchoolCoordinador> results = getSession()
 					.createCriteria(
 							"com.zyos.alert.query.model.SchoolCoordinador")
 					.add(create(instance)).list();

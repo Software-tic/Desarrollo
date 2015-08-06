@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import com.zyos.alert.executionsHistorical.api.IExecutionHistorialType;
 import com.zyos.core.common.api.IZyosState;
-import com.zyos.core.common.util.ManageDate;
 import com.zyos.core.connection.OracleBaseHibernateDAO;
 
 /**
@@ -67,7 +66,7 @@ public class ExecutionsHistoricalDAO extends OracleBaseHibernateDAO {
 	public List<ExecutionsHistorical> findByExample(ExecutionsHistorical instance) {
 		log.debug("finding ExecutionsHistorical instance by example");
 		try {
-			List<ExecutionsHistorical> results = (List<ExecutionsHistorical>) getSession()
+			List<ExecutionsHistorical> results = getSession()
 					.createCriteria("com.zyos.alert.absent.model.executionsHistorical")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "

@@ -1049,6 +1049,7 @@ function validateDataProcess() {
 	}
 
 }
+
 function validateAddRiskFactor(){
 	
 	var form = "riskFactorForm";

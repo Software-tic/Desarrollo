@@ -60,7 +60,7 @@ public class RelationshipDAO extends OracleBaseHibernateDAO {
 	public List<Relationship> findByExample(Relationship instance) {
 		log.debug("finding Relationship instance by example");
 		try {
-			List<Relationship> results = (List<Relationship>) getSession()
+			List<Relationship> results = getSession()
 					.createCriteria(
 							"com.zyos.alert.studentReport.model.Relationship")
 					.add(create(instance)).list();

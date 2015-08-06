@@ -60,7 +60,7 @@ public class DayCalendarDAO extends OracleBaseHibernateDAO {
 	public List<DayCalendar> findByExample(DayCalendar instance) {
 		log.debug("finding Daycalendar instance by example");
 		try {
-			List<DayCalendar> results = (List<DayCalendar>) getSession()
+			List<DayCalendar> results = getSession()
 					.createCriteria("com.zyos.alert.absent.model.Daycalendar")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "
