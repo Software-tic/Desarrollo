@@ -176,13 +176,6 @@ public class BeanList implements Serializable {
 						controller.saveExecution(execution);
 
 					}
-					
-					private void updateGrades() throws Exception{
-						Long idAcademicPeriod = controller.loadCurrentAcademicPeriod();
-						int Corte =controller.loadCurrentCorte();
-						controller.updateStudentGradesTunjaFromSAC(idAcademicPeriod);
-						controller.reportStudent(idAcademicPeriod, Corte);
-					}
 
 					@Override
 					public void run() {
@@ -192,7 +185,6 @@ public class BeanList implements Serializable {
 							String day = ManageDate.getDay(ManageDate.getCurrentDate(ManageDate.YYYY_MM_DD));
 							if ((day.equals("07") || day.equals("14") || day.equals("21") || day.equals("28"))) {
 								updateCalificationMoodle();
-								updateGrades();
 							}
 						} catch (Exception e) {
 							ErrorNotificacion.handleErrorMailNotification(e, this);

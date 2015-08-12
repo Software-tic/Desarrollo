@@ -97,7 +97,7 @@ public class IntegrationBean extends ZyosBackingBean {
 
 				printMessage("INFO: Start migrateDocentListFromSAC database integration ");
 				while (true) {
-					int s = controller.migrateDocentListFromSAC();
+					int s = controller.migrateDocentListFromSACTunja();
 					teacherList += s;
 					
 					System.out.println("recording =" + s);

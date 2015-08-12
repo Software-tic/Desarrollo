@@ -185,7 +185,7 @@ public class IntegrationController extends ZyosController {
 				for (ZyosUser zu : userList) {
 					zu.setIdEnterprise(1L);
 					zu.setIdDocumentType(1l);
-					zu.setIdZyosGroup(IZyosGroup.TEACHER);
+					zu.setIdZyosGroup(IZyosGroup.TEACHER); 
 					zu.initializing("systemFromSAC", true);
 					dao.getSession().save(zu);
 
@@ -203,6 +203,54 @@ public class IntegrationController extends ZyosController {
 					for (ZyosUserGroup zug : dupicateRoleUserList) {
 						zug.initializing("systemFromSAC", true);
 						zug.setIdGroup(IZyosGroup.TEACHER);
+						dao.getSession().save(zug);
+					}
+				}
+
+				dao.getSession().beginTransaction().commit();
+				return userList.size();
+			}
+
+		} catch (Exception e) {
+			ErrorNotificacion.handleErrorMailNotification(e, this);
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}
+		return -1;
+	}
+	
+	/** @author ogarzonm 
+	 * Editado SIAT-TUNJA */
+	public int migrateDocentListFromSACTunja() {
+		DocenteDAO dao = new DocenteDAO();
+		try {
+			List<ZyosUser> userList = dao.migrateDocentListFromSAC();
+			List<ZyosUserGroup> dupicateRoleUserList = dao.loadDuplicateRoleUserList();
+
+			if (userList != null && !userList.isEmpty()) {
+				int i = 0;
+				for (ZyosUser zu : userList) {
+					zu.setIdEnterprise(1L);
+					zu.setIdDocumentType(1l);
+					zu.setIdZyosGroup(IZyosGroup.TUNJA_TEACHER);
+					zu.initializing("systemFromSAC", true);
+					dao.getSession().save(zu);
+
+					if (i % 10 == 0) {
+						dao.getSession().flush();
+						dao.getSession().clear();
+					}
+					i++;
+				}
+
+				createLogin(userList, dao);
+
+				// creating new role when is student and teacher at the same time
+				if (dupicateRoleUserList != null && !dupicateRoleUserList.isEmpty()) {
+					for (ZyosUserGroup zug : dupicateRoleUserList) {
+						zug.initializing("systemFromSAC", true);
+						zug.setIdGroup(IZyosGroup.TUNJA_TEACHER);
 						dao.getSession().save(zug);
 					}
 				}

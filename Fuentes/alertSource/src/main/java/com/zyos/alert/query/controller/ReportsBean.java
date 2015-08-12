@@ -52,8 +52,8 @@ import com.zyos.core.mail.io.mn.model.EmailTemplate;
 
 @ManagedBean
 @ViewScoped
-@URLMapping(id = "interventionBean", pattern = "/portal/RegistroIntervenciones", viewId = "/pages/intervention/index.jspx")
-public class InterventionBean extends ZyosBackingBean {
+@URLMapping(id = "reportsBean", pattern = "/portal/reportesTunja", viewId = "/pages/ReportTunja/studentReport.jspx")
+public class ReportsBean extends ZyosBackingBean {
 	
 	/**
 	 * SIAT TUNJA
@@ -125,7 +125,7 @@ public class InterventionBean extends ZyosBackingBean {
 	
 	private List<ZyosUser> teacherListByFaculty;
 
-	public InterventionBean() throws Exception {
+	public ReportsBean() throws Exception {
 		try {
 
 			if (reportStudentList == null) {
@@ -180,7 +180,7 @@ public class InterventionBean extends ZyosBackingBean {
 		ZyosBackingBean.update("riskStudentForm");
 	}
 	
-	/**SIAT TUNJA
+	/** @author SIAT-TUNJA
 	 * @throws Exception */
 	public void asignTeacherCaseStudent() throws Exception{
 		//asignación del docente
@@ -688,12 +688,12 @@ public class InterventionBean extends ZyosBackingBean {
 				List<BigDecimal> resultList = new ArrayList<BigDecimal>(3);
 
 				resultList.add(0,
-						controller.loadReportStudentManualDataClassMateTunja());
+						controller.loadReportStudentManualDataClassMateTunja() );
 				resultList.add(1,
-						controller.loadReportStudentManualDataFreeUser());
+						controller.loadReportStudentManualDataFreeUserTunja() );
 				resultList.add(2,
-						controller.loadReportStudentManualDataTeacher());
-				resultList.add(3, controller.loadReportStudentManualDataSelf());
+						controller.loadReportStudentManualDataTeacherTunja());
+				resultList.add(3, controller.loadReportStudentManualDataSelfTunja());
 
 				// object[0] = objj;
 
@@ -736,11 +736,9 @@ public class InterventionBean extends ZyosBackingBean {
 					showGraphic = true;
 
 				} else {
-					// Pie Graphic
-					// chartSeriesReport = "[";
 					series = new JSONArray();
 					List<GraphicData> tmpPieData = controller
-							.loadStudentByRiskData();
+							.loadStudentByRiskDataTunja();
 
 					chartSeriesReport = "[['Academico',"
 							+ tmpPieData.get(0).getAcademicReports()
@@ -750,8 +748,6 @@ public class InterventionBean extends ZyosBackingBean {
 							+ tmpPieData.get(0).getInstitutionalReports() + "]"
 							+ ",['Personales',"
 							+ tmpPieData.get(0).getPersonalReports() + "]]";
-					// getRequest().setAttribute("generalReport",
-					// chartSeriesReport);
 
 					getRequest().setAttribute("riskData", chartSeriesReport);
 					cleanView();

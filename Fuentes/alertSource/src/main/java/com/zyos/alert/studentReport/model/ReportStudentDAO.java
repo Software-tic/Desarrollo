@@ -1540,13 +1540,15 @@ public class ReportStudentDAO extends OracleBaseHibernateDAO {
 						
 			qo = getSession().createSQLQuery(hql.toString());
 			qo.setParameter("classmate", IZyosGroup.CLASS_MATE);
-						return (java.math.BigDecimal) qo.uniqueResult();
+						return (java.math.BigDecimal) qo.uniqueResult() ;
 		} catch (Exception e) {
 			throw e;
 		} finally {
 
 		}
 	}
+	
+	
 	
 	/** jhernandez*/
 	public BigDecimal loadReportStudentManualDataSelf() throws Exception {
@@ -2247,4 +2249,103 @@ public class ReportStudentDAO extends OracleBaseHibernateDAO {
 		}
 	}
 	
+	/**
+	 * @author jhernandez
+	 * @author SIAT-TUNJA
+	 * @throws Exception
+	 */
+	public BigDecimal loadReportStudentManualDataClassMateTunja() throws Exception {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			
+			hql.append(" SELECT ");
+			hql.append(" COUNT(rs.idStudent) AS classmate ");
+			hql.append(" FROM ");
+			hql.append(" ZyosUser zu, ");
+			hql.append(" ReportStudent rs ");
+			hql.append(" WHERE ");
+			hql.append(" rs.idSolicitor = zu.idZyosUser ");
+			hql.append(" AND zu.idZyosGroup =:classmate ");
+						
+			qo = getSession().createSQLQuery(hql.toString());
+			qo.setParameter("classmate", IZyosGroup.CLASS_MATE);
+						return (BigDecimal.valueOf(Long.valueOf(qo.uniqueResult().toString())));
+		} catch (Exception e) {
+			throw e;
+		} finally {
+
+		}
+	}
+	
+	/** @author jhernandez
+	 * @author SIAT-TUNJA */
+	public BigDecimal loadReportStudentManualDataFreeUserTunja() throws Exception {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			
+			hql.append(" SELECT ");
+			hql.append(" COUNT(CASE WHEN rs.idReportType =:manualReport AND rs.idSolicitor IS NULL THEN 1 END) AS freeuser FROM ReportStudent rs");		
+						
+			qo = getSession().createSQLQuery(hql.toString());
+			qo.setParameter("manualReport", IReportType.MANUAL);
+			return (BigDecimal.valueOf(Long.valueOf(qo.uniqueResult().toString())));
+		} catch (Exception e) {
+			throw e;
+		} finally {
+
+		}
+	}
+	
+	/** @author jhernandez
+	 * @author SIAT-TUNJA */
+	public BigDecimal loadReportStudentManualDataSelfTunja() throws Exception {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			
+			hql.append(" SELECT ");
+			hql.append(" COUNT (CASE WHEN rs.idStudent = ( Select s.idStudent AS self ");
+			hql.append(" FROM ");
+			hql.append(" Student s, ");
+			hql.append(" ZyosUser zu ");
+			hql.append(" WHERE ");
+			hql.append(" s.idZyosUser = zu.idZyosUser ");
+			hql.append(" AND rs.idSolicitor = zu.idZyosUser ) THEN 1 END) as self FROM ReportStudent rs");
+						
+			qo = getSession().createSQLQuery(hql.toString());
+			return (BigDecimal.valueOf(Long.valueOf(qo.uniqueResult().toString())));
+		} catch (Exception e) {
+			throw e;
+		} finally {
+
+		}
+	}
+	
+	/**@author jhernandez
+	 * @author SIAT-TUNJA*/
+	public BigDecimal loadReportStudentManualDataTeacherTunja() throws Exception {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+			
+			hql.append(" SELECT ");
+			hql.append(" COUNT(rs.idStudent) AS teacher ");
+			hql.append(" FROM ");
+			hql.append(" ZyosUser zu, ");
+			hql.append(" ReportStudent rs ");
+			hql.append(" WHERE ");
+			hql.append(" rs.idSolicitor = zu.idZyosUser ");
+			hql.append(" AND zu.idZyosGroup =:teacher ");
+						
+			qo = getSession().createSQLQuery(hql.toString());
+			qo.setParameter("teacher", IZyosGroup.TEACHER);
+			return (BigDecimal.valueOf(Long.valueOf(qo.uniqueResult().toString())));
+		} catch (Exception e) {
+			throw e;
+		} finally {
+
+		}
+	}
 }

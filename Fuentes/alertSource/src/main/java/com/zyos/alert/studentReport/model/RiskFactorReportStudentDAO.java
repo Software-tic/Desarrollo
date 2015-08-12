@@ -509,4 +509,44 @@ public class RiskFactorReportStudentDAO extends OracleBaseHibernateDAO {
 		}
 	}
 
+	/**@author jhernandez
+	 * @author SIAT-TUNJA */
+	public List<GraphicData> loadStudentByRiskDataTunja() throws Exception {
+		StringBuilder hql = new StringBuilder();
+		Query qo = null;
+		try {
+
+			hql.append("  Select ");
+			hql.append("  (SELECT COUNT(rs.idRiskFactor) FROM  ReportStudent rs, RiskFactor rf, RiskFactorCategory rfc");
+			hql.append("  WHERE rs.idRiskFactor = rf.idRiskFactor AND rf.idRiskFactorCategory = rfc.id and rfc.id =:academic AND rs.state =:state )  as academicReports, ");
+			hql.append("  (SELECT COUNT(rs.idRiskFactor) FROM ReportStudent rs, RiskFactor rf, RiskFactorCategory rfc ");
+			hql.append("  WHERE rs.idRiskFactor = rf.idRiskFactor  AND rf.idRiskFactorCategory = rfc.id and rfc.id =:socioeconomic AND rs.state =:state ) as socioeconomicReports, ");
+			hql.append("  (SELECT COUNT(rs.idRiskFactor) FROM ReportStudent rs,	RiskFactor rf, RiskFactorCategory rfc ");
+			hql.append("  WHERE rs.idRiskFactor = rf.idRiskFactor	AND rf.idRiskFactorCategory = rfc.id and rfc.id =:institutional AND rs.state =:state ) as institutionalReports, ");
+			hql.append("  (SELECT COUNT(rs.idRiskFactor) FROM ReportStudent rs, RiskFactor rf, RiskFactorCategory rfc ");
+			hql.append("  WHERE rs.idRiskFactor = rf.idRiskFactor AND rf.idRiskFactorCategory = rfc.id and rfc.id =:personal AND rs.state =:state ) as personalReports	 ");
+			hql.append("  From ReportStudent rs Where rs.state =:state group by 1,2,3,4");
+
+			qo = getSession().createSQLQuery(hql.toString())
+					.addScalar("academicReports", DoubleType.INSTANCE).addScalar("socioeconomicReports", DoubleType.INSTANCE)
+					.addScalar("institutionalReports", DoubleType.INSTANCE).addScalar("personalReports", DoubleType.INSTANCE)
+					.setResultTransformer(Transformers.aliasToBean(GraphicData.class));;
+			qo.setParameter("academic", IRiskFactorCategory.ACADEMIC );
+			qo.setParameter("socioeconomic", IRiskFactorCategory.SOCIOECONOMIC );
+			qo.setParameter("institutional", IRiskFactorCategory.INSTITUTIONAL );
+			qo.setParameter("personal", IRiskFactorCategory.PERSONAL );
+			qo.setParameter("state", IZyosState.ACTIVE );			
+					
+					
+			List<GraphicData> result = new ArrayList<GraphicData>();
+			result = qo.list();
+
+			return result;
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			hql = null;
+			qo = null;
+		}
+	}
 }

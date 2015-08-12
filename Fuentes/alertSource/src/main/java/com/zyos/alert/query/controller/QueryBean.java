@@ -360,7 +360,7 @@ public class QueryBean extends ZyosBackingBean {
 
 				cell = r.createCell(4);
 				cell.setCellStyle(headerStyle);
-				cell.setCellValue("Tiempo de Atención");
+				cell.setCellValue("Tiempo de Atención (minutos)");
 
 				i++;
 

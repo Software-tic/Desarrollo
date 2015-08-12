@@ -617,14 +617,14 @@ public class StudentDAO extends OracleBaseHibernateDAO {
 						+ " ap.state = :state AND "
 						+ " stu.state = :state AND "
 						+ " c.state = :state AND "
-						+ " c.idcorte IN (SELECT cte.idcorte FROM Corte cte WHERE :CurrentTime BETWEEN cte.dateStart AND cte.dateEnd AND cte.state=:state ) "
+						+ " c.idcorte IN (SELECT cte.idcorte FROM Corte cte WHERE (:CurrentTime BETWEEN cte.dateStart AND cte.dateEnd AND cte.state=:state) ) "
 						+ " GROUP BY stu.idStudent ");
 				if (Corte == 1) 
-					hql.append(" HAVING AVG(cast(g.firstcorte AS float)) >= (SELECT cp.percentageAssistance FROM ControlPanel cp WHERE cp.idControlPanel = 5 AND cp.state=:state ))");
+					hql.append(" HAVING AVG(CAST(g.firstcorte AS float)) >= (SELECT cp.percentageAssistance FROM ControlPanel cp WHERE cp.idControlPanel = 5 AND cp.state=:state) )");
 				else if (Corte == 2) 
-					hql.append(" HAVING AVG(CAST(g.secondcorte AS float)) >= (SELECT cp.percentageAssistance FROM ControlPanel cp WHERE cp.idControlPanel = 5 AND cp.state=:state ))");
+					hql.append(" HAVING AVG(CAST(g.secondcorte AS float)) >= (SELECT cp.percentageAssistance FROM ControlPanel cp WHERE cp.idControlPanel = 5 AND cp.state=:state) )");
 				else 
-					hql.append(" HAVING AVG(CAST(g.thirdcorte AS float)) >= (SELECT cp.percentageAssistance FROM ControlPanel cp WHERE cp.idControlPanel = 5 AND cp.state=:state ))");
+					hql.append(" HAVING AVG(CAST(g.thirdcorte AS float)) >= (SELECT cp.percentageAssistance FROM ControlPanel cp WHERE cp.idControlPanel = 5 AND cp.state=:state) )");
 			}
 			
 			qo = getSession().createQuery(hql.toString());
@@ -633,7 +633,7 @@ public class StudentDAO extends OracleBaseHibernateDAO {
 			qo.setParameter("state", IZyosState.ACTIVE);
 			
 			if (porCorte){
-				qo.setParameter("CurrentTime", ManageDate.getCurrentDate(ManageDate.YYYY_MM_DD));
+				qo.setParameter("CurrentTime", String.valueOf(ManageDate.getCurrentDate(ManageDate.YYYY_MM_DD)));
 			}
 			return qo.list();
 		} catch (Exception e) {
@@ -649,19 +649,19 @@ public class StudentDAO extends OracleBaseHibernateDAO {
 		StringBuilder sql = new StringBuilder();
 		Query qo = null;
 		try {
-			sql.append(" SELECT zu.idzyosuser "
-					+ " FROM SchoolDegree sd, School s, Teacher t, ZyosUser zu, ZyosUserGroup zug, Degree d, Student st, tudentDegree std, StudentSubject ss "
+			sql.append(" SELECT zu.idZyosUser "
+					+ " FROM SchoolDegree sd, School s, Teacher t, ZyosUser zu, ZyosUserGroup zug, Degree d, Student st, StudentDegree std, StudentSubject ss "
 					+ " WHERE "
 					+ " sd.idSchool = s.idschool AND "
 					+ " s.idschool = t.idSchool AND "
-					+ " t.idZyosUser = zu.idzyosuser AND "
-					+ " zu.idzyosuser = zug.idzyosuser AND "
+					+ " t.idZyosUser = zu.idZyosUser AND "
+					+ " zu.idZyosUser = zug.idZyosUser AND "
 					+ " d.id = sd.idDegree AND "
 					+ " d.id = std.idDegree AND "
-					+ " st.idstudent = std.idStudent AND "
-					+ " ss.idStudent = st.idstudent AND "
-					+ " zug.idgroup = 24 AND "
-					+ " ss.idStudentSubject = 726 AND "
+					+ " st.idStudent = std.idStudent AND "
+					+ " ss.idStudent = st.idStudent AND "
+					+ " zug.idGroup = :idGroup AND "
+					+ " ss.idStudentSubject = :idStudentSubject AND "
 					+ " sd.state = :state AND "
 					+ " s.state = :state AND "
 					+ " t.state = :state AND "

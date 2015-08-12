@@ -383,9 +383,7 @@ public class ControllerList extends ZyosController {
 			if (dl != null && !dl.isEmpty()) {
 
 				for (GradesPeriodSubject d : dl) {
-					Long aux=dao.selectId();
-					d.setIdgradesPeriodSubject((1+aux));
-					d.initializing("systemFromSAC", true);
+					d.initializing("systemFromSAC", false);
 					dao.getSession().update(d);
 
 					if (i % 10 == 0 && i != 0) {
@@ -423,7 +421,7 @@ public class ControllerList extends ZyosController {
 						reportStudent.setIdReportType(IReportType.AUTOMATIC);
 						reportStudent.setIdZyosGroup(29L);
 						reportStudent.setIdStatusReportStudent(IStatusReportStudent.REPORT);
-						reportStudent.setIdStage(2L);
+						reportStudent.setIdStage(29L);
 						reportStudent.setIdSolicitor(1L);
 						reportStudent.setIdZyosUserAdviserFaculty(idAdviser);
 						reportStudent.setDetailReport("Reportado Automaticamente");

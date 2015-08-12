@@ -750,4 +750,78 @@ public class InterventionController extends ZyosController {
 			dao = null;
 		}
 	}
+	
+	/**@author jhernandez
+	 * @author SIAT-TUNJA
+	 * @throws Exception */
+	public BigDecimal loadReportStudentManualDataClassMateTunja() throws Exception {
+		ReportStudentDAO dao = new ReportStudentDAO();
+		try {
+			return dao.loadReportStudentManualDataClassMateTunja();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}	
+	}
+	
+	/**@author jhernandez
+	 * @author SIAT-TUNJA
+	 * @throws Exception */
+	public BigDecimal loadReportStudentManualDataFreeUserTunja() throws Exception {
+		ReportStudentDAO dao = new ReportStudentDAO();
+		try {
+			return dao.loadReportStudentManualDataFreeUserTunja();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}	
+	}
+	
+	/**@author jhernandez
+	 * @author SIAT-TUNJA
+	 * @throws Exception */
+	public BigDecimal loadReportStudentManualDataSelfTunja() throws Exception {
+		ReportStudentDAO dao = new ReportStudentDAO();
+		try {
+			return dao.loadReportStudentManualDataSelfTunja();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}	
+	}
+	
+	/**@author jhernandez
+	 * @author SIAT-TUNJA
+	 * @throws Exception */
+	public BigDecimal loadReportStudentManualDataTeacherTunja() throws Exception {
+		ReportStudentDAO dao = new ReportStudentDAO();
+		try {
+			return dao.loadReportStudentManualDataTeacherTunja();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}	
+	}
+	
+	/**@author oortiz
+	 * @author SIAT-TUNJA */
+	public List<GraphicData> loadStudentByRiskDataTunja() throws Exception {
+		RiskFactorReportStudentDAO dao = new RiskFactorReportStudentDAO();
+		try {
+			return dao.loadStudentByRiskDataTunja();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			dao.getSession().close();
+			dao = null;
+		}
+	}
 }

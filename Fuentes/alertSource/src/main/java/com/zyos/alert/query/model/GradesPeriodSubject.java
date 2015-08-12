@@ -76,6 +76,20 @@ public class GradesPeriodSubject extends com.zyos.core.common.model.AZyosModel
 		this.idPeriodo = idPeriodo;
 	}
 
+	public GradesPeriodSubject(Long idgradesPeriodSubject, String firstcorte,
+			String secondcorte, String thirdcorte, String finalgrade,
+			Long studentsubject,String datecreation, String usercreation) {
+		super();
+		this.studentsubject = studentsubject;
+		this.firstcorte = firstcorte;
+		this.secondcorte = secondcorte;
+		this.thirdcorte = thirdcorte;
+		this.finalgrade = finalgrade;
+		this.idgradesPeriodSubject = idgradesPeriodSubject;
+		this.dateCreation = datecreation;
+		this.userCreation = usercreation;
+	}
+	
 	public GradesPeriodSubject(Long idgradesPeriodSubject, Long studentsubject, Long idPeriodo) {
 		super();
 		this.idgradesPeriodSubject = idgradesPeriodSubject;
@@ -93,7 +107,8 @@ public class GradesPeriodSubject extends com.zyos.core.common.model.AZyosModel
 		super();
 		this.idgradesPeriodSubject = idgradesPeriodSubject;
 		this.studentsubject = studentsubject;
-		this.idPeriodo = idEstudent;
+		this.idEstudent = idEstudent;
+		this.idPeriodo = idPeriodo;
 	}
 
 
@@ -144,39 +159,47 @@ public class GradesPeriodSubject extends com.zyos.core.common.model.AZyosModel
 		this.finalgrade = finalgrade;
 	}
 
+	@Override
 	@Column(name = "datecreation", length = 20)
-	public String getDatecreation() {
+	public String getDateCreation() {
 		return this.dateCreation;
 	}
 
-	public void setDatecreation(String datecreation) {
+	@Override
+	public void setDateCreation(String datecreation) {
 		this.dateCreation = datecreation;
 	}
 
+	@Override
 	@Column(name = "usercreation", nullable = false, length = 45)
-	public String getUsercreation() {
+	public String getUserCreation() {
 		return this.userCreation;
 	}
 
-	public void setUsercreation(String usercreation) {
+	@Override
+	public void setUserCreation(String usercreation) {
 		this.userCreation = usercreation;
 	}
 
+	@Override
 	@Column(name = "datechange", length = 20)
-	public String getDatechange() {
+	public String getDateChange() {
 		return this.dateChange;
 	}
 
-	public void setDatechange(String datechange) {
+	@Override
+	public void setDateChange(String datechange) {
 		this.dateChange = datechange;
 	}
 
+	@Override
 	@Column(name = "userchange", length = 45)
-	public String getUserchange() {
+	public String getUserChange() {
 		return this.userChange;
 	}
 
-	public void setUserchange(String userchange) {
+	@Override
+	public void setUserChange(String userchange) {
 		this.userChange = userchange;
 	}
 

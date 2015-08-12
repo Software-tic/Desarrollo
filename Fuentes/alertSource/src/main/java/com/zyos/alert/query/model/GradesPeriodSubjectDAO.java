@@ -204,12 +204,13 @@ public class GradesPeriodSubjectDAO extends OracleBaseHibernateDAO {
 	public List<GradesPeriodSubject> migrateGradesPeriodSubjectFromSAC(Long idAcademicPeriod) {
 		try {
 			StringBuilder hql = new StringBuilder();
-			hql.append(" SELECT gps.idgradesPeriodSubject, np.perCorte, np.sdoCorte, np.terCorte, np.NFinal, sb.idStudentSubject "
-					+ " FROM notas_periodo np, AcademicPeriod ap, StudentSubject sb, GradesPeriodSubject gps " 
+			hql.append(" SELECT New GradesPeriodSubject(gps.idgradesPeriodSubject, np.perCorte, np.sdoCorte, "
+					+ " np.terCorte, np.NFinal, sb.idStudentSubject, gps.dateCreation, gps.userCreation) "
+					+ " FROM NotasPeriodo np, AcademicPeriod ap, StudentSubject sb, GradesPeriodSubject gps " 
 					+ " WHERE ap.id = :idPeriod " 
-					+ " AND np.periodo = ap.name "
-					+ " AND sb.idSubject = np.idMateria " 
-					+ " AND sb.idStudent = np.idEstudiante "
+					+ " AND np.id.periodo = ap.name "
+					+ " AND sb.idSubject = np.id.idMateria " 
+					+ " AND sb.idStudent = np.id.idEstudiante "
 					+ " AND sb.idAcademicPeriod = ap.id "
 					+ " AND sb.idStudentSubject = gps.studentsubject "
 					+ " AND ap.state = :state "
@@ -219,7 +220,6 @@ public class GradesPeriodSubjectDAO extends OracleBaseHibernateDAO {
 			Query qo = getSession().createQuery(hql.toString());
 			qo.setParameter("state", IZyosState.ACTIVE);
 			qo.setParameter("idPeriod",idAcademicPeriod);
-			qo.setResultTransformer(Transformers.aliasToBean(GradesPeriodSubject.class));
 			
 			return qo.list();
 		} catch (RuntimeException re) {
@@ -231,19 +231,20 @@ public class GradesPeriodSubjectDAO extends OracleBaseHibernateDAO {
 	public List<GradesPeriodSubject> generateStudentAlertTunja( Long AcademicPeriod, Integer Corte ) {
 		try {
 			StringBuilder hql = new StringBuilder();
-			hql.append(" SELECT NEW GradesPeriodSubject(g.idgradesPeriodSubject, g.studentsubject, ss.idstudent, p.id) "
+			hql.append(" SELECT NEW GradesPeriodSubject(g.idgradesPeriodSubject, g.studentsubject, ss.idStudent, p.id) "
 					+ " FROM GradesPeriodSubject g,StudentSubject ss, AcademicPeriod p, Corte c "
-					+ " WHERE c.academicperiod=p.id "
+					+ " WHERE p.id = :AcademicPeriod"
+					+ " AND c.idAcademicPeriod= p.id "
 					+ " AND ss.idAcademicPeriod = p.id "
 					+ " AND ss.idStudentSubject = g.studentsubject AND ");
 			if(Corte == 1)
-				hql.append(" cast(g.firstcorte as float) > (SELECT percentageAssistance FROM ControlPanel WHERE idControlPanel = 4) ");
+				hql.append(" cast(g.firstcorte as float) < (SELECT percentageAssistance FROM ControlPanel WHERE idControlPanel = 4) ");
 			if(Corte == 2)
-				hql.append(" cast(g.secondcorte as float) > (SELECT percentageAssistance FROM ControlPanel WHERE idControlPanel = 4) ");
+				hql.append(" cast(g.secondcorte as float) < (SELECT percentageAssistance FROM ControlPanel WHERE idControlPanel = 4) ");
 			if(Corte == 3)
-				hql.append(" cast(g.thirdcorte as float) > (SELECT percentageAssistance FROM ControlPanel WHERE idControlPanel = 4) ");
+				hql.append(" cast(g.thirdcorte as float) < (SELECT percentageAssistance FROM ControlPanel WHERE idControlPanel = 4) ");
 			if(Corte == 4)
-				hql.append(" cast(g.finalgrade as float) > (SELECT percentageAssistance FROM ControlPanel WHERE idControlPanel = 4) ");
+				hql.append(" cast(g.finalgrade as float) < (SELECT percentageAssistance FROM ControlPanel WHERE idControlPanel = 4) ");
 			
 			Query qo = getSession().createQuery(hql.toString());
 			qo.setParameter("AcademicPeriod", AcademicPeriod);

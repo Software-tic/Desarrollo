@@ -18,9 +18,15 @@ public class GraphicData {
 	}
 	
 	public GraphicData(){
-			}
+	}
 	
-	
+	public GraphicData(double academicReports, double socioeconomicReports, double institutionalReports, double personalReports) {
+		super();
+		this.academicReports = academicReports;
+		this.socioeconomicReports = socioeconomicReports;
+		this.institutionalReports = institutionalReports;
+		this.personalReports = personalReports;
+	}
 	
 	public double getStudentReports() {
 		return studentReports;

@@ -231,7 +231,7 @@ public class SchoolDAO extends OracleBaseHibernateDAO {
 		StringBuilder hql = new StringBuilder();
 		Query qo = null;
 		try {
-			hql.append(" SELECT NEW School(f.idschool,f.name) FROM Faculty f WHERE f.nameSchool=:name ");
+			hql.append(" SELECT NEW School(f.idschool,f.nameSchool) FROM School f WHERE f.nameSchool=:name ");
 
 			qo = getSession().createQuery(hql.toString());
 			qo.setParameter("name", faculty.getNameSchool());
